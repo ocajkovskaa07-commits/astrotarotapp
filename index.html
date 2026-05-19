@@ -23,7 +23,7 @@
             margin: 10px 0 15px 0; text-align: center; text-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
         }
 
-        /* АНИМАЦИЯ ВРАЩЕНИЯ КОЛЕСА И ЗОДИАКА */
+        /* КОЛЕСО ФОРТУНЫ */
         .magic-zone {
             position: relative; display: flex; justify-content: center; align-items: center;
             width: 100%; max-width: 320px; height: 320px; margin: 20px auto;
@@ -42,21 +42,14 @@
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* ДЕКОРАТИВНЫЕ ПАРЯЩИЕ КАРТЫ НА СТАРТЕ */
-        .intro-deck { display: none; position: relative; width: 200px; height: 200px; justify-content: center; align-items: center; }
-        .intro-deck.active { display: flex; }
-        .intro-card { position: absolute; width: 92px; height: 154px; border: 2px solid #ffd700; border-radius: 8px; background: linear-gradient(135deg, #0f1126, #1b1f4d); box-shadow: 0 8px 20px rgba(0,0,0,0.6); overflow: hidden; }
-        .intro-card::before { content: '✦'; color: #ffd700; font-size: 24px; text-shadow: 0 0 12px #ffd700; display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; }
-        .c-pos-1 { transform: translateX(-35px) rotate(-10deg); }
-        .c-pos-2 { transform: translateY(-5px) scale(1.03); z-index: 4; }
-        .c-pos-3 { transform: translateX(35px) rotate(10deg); }
-
-        /* ИГРОВЫЕ ИНТЕРАКТИВНЫЕ КАРТЫ */
-        .game-deck { position: relative; width: 100%; height: 180px; display: flex; justify-content: center; align-items: center; }
-        .interactive-card { position: absolute; width: 92px; height: 154px; cursor: pointer; perspective: 1000px; transition: transform 0.4s ease; }
+        /* КОНТЕЙНЕРЫ КАРТ */
+        .deck-container { position: relative; width: 100%; height: 200px; display: flex; justify-content: center; align-items: center; }
+        .interactive-card { display: none; position: absolute; width: 92px; height: 154px; cursor: pointer; perspective: 1000px; transition: transform 0.4s ease; }
         .card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s ease; transform-style: preserve-3d; }
+        
         .interactive-card.flipped .card-inner { transform: rotateY(180deg); }
         .interactive-card.inverted .card-inner { transform: rotateY(180deg) rotateZ(180deg); }
+        
         .card-front, .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border: 2px solid #ffd700; border-radius: 8px; overflow: hidden; }
         .card-back { background: linear-gradient(135deg, #0f1126, #1b1f4d); display: flex; align-items: center; justify-content: center; }
         .card-back::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(115deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 60%); mix-blend-mode: overlay; animation: shimmer 5s infinite linear; }
@@ -65,12 +58,17 @@
         .card-front .card-index { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #7a5c38; }
         @keyframes shimmer { 0% { transform: translate(-30%, -30%); } 100% { transform: translate(30%, 30%); } }
 
-        /* ИНТЕРФЕЙС И ЭКРАНЫ */
+        /* НАЧАЛЬНЫЙ ВЕЕР КАРТ */
+        #intro-deck .interactive-card { display: block; }
+        .c-pos-1 { transform: translateX(-35px) rotate(-10deg); }
+        .c-pos-2 { transform: translateY(-5px) scale(1.03); z-index: 4; }
+        .c-pos-3 { transform: translateX(35px) rotate(10deg); }
+
+        /* ЭКРАНЫ */
         .interface-zone { width: 100%; display: flex; flex-direction: column; align-items: center; }
         .screen { display: none; width: 100%; flex-direction: column; align-items: center; }
-        .screen.active { display: flex; }
 
-        /* СТАРТОВАЯ КНОПКА С ПУЛЬСАЦИЕЙ */
+        /* ПУЛЬСИРУЮЩАЯ КНОПКА */
         .gold-btn {
             position: relative; background: linear-gradient(135deg, #fff4cc 0%, #ffd700 50%, #cc9900 100%);
             color: #050508; font-family: 'Cinzel', serif; font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
@@ -82,11 +80,12 @@
         @keyframes pulseGlow { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
         @keyframes wavePulse { 0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.6); opacity: 1; } 100% { box-shadow: 0 0 0 25px rgba(255, 215, 0, 0); opacity: 0; } }
 
-        /* МЕНЮ РАСКЛАДОВ */
+        /* МЕНЮ */
         #menu-screen { max-width: 360px; }
         .category-title { font-size: 12px; color: #bbaec9; letter-spacing: 2px; text-transform: uppercase; margin: 15px 0 8px 5px; width: 100%; text-align: left; }
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
         .full-width { grid-column: span 2; }
+        
         .menu-item {
             background: rgba(22, 24, 46, 0.75); border: 1.5px solid rgba(255, 215, 0, 0.3); border-radius: 12px; padding: 13px 15px; 
             font-family: 'Cinzel', serif; font-size: 12px; color: #fff2b2; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between;
@@ -100,7 +99,7 @@
 
         /* ИГРОВОЙ ЭКРАН */
         #status-text { font-size: 14px; color: #fff2b2; text-align: center; margin: 15px 0; min-height: 20px; text-shadow: 0 0 5px #ffbb00; }
-        .back-btn { background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff2b2; padding: 10px 20px; border-radius: 20px; font-family: inherit; font-size: 11px; cursor: pointer; margin-top: 20px; }
+        .back-btn { background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff2b2; padding: 10px 20px; border-radius: 20px; font-family: inherit; font-size: 11px; cursor: pointer; margin-top: 20px; z-index: 100; position: relative; }
     </style>
 </head>
 <body>
@@ -114,23 +113,37 @@
         <div class="magic-zone">
             <div class="wheel-fortune"></div>
             
-            <!-- Декоративные стартовые карты -->
-            <div class="intro-deck active" id="intro-deck">
-                <div class="intro-card c-pos-1"></div>
-                <div class="intro-card c-pos-2"></div>
-                <div class="intro-card c-pos-3"></div>
+            <!-- Стартовые декоративные карты -->
+            <div class="deck-container" id="intro-deck" style="display: flex;">
+                <div class="interactive-card c-pos-1"><div class="card-inner"><div class="card-back"></div></div></div>
+                <div class="interactive-card c-pos-2"><div class="card-inner"><div class="card-back"></div></div></div>
+                <div class="interactive-card card-pos-3"><div class="card-inner"><div class="card-back"></div></div></div>
+            </div>
+
+            <!-- Игровые статичные карты (прогружены заранее) -->
+            <div class="deck-container" id="game-deck" style="display: none;">
+                <div class="interactive-card id="g-c1" onclick="handleCardFlip(this, 1)"><div class="card-inner"><div class="card-back"></div><div class="card-front"><div class="symbol">🔮</div><div class="card-index">Карта 1</div></div></div></div>
+                <div class="interactive-card id="g-c2" onclick="handleCardFlip(this, 2)"><div class="card-inner"><div class="card-back"></div><div class="card-front"><div class="symbol">🔮</div><div class="card-index">Карта 2</div></div></div></div>
+                <div class="interactive-card id="g-c3" onclick="handleCardFlip(this, 3)"><div class="card-inner"><div class="card-back"></div><div class="card-front"><div class="symbol">🔮</div><div class="card-index">Карта 3</div></div></div></div>
+                <div class="interactive-card id="g-c4" onclick="handleCardFlip(this, 4)"><div class="card-inner"><div class="card-back"></div><div class="card-front"><div class="symbol">🔮</div><div class="card-index">Карта 4</div></div></div></div>
+                <div class="interactive-card id="g-c5" onclick="handleCardFlip(this, 5)"><div class="card-inner"><div class="card-back"></div><div class="card-front"><div class="symbol">🔮</div><div class="card-index">Карта 5</div></div></div></div>
+                <div class="interactive-card id="g-c6" onclick="handleCardFlip(this, 6)"><div class="card-inner"><div class="card-back"></div><div class="card-front"><div class="symbol">🔮</div><div class="card-index">Карта 6</div></div></div></div>
+                <div class="interactive-card id="g-c7" onclick="handleCardFlip(this, 7)"><div class="card-inner"><div class="card-back"></div><div class="card-front"><div class="symbol">🔮</div><div class="card-index">Карта 7</div></div></div></div>
+                <div class="interactive-card id="g-c8" onclick="handleCardFlip(this, 8)"><div class="card-inner"><div class="card-back"></div><div class="card-front"><div class="symbol">🔮</div><div class="card-index">Карта 8</div></div></div></div>
+                <div class="interactive-card id="g-c9" onclick="handleCardFlip(this, 9)"><div class="card-inner"><div class="card-back"></div><div class="card-front"><div class="symbol">🔮</div><div class="card-index">Карта 9</div></div></div></div>
+                <div class="interactive-card id="g-c10" onclick="handleCardFlip(this, 10)"><div class="card-inner"><div class="card-back"></div><div class="card-front"><div class="symbol">🔮</div><div class="card-index">Карта 10</div></div></div></div>
             </div>
         </div>
 
         <div class="interface-zone">
             
-            <!-- ЭКРАН 1: СТАРТОВАЯ КНОПКА ВХОДА -->
-            <div id="start-screen" class="screen active">
+            <!-- ЭКРАН 1 -->
+            <div id="start-screen" class="screen" style="display: flex;">
                 <button class="gold-btn" onclick="enterToApp()">Войти в Оракул</button>
             </div>
             
-            <!-- ЭКРАН 2: ГЛАВНОЕ МЕНЮ РАСКЛАДОВ -->
-            <div id="menu-screen" class="screen">
+            <!-- ЭКРАН 2 -->
+            <div id="menu-screen" class="screen" style="display: none;">
                 <div class="category-title">Таро Расклады</div>
                 <div class="menu-grid">
                     <div class="menu-item full-width" onclick="startLayout('tarot_day', 1)">
@@ -188,10 +201,9 @@
                 </div>
             </div>
 
-            <!-- ЭКРАН 3: ЗОНА ДИНАМИЧЕСКОГО ИГРОВОГО РАСКЛАДА -->
-            <div id="game-screen" class="screen">
+            <!-- ЭКРАН 3 -->
+            <div id="game-screen" class="screen" style="display: none;">
                 <div id="status-text">Выберите карты...</div>
-                <div class="game-deck" id="game-deck"></div>
                 <button class="back-btn" onclick="backToMenu()">← Назад в меню</button>
             </div>
 
@@ -208,8 +220,8 @@
         let selectedCards = [];
 
         function enterToApp() {
-            document.getElementById('start-screen').classList.remove('active');
-            document.getElementById('menu-screen').classList.add('active');
+            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('menu-screen').style.display = 'flex';
         }
 
         function sendPaymentRequest(productName) {
@@ -224,32 +236,37 @@
             flippedCount = 0;
             selectedCards = [];
 
-            // Исправленная логика: управляем всеми экранами строго через переключение класса active
-            document.getElementById('menu-screen').classList.remove('active');
-            document.getElementById('intro-deck').classList.remove('active');
+            // Переключаем экраны
+            document.getElementById('menu-screen').style.display = 'none';
+            document.getElementById('intro-deck').style.display = 'none';
             
-            document.getElementById('game-screen').classList.add('active');
+            document.getElementById('game-screen').style.display = 'flex';
+            document.getElementById('game-deck').style.display = 'flex';
             document.getElementById('status-text').innerText = 'Выберите ' + cardsCount + ' карт(ы):';
 
-            const deck = document.getElementById('game-deck');
-            deck.innerHTML = '';
+            // Управляем видимостью и раскладкой уже существующих карт
+            const cards = document.querySelectorAll('#game-deck .interactive-card');
+            
+            // Сначала гасим абсолютно все карты и убираем переворот
+            cards.forEach(function(c) {
+                c.style.display = 'none';
+                c.classList.remove('flipped');
+                c.classList.remove('inverted');
+            });
 
+            // Включаем только нужное количество карт и строим веер
             for (let i = 0; i < cardsCount; i++) {
-                const card = document.createElement('div');
-                card.className = 'interactive-card';
+                if (!cards[i]) break;
+                
+                cards[i].style.display = 'block';
                 
                 let offset = (i - (cardsCount - 1) / 2) * (cardsCount > 4 ? 16 : 32);
                 let rotate = (i - (cardsCount - 1) / 2) * (cardsCount > 4 ? 1.5 : 5);
-                card.style.transform = 'translateX(' + offset + 'px) rotate(' + rotate + 'deg)';
-
-                card.innerHTML = '<div class="card-inner"><div class="card-back"></div><div class="card-front"><div class="symbol">🔮</div><div class="card-index">Карта ' + (i+1) + '</div></div></div>';
-                
-                card.addEventListener('click', function() { handleCardFlip(card); });
-                deck.appendChild(card);
+                cards[i].style.transform = 'translateX(' + offset + 'px) rotate(' + rotate + 'deg)';
             }
         }
 
-        function handleCardFlip(cardElement) {
+        function handleCardFlip(cardElement, cardNumber) {
             if (cardElement.classList.contains('flipped')) return;
 
             let orientation = "upright";
@@ -279,9 +296,11 @@
         }
 
         function backToMenu() {
-            document.getElementById('game-screen').classList.remove('active');
-            document.getElementById('intro-deck').classList.add('active');
-            document.getElementById('menu-screen').classList.add('active');
+            document.getElementById('game-screen').style.display = 'none';
+            document.getElementById('game-deck').style.display = 'none';
+            
+            document.getElementById('intro-deck').style.display = 'flex';
+            document.getElementById('menu-screen').style.display = 'flex';
         }
 
         // --- ДВИЖОК ЗВЕЗДНОГО НЕБА ---
@@ -292,31 +311,30 @@
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; initStars(); }
         function initStars() {
             stars = [];
-            for (let i = 0; i < 75; i++) {
+            for (let i = 0; i < 45; i++) {
                 stars.push({
-                    x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 1.8 + 0.6,
-                    twinkleSpeed: 0.015 + Math.random() * 0.025, phase: Math.random() * Math.PI,
-                    speedX: (Math.random() - 0.5) * 0.04, speedY: Math.random() * 0.06 + 0.03 
+                    x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 1.5 + 0.5,
+                    twinkleSpeed: 0.01 + Math.random() * 0.02, phase: Math.random() * Math.PI,
+                    speedY: Math.random() * 0.04 + 0.01 
                 });
             }
         }
         function drawSpace() {
-            let bgGrad = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 10, canvas.width/2, canvas.height/2, canvas.height);
-            bgGrad.addColorStop(0, '#090a1a'); bgGrad.addColorStop(1, '#020205');
-            ctx.fillStyle = bgGrad; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#030306'; ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             for (let i = 0; i < stars.length; i++) {
-                let s = stars[i]; s.y += s.speedY; s.x += s.speedX;
-                if (s.y > canvas.height) s.y = 0; if (s.x > canvas.width) s.x = 0; if (s.x < 0) s.x = canvas.width;
-                s.phase += s.twinkleSpeed; let alpha = 0.35 + (Math.sin(s.phase) + 1) * 0.45;
+                let s = stars[i]; s.y += s.speedY; if (s.y > canvas.height) s.y = 0;
+                s.phase += s.twinkleSpeed; let alpha = 0.3 + (Math.sin(s.phase) + 1) * 0.4;
                 ctx.fillStyle = 'rgba(255, 244, 204, ' + alpha + ')'; ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); ctx.fill();
             }
 
-            ctx.strokeStyle = 'rgba(255, 215, 0, 0.12)'; ctx.lineWidth = 0.6;
+            ctx.strokeStyle = 'rgba(255, 215, 0, 0.08)'; ctx.lineWidth = 0.5;
             for (let i = 0; i < stars.length; i++) {
                 for (let j = i + 1; j < stars.length; j++) {
-                    let dist = Math.hypot(stars[i].x - stars[j].x, stars[i].y - stars[j].y);
-                    if (dist < 70) { ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(stars[j].x, stars[j].y); ctx.stroke(); }
+                    let dx = stars[i].x - stars[j].x;
+                    let dy = stars[i].y - stars[j].y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 75) { ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(stars[j].x, stars[j].y); ctx.stroke(); }
                 }
             }
             requestAnimationFrame(drawSpace);
