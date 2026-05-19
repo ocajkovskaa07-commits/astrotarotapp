@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Zlata Tarot Astral</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
-        /* (твой стиль оставлен без изменений) */
         * { box-sizing: border-box; user-select: none; -webkit-user-select: none; }
+        
         body {
             background: #030306; color: #f4f4f6; font-family: 'Cinzel', serif;
             display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
@@ -18,7 +19,7 @@
         #space-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
 
         .content-wrap { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; width: 100%; }
-
+       
         h1 {
             font-size: 24px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
             background: linear-gradient(135deg, #fff 10%, #fff2b2 50%, #ffbb00 100%);
@@ -29,40 +30,21 @@
         .magic-zone {
             position: relative; display: flex; justify-content: center; align-items: center;
             width: 100%; max-width: 320px; height: 320px; margin: 20px auto;
-            transition: transform 0.5s ease, margin 0.5s ease, height 0.5s ease;
+            transition: all 0.5s ease;
         }
-        .magic-zone.minimized {
-            transform: scale(0.65) translateY(-30px);
-            margin: 0 auto; height: 190px;
-        }
-
-        .wheel-fortune {
-            position: absolute; width: 100%; height: 100%; border-radius: 50%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 200 200"><circle cx="100" cy="100" r="95" fill="none" stroke="%23ffd700" stroke-width="1.5" opacity="0.8"/><circle cx="100" cy="100" r="75" fill="none" stroke="%23ffd700" stroke-width="1.0" stroke-dasharray="3,2" opacity="0.9"/><path d="M100,5 L100,195 M5,100 L195,100 M32.8,32.8 L167.2,167.2 M32.8,167.2 L167.2,32.8" stroke="%23ffd700" stroke-width="0.6" opacity="0.5"/></svg>');
-            border: 2.5px solid #ffd700;
-            filter: drop-shadow(0 0 18px rgba(255, 215, 0, 0.6));
-            animation: spin 80s linear infinite;
-        }
-        .wheel-fortune::before {
-            content: '♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓';
-            position: absolute; width: 100%; height: 100%; color: #fff2b2; font-size: 17px;
-            font-weight: bold; display: flex; align-items: center; justify-content: center;
-            letter-spacing: 12px; padding-left: 12px;
-            text-shadow: 0 0 12px #ffbb00, 0 0 25px #ffd700, 0 0 35px #ffaa00;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .magic-zone.minimized { transform: scale(0.65) translateY(-30px); margin: 0 auto; height: 190px; }
 
         .cards-container { 
-            position: relative; width: 310px; height: 230px; display: flex; justify-content: center; align-items: center; z-index: 5; 
+            position: relative; width: 280px; height: 220px; display: flex; justify-content: center; align-items: center; 
         }
 
         .interactive-card {
-            position: absolute; width: 88px; height: 148px; cursor: pointer;
-            perspective: 1200px; transition: all 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+            position: absolute; width: 92px; height: 154px; cursor: pointer;
+            perspective: 1000px; transition: all 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
         }
         .interactive-card .card-inner {
-            width: 100%; height: 100%; position: relative;
-            transform-style: preserve-3d; transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
         }
         .interactive-card.flipped .card-inner { transform: rotateY(180deg); }
         .interactive-card.inverted .card-inner { transform: rotateY(180deg) rotateZ(180deg); }
@@ -70,79 +52,142 @@
         .card-front, .card-back {
             position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
             border: 2px solid #ffd700; border-radius: 10px; overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 25px rgba(255,215,0,0.5);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.7), 0 0 20px rgba(255, 215, 0, 0.4);
         }
-        .card-back { background: linear-gradient(135deg, #0f1126, #1b1f4d); }
+        .card-back {
+            background: linear-gradient(135deg, #0f1126, #1b1f4d, #0a0b1a);
+        }
         .card-back::before {
-            content: "✦ ZLATA TAROT ✦"; position: absolute; inset: 0;
+            content: '✦ TAROT ✦';
+            color: #ffd700; font-size: 18px; font-weight: bold;
+            text-shadow: 0 0 15px #ffcc00;
+            position: absolute; width: 100%; height: 100%;
             display: flex; align-items: center; justify-content: center;
-            color: #ffd700; font-size: 13px; letter-spacing: 2px;
+            letter-spacing: 3px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 40 40"><polygon points="20,2 38,20 20,38 2,20" fill="none" stroke="%23ffd700" stroke-width="0.8" opacity="0.4"/></svg>') center/cover;
         }
 
         .card-front {
-            background: #f8f0d8; transform: rotateY(180deg);
+            background: linear-gradient(145deg, #fffbee, #f5e6c4);
+            transform: rotateY(180deg);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 6px; text-align: center; color: #2c1a0f; font-size: 10.5px;
+            color: #2c1a0f; text-align: center; padding: 8px;
         }
-        .card-front img { width: 68px; height: 96px; object-fit: contain; border-radius: 5px; margin-bottom: 5px; }
+        .card-front .symbol { font-size: 42px; margin-bottom: 8px; }
+        .card-front .name { font-size: 11px; font-weight: 700; line-height: 1.2; }
+
+        .interface-zone { width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .screen { display: none; width: 100%; flex-direction: column; align-items: center; }
 
         .gold-btn {
-            position: relative; background: linear-gradient(135deg, #fff4cc 0%, #ffd700 50%, #cc9900 100%);
-            color: #050508; font-family: 'Cinzel', serif; font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+            background: linear-gradient(135deg, #fff4cc 0%, #ffd700 50%, #cc9900 100%);
+            color: #050508; font-family: 'Cinzel', serif; font-size: 14px; font-weight: 700;
             border: none; border-radius: 40px; padding: 18px 45px; cursor: pointer; margin-top: 25px;
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.6); animation: pulseGlow 2s infinite ease-in-out;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
         }
-        @keyframes pulseGlow { 0%,100% { transform: scale(1); } 50% { transform: scale(1.04); } }
 
-        #status-text { display: none; font-size: 15px; color: #fff2b2; text-align: center; margin: 15px 0; text-shadow: 0 0 8px #ffbb00; }
+        #status-text {
+            display: none; font-size: 15px; color: #fff2b2; text-align: center;
+            margin: 15px 0; min-height: 26px; letter-spacing: 1px; text-shadow: 0 0 8px #ffbb00;
+        }
 
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 360px; }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; max-width: 360px; }
         .full-width { grid-column: span 2; }
-        .menu-item {
-            background: rgba(22, 24, 46, 0.75); border: 1.5px solid rgba(255, 215, 0, 0.3);
-            border-radius: 12px; padding: 13px 15px; font-size: 12px;
-            color: #fff2b2; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between;
-            min-height: 78px; cursor: pointer; transition: all 0.3s ease;
-        }
-        .menu-item:hover { border-color: #ffd700; background: rgba(255, 215, 0, 0.15); transform: translateY(-2px); }
 
-        .back-btn {
-            background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff2b2;
-            padding: 10px 20px; border-radius: 20px; font-size: 11px; cursor: pointer; margin-top: 20px;
+        .menu-item {
+            background: rgba(22, 24, 46, 0.8); border: 1.5px solid rgba(255, 215, 0, 0.3);
+            border-radius: 14px; padding: 14px 16px; font-size: 13px;
+            color: #fff2b2; display: flex; flex-direction: column; justify-content: space-between;
+            min-height: 82px; cursor: pointer; transition: all 0.3s ease;
         }
+        .menu-item:hover {
+            border-color: #ffd700; background: rgba(255, 215, 0, 0.18); transform: translateY(-3px);
+        }
+        .title-box { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+        .badge { font-size: 9px; padding: 3px 8px; border-radius: 20px; margin-top: 6px; align-self: flex-end; }
     </style>
 </head>
 <body>
     <canvas id="space-bg"></canvas>
     <div class="content-wrap">
         <h1>Zlata Tarot Astral</h1>
+        
         <div class="magic-zone" id="magic-zone">
             <div class="wheel-fortune"></div>
-            <div class="cards-container" id="cards-container"></div>
+            <div class="cards-container" id="cards-container">
+                <!-- Начальный веер из 3 карт -->
+            </div>
         </div>
 
         <div class="interface-zone">
+            <!-- Старт -->
             <div id="start-screen" style="display: flex;">
                 <button class="gold-btn" onclick="enterToApp()">Войти в Оракул</button>
             </div>
 
+            <!-- Меню раскладов (полное) -->
             <div id="menu-stage" class="screen">
                 <div class="category-title">Таро Расклады</div>
                 <div class="menu-grid">
-                    <div class="menu-item full-width" onclick="startLayout('tarot_day', 1)"><span>🃏</span> Карта Дня <span class="badge free">FREE</span></div>
-                    <div class="menu-item" onclick="startLayout('tarot_timeline', 3)"><span>⏳</span> Прошлое/Будущее <span class="badge free">FREE</span></div>
-                    <div class="menu-item" onclick="startLayout('celtic_cross', 10)"><span>⚔️</span> Кельтский крест <span class="badge free">10 карт</span></div>
-                    <div class="menu-item" onclick="startLayout('tarot_love_2_hearts', 4)"><span>❤️</span> Отношения <span class="badge free">4 карты</span></div>
-                    <div class="menu-item" onclick="startLayout('tarot_yes_no', 1)"><span>⚖️</span> Да / Нет <span class="badge free">FREE</span></div>
-                    <div class="menu-item" onclick="startLayout('tarot_question_3_cards', 3)"><span>🔮</span> Ответ на Вопрос <span class="badge free">FREE</span></div>
-                    <div class="menu-item full-width" onclick="startLayout('business_oracle_combo', 1)"><span>💼</span> Бизнес-оракул <span class="badge free">FREE</span></div>
+                    <div class="menu-item full-width" onclick="startLayout('tarot_day', 1)">
+                        <div class="title-box"><span>🃏</span> <span>Карта Дня</span></div>
+                        <span class="badge free">FREE</span>
+                    </div>
+                    <div class="menu-item" onclick="startLayout('tarot_timeline', 3)">
+                        <div class="title-box"><span>⏳</span> <span>Прошлое / Настоящее / Будущее</span></div>
+                        <span class="badge free">FREE</span>
+                    </div>
+                    <div class="menu-item" onclick="startLayout('celtic_cross', 10)">
+                        <div class="title-box"><span>⚔️</span> <span>Кельтский Крест</span></div>
+                        <span class="badge free">10 карт</span>
+                    </div>
+                    <div class="menu-item" onclick="startLayout('tarot_love_2_hearts', 4)">
+                        <div class="title-box"><span>❤️</span> <span>Отношения (2 сердца)</span></div>
+                        <span class="badge free">4 карты</span>
+                    </div>
+                    <div class="menu-item" onclick="startLayout('tarot_yes_no', 1)">
+                        <div class="title-box"><span>⚖️</span> <span>Да / Нет</span></div>
+                        <span class="badge free">FREE</span>
+                    </div>
+                    <div class="menu-item" onclick="startLayout('tarot_question_3_cards', 3)">
+                        <div class="title-box"><span>🔮</span> <span>Ответ на Вопрос</span></div>
+                        <span class="badge free">3 карты</span>
+                    </div>
+                    <div class="menu-item full-width" onclick="startLayout('business_oracle_combo', 1)">
+                        <div class="title-box"><span>💼</span> <span>Бизнес-оракул</span></div>
+                        <span class="badge free">FREE</span>
+                    </div>
+                </div>
+
+                <div class="category-title">Чистая Астрология</div>
+                <div class="menu-grid">
+                    <div class="menu-item" onclick="sendPaymentRequest('natal_chart')">
+                        <div class="title-box"><span>🌌</span> <span>Натальная карта</span></div>
+                        <span class="badge premium">🔒 PDF</span>
+                    </div>
+                    <div class="menu-item" onclick="sendPaymentRequest('compatibility')">
+                        <div class="title-box"><span>💞</span> <span>Совместимость</span></div>
+                        <span class="badge premium">🔒 PDF</span>
+                    </div>
+                    <div class="menu-item" onclick="sendPaymentRequest('horoscope_day')">
+                        <div class="title-box"><span>📅</span> <span>Гороскоп на День</span></div>
+                        <span class="badge premium">🔒</span>
+                    </div>
+                    <div class="menu-item" onclick="sendPaymentRequest('horoscope_month')">
+                        <div class="title-box"><span>🌙</span> <span>Гороскоп на Месяц</span></div>
+                        <span class="badge premium">🔒</span>
+                    </div>
+                    <div class="menu-item full-width" onclick="sendPaymentRequest('horoscope_year')">
+                        <div class="title-box"><span>☀️</span> <span>Гороскоп на Год</span></div>
+                        <span class="badge premium">🔒 PDF</span>
+                    </div>
                 </div>
             </div>
 
+            <!-- Игровое поле -->
             <div id="game-stage" class="screen">
                 <button class="back-btn" onclick="backToMenu()">← Назад в меню</button>
-                <div id="status-text"></div>
-                <div id="meanings"></div>
+                <div id="status-text">Выберите карты...</div>
             </div>
         </div>
     </div>
@@ -151,112 +196,18 @@
         const tg = window.Telegram.WebApp;
         try { tg.expand(); } catch(e) {}
 
-        let currentAction = '', targetCardsCount = 0, flippedCount = 0, selectedCards = [];
+        let currentAction = '';
+        let targetCardsCount = 0;
+        let flippedCount = 0;
+        let selectedCards = [];
 
-        // ==================== 78 КАРТ С ПОЛНЫМИ НАЗВАНИЯМИ ====================
-        const tarotDeck = [
-            {id:0, name:"0 - Дурак", img:"https://i.ibb.co/b5GDPJTr/0603170325589-00-678029bbc55011a335aa0623a5fbd863.jpg", upright:"Новое начало, спонтанность, вера в жизнь", reversed:"Безрассудство, риск"},
-            {id:1, name:"1 - Маг", img:"https://i.ibb.co/BHxXyt0n/0603170325589-02-1affc857cacbf5a0ff6ead63d66211ea.jpg", upright:"Мастерство, сила воли, концентрация", reversed:"Манипуляция"},
-            {id:2, name:"2 - Верховная Жрица", img:"https://i.ibb.co/S4GW4gvH/0603170325589-03-0ddacb930338683e6aae222a529e79f1.jpg", upright:"Интуиция, тайна, мудрость", reversed:"Скрытые мотивы"},
-            {id:3, name:"3 - Императрица", img:"https://i.ibb.co/9HrmxY5S/0603170325589-04-19dd16bc6fda522034e722acc866cd03.jpg", upright:"Изобилие, плодородие, творчество", reversed:"Зависимость"},
-            {id:4, name:"4 - Император", img:"https://i.ibb.co/fVsMDQrK/0603170325589-05-c574474b6f14b2bd02d87815f06c59cd.jpg", upright:"Структура, власть, стабильность", reversed:"Тиран"},
-            {id:5, name:"5 - Иерофант", img:"https://i.ibb.co/S4dqdNjZ/0603170325589-06-37da9a540c0b9bc51355f2e2c19943b9.jpg", upright:"Традиции, духовность", reversed:"Догматизм"},
-            {id:6, name:"6 - Влюблённые", img:"https://i.ibb.co/PGQ8h3Bc/0603170325589-07-a7c10a5faaf2a2a4de0075d5ea71ad3b.jpg", upright:"Любовь, гармония, выбор", reversed:"Разрыв"},
-            {id:7, name:"7 - Колесница", img:"https://i.ibb.co/dw3BLxZX/0603170325589-08-1e89a2cb614d15fd1e231269ea2cc30c.jpg", upright:"Победа, движение", reversed:"Поражение"},
-            {id:8, name:"8 - Сила", img:"https://i.ibb.co/Z1LrJcX3/0603170325589-09-1b0fc07411416100fd85ec05b4b8246a.jpg", upright:"Внутренняя сила, терпение", reversed:"Слабость"},
-            {id:9, name:"9 - Отшельник", img:"https://i.ibb.co/jv5z35x6/0603170325589-10-3eaa96f92c8b013f8eb84a358d7eb100.jpg", upright:"Мудрость, поиск", reversed:"Изоляция"},
-            {id:10, name:"10 - Колесо Фортуны", img:"https://i.ibb.co/N6g7NXt8/0603170325589-11-899cd14941a67c67901187755f1eef94.jpg", upright:"Удача, циклы", reversed:"Неудача"},
-            {id:11, name:"11 - Справедливость", img:"https://i.ibb.co/Q7GhpR27/0603170325589-12-c7de472fc407322bc8e95c972546fd12.jpg", upright:"Справедливость, баланс", reversed:"Несправедливость"},
-            {id:12, name:"12 - Повешенный", img:"https://i.ibb.co/xKqmXN7W/0603170325589-13-b9b7cb5f226c779056861c60dd9d7883.jpg", upright:"Новый взгляд, жертва", reversed:"Застой"},
-            {id:13, name:"13 - Смерть", img:"https://i.ibb.co/q3Mc4nFy/0603170325589-14-2fc4425a191475c739cfb030b43763f1.jpg", upright:"Трансформация", reversed:"Страх перемен"},
-            {id:14, name:"14 - Умеренность", img:"https://i.ibb.co/cXvV8Yj5/0603170325589-15-7bea7f83bb7093f18a41bba46f1b7427.jpg", upright:"Баланс, гармония", reversed:"Крайности"},
-            {id:15, name:"15 - Дьявол", img:"https://i.ibb.co/j9C6kVfM/0603170325589-16-8f5e336db5557771ee63c1aa2152ea6d.jpg", upright:"Зависимость", reversed:"Освобождение"},
-            {id:16, name:"16 - Башня", img:"https://i.ibb.co/m5R31CxZ/0603170325589-17-895483f2f33dc90c502f9bd405d9f630.jpg", upright:"Внезапные перемены", reversed:"Кризис"},
-            {id:17, name:"17 - Звезда", img:"https://i.ibb.co/6JbbLd0z/0603170325589-18-1b8a346488fdf4ff9a6933d4db7d7d37.jpg", upright:"Надежда, исцеление", reversed:"Потеря веры"},
-            {id:18, name:"18 - Луна", img:"https://i.ibb.co/QF6qDbRW/0603170325589-19-1ed7a0f351a0622323a409be4746c589.jpg", upright:"Интуиция, иллюзии", reversed:"Обман"},
-            {id:19, name:"19 - Солнце", img:"https://i.ibb.co/ch5HYH0M/0603170325589-20-16346c2a033548179ec5e6c58fe2dfb3.jpg", upright:"Радость, успех", reversed:"Затмение"},
-            {id:20, name:"20 - Суд", img:"https://i.ibb.co/4RRQYBb1/0603170325589-21-800272d9e2f4266c7867ede1e8a40f9b.jpg", upright:"Пробуждение, возрождение", reversed:"Самообман"},
-            {id:21, name:"21 - Мир", img:"https://i.ibb.co/QvkfR1Yq/0603170325589-22-8b820d52bca7cf5a56ab79116aab4787.jpg", upright:"Завершение, гармония, успех", reversed:"Незавершённость"}
+        const tarotNames = [
+            "Дурак", "Маг", "Верховная Жрица", "Императрица", "Император",
+            "Иерофант", "Влюблённые", "Колесница", "Сила", "Отшельник",
+            "Колесо Фортуны", "Справедливость", "Повешенный", "Смерть",
+            "Умеренность", "Дьявол", "Башня", "Звезда", "Луна", "Солнце", "Суд", "Мир"
         ];
 
-        // Младшие Арканы с правильными названиями
-        const minorNames = [
-            "Туз Жезлов","2 Жезлов","3 Жезлов","4 Жезлов","5 Жезлов","6 Жезлов","7 Жезлов","8 Жезлов","9 Жезлов","10 Жезлов","Паж Жезлов","Рыцарь Жезлов","Королева Жезлов","Король Жезлов",
-            "Туз Кубков","2 Кубков","3 Кубков","4 Кубков","5 Кубков","6 Кубков","7 Кубков","8 Кубков","9 Кубков","10 Кубков","Паж Кубков","Рыцарь Кубков","Королева Кубков","Король Кубков",
-            "Туз Мечей","2 Мечей","3 Мечей","4 Мечей","5 Мечей","6 Мечей","7 Мечей","8 Мечей","9 Мечей","10 Мечей","Паж Мечей","Рыцарь Мечей","Королева Мечей","Король Мечей",
-            "Туз Пентаклей","2 Пентаклей","3 Пентаклей","4 Пентаклей","5 Пентаклей","6 Пентаклей","7 Пентаклей","8 Пентаклей","9 Пентаклей","10 Пентаклей","Паж Пентаклей","Рыцарь Пентаклей","Королева Пентаклей","Король Пентаклей"
-        ];
-
-        const minorImages = [
-            "https://i.ibb.co/rfbv8Ysk/0603170325589-23-94a7f432f845bc523eb67fbbc37a9be1.jpg",
-            "https://i.ibb.co/QvZRBzsX/0603170325589-24-866f4e7c2570670a64db0f031963f2de.jpg",
-            "https://i.ibb.co/cKxt1Kwz/0603170325589-25-d24df431069f1a7f30847a119ad66934.jpg",
-            "https://i.ibb.co/39xvjQK8/0603170325589-26-9e730438f5a36003eacb58fa91178855.jpg",
-            "https://i.ibb.co/zh2pRWzW/0603170325589-27-d2a089deccfec6127f07f6ca0e2f84dd.jpg",
-            "https://i.ibb.co/hqw2j2X/0603170325589-28-497a49a55c8c3769dd6095781ba725ee.jpg",
-            "https://i.ibb.co/spjmm5Cq/0603170325589-29-9bcbf1dc7e5ad05b2780a1d82857e4cb.jpg",
-            "https://i.ibb.co/1GffD16m/0603170325589-30-1d1f1456263bf60fadfe12231db9b403.jpg",
-            "https://i.ibb.co/tT4kwnh8/0603170325589-31-253e6e7f3b5eb88ada02b90563d4bcf9.jpg",
-            "https://i.ibb.co/FkMKw00t/0603170325589-32-7026f2023309f46f84866f6fcc31bc15.jpg",
-            "https://i.ibb.co/DDPG35dL/0603170325589-33-31ed5cc76401b7be30b5753b45d2b95f.jpg",
-            "https://i.ibb.co/7JsHQQ2t/0603170325589-34-3b6053b9ffa8b117f8952672768867fc.jpg",
-            "https://i.ibb.co/XvmMX6M/0603170325589-35-ff7dea6d2fb1a739d51702c4eaaca93b.jpg",
-            "https://i.ibb.co/TDMWZK7m/0603170325589-36-25b80e8f176c8458ea67bceaa6381416.jpg",
-            "https://i.ibb.co/b52jHVCx/0603170325589-37-f82ba2b10d25c69f574f0d0cb0fe975e.jpg",
-            "https://i.ibb.co/R4SVRVQB/0603170325589-38-b1071086789d14cf28db5c78c7af73ce.jpg",
-            "https://i.ibb.co/Sw8yPx8Q/0603170325589-39-5703c98740de1e53219f1ec654df9b6f.jpg",
-            "https://i.ibb.co/PzbDGyjk/0603170325589-40-245d0eaebca2720b429325e07f88cc62.jpg",
-            "https://i.ibb.co/1p6ZHsz/0603170325589-41-2c9641d1278e6d26efdd26129602f6d5.jpg",
-            "https://i.ibb.co/DfwWTrHK/0603170325589-42-90db6d602a8c552e1f27f810e6493325.jpg",
-            "https://i.ibb.co/p6LNPv1k/0603170325589-43-e9d4f6d1912842da855ce7bbf6a69a1c.jpg",
-            "https://i.ibb.co/4RPYj3zn/0603170325589-44-6a1af0658104847d9b014fd63ed108f5.jpg",
-            "https://i.ibb.co/pj7D8N8H/0603170325589-45-73b46e415f97a956f5a10199b1ebbdef.jpg",
-            "https://i.ibb.co/6c3rFtWF/0603170325589-46-5ca9d96219727b64fe1f427b46a80cbe.jpg",
-            "https://i.ibb.co/kgqHjRR1/0603170325589-47-34877d455aac72367cf0eadb9f6a3c56.jpg",
-            "https://i.ibb.co/9kHgytZB/0603170325589-48-6199bb0364076aba448e9678b3a1ca3d.jpg",
-            "https://i.ibb.co/M5n3Mh7Y/0603170325589-49-54b0e1c53b93504ad02fa774b84bacde.jpg",
-            "https://i.ibb.co/20tcCfBg/0603170325589-50-5b537786818416df612720b0745a48b9.jpg",
-            "https://i.ibb.co/LhCwX4J6/0603170325589-51-6faa9b3750f79b8b9ba79808c9f129c7.jpg",
-            "https://i.ibb.co/NnGfWb0R/0603170325589-52-af4ea8bab3e734f8a23998ef0924fbeb.jpg",
-            "https://i.ibb.co/DgVmkC4R/0603170325589-53-536f2a13a6a3386c5a8e80f47f425da9.jpg",
-            "https://i.ibb.co/35qrmxcq/0603170325589-54-efa56e98b81e6f8a7d2f818c0fa87b7a.jpg",
-            "https://i.ibb.co/prhvwNKx/0603170325589-55-b912951f62204a57a59212a9523c0bd9.jpg",
-            "https://i.ibb.co/bMPYdgjD/0603170325589-56-98db19f0fe8ed325fd5f33864f7ae946.jpg",
-            "https://i.ibb.co/6RjmKkRX/0603170325589-57-e4e579f414d5d392a2161f70ecd77096.jpg",
-            "https://i.ibb.co/351t44zN/0603170325589-58-2ffa141abd999c386724aa67607d32ba.jpg",
-            "https://i.ibb.co/8LRVyD1X/0603170325589-59-bdda863a9afcf0dce618a85df877e499.jpg",
-            "https://i.ibb.co/dJtKYZct/0603170325589-60-1bec875cee48f1c917978096309b6208.jpg",
-            "https://i.ibb.co/F4MXs1Fh/0603170325589-61-8e8fb4f0d35590c06424ad86100eaf14.jpg",
-            "https://i.ibb.co/pvHFJG9r/0603170325589-62-ae60212f4337fb84cad553620100e6a5.jpg",
-            "https://i.ibb.co/201pZGrB/0603170325589-63-6f6fc92430a03bf16e8e38f0696fb10b.jpg",
-            "https://i.ibb.co/ymtyTrny/0603170325589-64-047d5b3338f27d3ad5dbfb27b4347f17.jpg",
-            "https://i.ibb.co/HTfP4cks/0603170325589-65-88c2404780c00becee3d87e532de4514.jpg",
-            "https://i.ibb.co/J9CWZ7W/0603170325589-66-20175148e8d46abd938d016572de27b2.jpg",
-            "https://i.ibb.co/HDj0C9YH/0603170325589-67-b99fb44507245d7b4d0a0bd11c71982d.jpg",
-            "https://i.ibb.co/C35NBxjk/0603170325589-68-e8a5a5dacfdc5dc4736be581d1e8a740.jpg",
-            "https://i.ibb.co/8gg2MBp7/0603170325589-69-3058847baca9fe5d934faa66fcf11ad6.jpg",
-            "https://i.ibb.co/4ZxJ8LH7/0603170325589-70-b92bf0d485241121623f30f035c4438c.jpg",
-            "https://i.ibb.co/J9NFRgF/0603170325589-71-1514302647d4792da008c30ae8546697.jpg",
-            "https://i.ibb.co/0y0rWnNq/0603170325589-72-d4d7230f841919802d1a1e85990e9210.jpg",
-            "https://i.ibb.co/0p5BPLxz/0603170325589-73-a9ea25216d7a372f63b4177ff76f5bd6.jpg",
-            "https://i.ibb.co/d0bRBPnb/0603170325589-74-c76f6b123224075336f2b372196eef4f.jpg",
-            "https://i.ibb.co/Q7pSsyNJ/0603170325589-75-0f41f086308b4227c36d4e34a300336c.jpg",
-            "https://i.ibb.co/5gKJjbtp/0603170325589-76-9f2041a8543dce108b46a9f2a2ced143.jpg",
-            "https://i.ibb.co/9khYwVGQ/0603170325589-77-e264de9d0c24d5e1d6ea510e00a4305b.jpg",
-            "https://i.ibb.co/DD5GfWfM/0603170325589-78-f75e6d6ed0aa6c6290e1e87eb205ab34.jpg"
-        ];
-
-        minorNames.forEach((name, index) => {
-            tarotDeck.push({
-                id: 22 + index,
-                name: name,
-                img: minorImages[index],
-                upright: "Практическая энергия. Действие, развитие, повседневные дела.",
-                reversed: "Задержки, препятствия, необходимость пересмотра."
-            });
-        });
-
-        // ===================== ОСНОВНЫЕ ФУНКЦИИ =====================
         function enterToApp() {
             document.getElementById('start-screen').style.display = 'none';
             document.getElementById('magic-zone').classList.add('minimized');
@@ -273,7 +224,6 @@
             document.getElementById('magic-zone').classList.remove('minimized');
             document.getElementById('game-stage').style.display = 'flex';
             document.getElementById('status-text').style.display = 'block';
-            document.getElementById('status-text').innerText = `Выберите ${cardsCount} карт...`;
 
             buildDeck(cardsCount);
         }
@@ -281,70 +231,153 @@
         function buildDeck(count) {
             const container = document.getElementById('cards-container');
             container.innerHTML = '';
+            document.getElementById('status-text').innerText = `Выберите ${count} карт(ы):`;
 
-            for (let i = 0; i < 28; i++) {
-                const cardData = tarotDeck[Math.floor(Math.random() * tarotDeck.length)];
+            for (let i = 0; i < count; i++) {
                 const card = document.createElement('div');
                 card.className = 'interactive-card';
-                card.dataset.info = JSON.stringify(cardData);
-
-                let offset = (i - 14) * 11;
-                let rotate = (i - 14) * 4;
+                
+                let offset = (i - (count - 1) / 2) * (count > 5 ? 18 : 35);
+                let rotate = (i - (count - 1) / 2) * (count > 5 ? 2 : 6);
+                
                 card.style.transform = `translateX(${offset}px) rotate(${rotate}deg)`;
-                card.style.zIndex = 10 + i;
-
+                
+                const randomName = tarotNames[Math.floor(Math.random() * tarotNames.length)];
+                
                 card.innerHTML = `
                     <div class="card-inner">
                         <div class="card-back"></div>
                         <div class="card-front">
-                            <img src="${cardData.img}" alt="${cardData.name}">
-                            <div>${cardData.name}</div>
+                            <div class="symbol">🔮</div>
+                            <div class="name">${randomName}</div>
                         </div>
                     </div>`;
 
-                card.addEventListener('click', () => flipCard(card));
+                card.addEventListener('click', () => handleCardFlip(card));
                 container.appendChild(card);
             }
         }
 
-        function flipCard(card) {
-            if (card.classList.contains('flipped')) return;
-            const cardData = JSON.parse(card.dataset.info);
-            const isReversed = Math.random() > 0.5;
+        function handleCardFlip(cardElement) {
+            if (cardElement.classList.contains('flipped')) return;
 
-            if (isReversed) card.classList.add('inverted');
-            card.classList.add('flipped');
-            card.style.transform += ' translateY(-28px) scale(1.1)';
+            let orientation = "upright";
+            if (currentAction === 'tarot_yes_no' && Math.random() > 0.5) {
+                cardElement.classList.add('inverted');
+                orientation = "reversed";
+            }
+
+            cardElement.classList.add('flipped');
+            cardElement.style.transform += ' translateY(-25px) scale(1.08)';
+            cardElement.style.zIndex = 20 + flippedCount;
+
+            // Простой эффект искр (можно улучшить)
+            createSparkles(cardElement);
 
             flippedCount++;
-            selectedCards.push({...cardData, reversed: isReversed});
+            selectedCards.push({ id: Math.floor(Math.random() * 78) + 1, orientation });
 
             if (flippedCount === targetCardsCount) {
-                document.getElementById('status-text').innerText = "Формируем предсказание...";
-                setTimeout(showMeanings, 1300);
+                document.getElementById('status-text').innerText = "Формируем ваше предсказание...";
+                setTimeout(() => {
+                    const payload = { action: currentAction, lang: "ru", cards: selectedCards };
+                    try { tg.sendData(JSON.stringify(payload)); } catch(e) {}
+                }, 1400);
+            } else {
+                document.getElementById('status-text').innerText = `Выбрано: ${flippedCount} из ${targetCardsCount}`;
             }
         }
 
-        function showMeanings() {
-            const container = document.getElementById('meanings');
-            container.innerHTML = `<h3 style="color:#ffd700;text-align:center;">✦ Толкование расклада ✦</h3>`;
-            selectedCards.forEach((c, i) => {
-                const div = document.createElement('div');
-                div.style.cssText = 'background:rgba(30,25,50,0.95);border:1px solid #d4af37;border-radius:12px;padding:14px;margin:10px 0;';
-                div.innerHTML = `<strong>${i+1}. ${c.name} ${c.reversed ? '(Перевёрнутая)' : ''}</strong><br>${c.reversed ? c.reversed : c.upright}`;
-                container.appendChild(div);
-            });
-            container.style.display = 'block';
+        function createSparkles(card) {
+            for (let i = 0; i < 12; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.style.position = 'absolute';
+                    sparkle.style.width = '6px';
+                    sparkle.style.height = '6px';
+                    sparkle.style.background = '#ffeb3b';
+                    sparkle.style.borderRadius = '50%';
+                    sparkle.style.opacity = '0.9';
+                    sparkle.style.zIndex = '100';
+                    sparkle.style.left = Math.random() * 80 + 10 + '%';
+                    sparkle.style.top = Math.random() * 80 + 10 + '%';
+                    card.appendChild(sparkle);
+
+                    setTimeout(() => sparkle.remove(), 800);
+                }, i * 30);
+            }
         }
 
         function backToMenu() {
             document.getElementById('game-stage').style.display = 'none';
-            document.getElementById('meanings').style.display = 'none';
+            document.getElementById('status-text').style.display = 'none';
+            
+            const container = document.getElementById('cards-container');
+            container.innerHTML = `
+                <div class="interactive-card" style="transform: translateX(-45px) rotate(-14deg);"><div class="card-inner"><div class="card-back"></div></div></div>
+                <div class="interactive-card" style="transform: translateX(0) rotate(2deg); z-index: 2;"><div class="card-inner"><div class="card-back"></div></div></div>
+                <div class="interactive-card" style="transform: translateX(45px) rotate(14deg);"><div class="card-inner"><div class="card-back"></div></div></div>
+            `;
+
             document.getElementById('magic-zone').classList.add('minimized');
             document.getElementById('menu-stage').style.display = 'flex';
         }
 
-        window.onload = backToMenu;
+        // Космос
+        const canvas = document.getElementById('space-bg');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initStars();
+        }
+
+        function initStars() {
+            stars = [];
+            for (let i = 0; i < 80; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 1.9 + 0.5,
+                    speedY: Math.random() * 0.07 + 0.03,
+                    phase: Math.random() * Math.PI * 2
+                });
+            }
+        }
+
+        function drawSpace() {
+            ctx.fillStyle = '#020205';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            for (let s of stars) {
+                s.y += s.speedY;
+                if (s.y > canvas.height) s.y = 0;
+
+                const alpha = 0.4 + Math.sin(s.phase) * 0.4;
+                ctx.fillStyle = `rgba(255, 240, 200, ${alpha})`;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                ctx.fill();
+                s.phase += 0.03;
+            }
+            requestAnimationFrame(drawSpace);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        drawSpace();
+
+        // Инициализация начального веера
+        window.onload = () => {
+            const container = document.getElementById('cards-container');
+            container.innerHTML = `
+                <div class="interactive-card" style="transform: translateX(-45px) rotate(-14deg);"><div class="card-inner"><div class="card-back"></div></div></div>
+                <div class="interactive-card" style="transform: translateX(0) rotate(2deg); z-index: 2;"><div class="card-inner"><div class="card-back"></div></div></div>
+                <div class="interactive-card" style="transform: translateX(45px) rotate(14deg);"><div class="card-inner"><div class="card-back"></div></div></div>
+            `;
+        };
     </script>
 </body>
 </html>
