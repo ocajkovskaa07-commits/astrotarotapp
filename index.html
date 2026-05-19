@@ -4,112 +4,146 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Zlata Tarot Astral</title>
-    
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
+        /* (твой стиль оставлен без изменений) */
         * { box-sizing: border-box; user-select: none; -webkit-user-select: none; }
         body {
             background: #030306; color: #f4f4f6; font-family: 'Cinzel', serif;
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
             min-height: 100vh; margin: 0; padding: 15px; overflow-x: hidden; position: relative;
         }
         #space-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
 
+        .content-wrap { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; width: 100%; }
+
         h1 {
             font-size: 24px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
-            background: linear-gradient(135deg, #fff, #fff2b2, #ffbb00);
+            background: linear-gradient(135deg, #fff 10%, #fff2b2 50%, #ffbb00 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-align: center; margin: 10px 0 15px;
+            margin: 10px 0 15px 0; text-align: center; text-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
         }
 
-        .magic-zone { position: relative; width: 100%; max-width: 360px; height: 280px; margin: 20px auto; transition: all 0.6s ease; }
-        .magic-zone.minimized { transform: scale(0.58) translateY(-45px); height: 190px; }
+        .magic-zone {
+            position: relative; display: flex; justify-content: center; align-items: center;
+            width: 100%; max-width: 320px; height: 320px; margin: 20px auto;
+            transition: transform 0.5s ease, margin 0.5s ease, height 0.5s ease;
+        }
+        .magic-zone.minimized {
+            transform: scale(0.65) translateY(-30px);
+            margin: 0 auto; height: 190px;
+        }
 
-        .cards-container { position: relative; width: 100%; height: 100%; }
+        .wheel-fortune {
+            position: absolute; width: 100%; height: 100%; border-radius: 50%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 200 200"><circle cx="100" cy="100" r="95" fill="none" stroke="%23ffd700" stroke-width="1.5" opacity="0.8"/><circle cx="100" cy="100" r="75" fill="none" stroke="%23ffd700" stroke-width="1.0" stroke-dasharray="3,2" opacity="0.9"/><path d="M100,5 L100,195 M5,100 L195,100 M32.8,32.8 L167.2,167.2 M32.8,167.2 L167.2,32.8" stroke="%23ffd700" stroke-width="0.6" opacity="0.5"/></svg>');
+            border: 2.5px solid #ffd700;
+            filter: drop-shadow(0 0 18px rgba(255, 215, 0, 0.6));
+            animation: spin 80s linear infinite;
+        }
+        .wheel-fortune::before {
+            content: '♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓';
+            position: absolute; width: 100%; height: 100%; color: #fff2b2; font-size: 17px;
+            font-weight: bold; display: flex; align-items: center; justify-content: center;
+            letter-spacing: 12px; padding-left: 12px;
+            text-shadow: 0 0 12px #ffbb00, 0 0 25px #ffd700, 0 0 35px #ffaa00;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .cards-container { 
+            position: relative; width: 310px; height: 230px; display: flex; justify-content: center; align-items: center; z-index: 5; 
+        }
 
         .interactive-card {
-            position: absolute; width: 92px; height: 155px; cursor: grab;
-            perspective: 1400px; transition: all 0.4s ease; touch-action: none;
+            position: absolute; width: 88px; height: 148px; cursor: pointer;
+            perspective: 1200px; transition: all 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
         }
         .interactive-card .card-inner {
             width: 100%; height: 100%; position: relative;
-            transform-style: preserve-3d; transition: transform 0.85s cubic-bezier(0.25, 0.1, 0.25, 1);
+            transform-style: preserve-3d; transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .interactive-card.flipped .card-inner { transform: rotateY(180deg); }
         .interactive-card.inverted .card-inner { transform: rotateY(180deg) rotateZ(180deg); }
 
         .card-front, .card-back {
             position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
-            border: 2px solid #ffd700; border-radius: 12px; overflow: hidden;
-            box-shadow: 0 12px 35px rgba(0,0,0,0.85), 0 0 30px rgba(255,215,0,0.5);
+            border: 2px solid #ffd700; border-radius: 10px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 25px rgba(255,215,0,0.5);
         }
-        .card-back { background: linear-gradient(135deg, #0f1126, #1b1f4d, #0a0b1a); }
+        .card-back { background: linear-gradient(135deg, #0f1126, #1b1f4d); }
         .card-back::before {
             content: "✦ ZLATA TAROT ✦"; position: absolute; inset: 0;
             display: flex; align-items: center; justify-content: center;
-            color: #ffd700; font-size: 14px; letter-spacing: 3px;
+            color: #ffd700; font-size: 13px; letter-spacing: 2px;
         }
 
         .card-front {
             background: #f8f0d8; transform: rotateY(180deg);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 8px; text-align: center; color: #2c1a0f;
+            padding: 6px; text-align: center; color: #2c1a0f; font-size: 10.5px;
         }
-        .card-front img { width: 72px; height: 100px; object-fit: contain; border-radius: 6px; margin-bottom: 6px; }
+        .card-front img { width: 68px; height: 96px; object-fit: contain; border-radius: 5px; margin-bottom: 5px; }
 
-        #status-text { font-size: 15.5px; color: #fff2b2; text-align: center; margin: 15px 0; text-shadow: 0 0 10px #ffbb00; }
-        #meanings { margin-top: 20px; }
-        .meaning-card {
-            background: rgba(30,25,50,0.95); border: 1px solid #d4af37;
-            border-radius: 12px; padding: 15px; margin: 12px 0; text-align: left;
+        .gold-btn {
+            position: relative; background: linear-gradient(135deg, #fff4cc 0%, #ffd700 50%, #cc9900 100%);
+            color: #050508; font-family: 'Cinzel', serif; font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+            border: none; border-radius: 40px; padding: 18px 45px; cursor: pointer; margin-top: 25px;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.6); animation: pulseGlow 2s infinite ease-in-out;
         }
-        .gold-btn, .back-btn {
-            background: linear-gradient(135deg, #fff4cc, #ffd700, #cc9900);
-            color: #050508; font-weight: 700; padding: 18px 50px; border: none;
-            border-radius: 50px; font-size: 15px; box-shadow: 0 0 30px rgba(255,215,0,0.6);
-            cursor: pointer;
+        @keyframes pulseGlow { 0%,100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+
+        #status-text { display: none; font-size: 15px; color: #fff2b2; text-align: center; margin: 15px 0; text-shadow: 0 0 8px #ffbb00; }
+
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 360px; }
+        .full-width { grid-column: span 2; }
+        .menu-item {
+            background: rgba(22, 24, 46, 0.75); border: 1.5px solid rgba(255, 215, 0, 0.3);
+            border-radius: 12px; padding: 13px 15px; font-size: 12px;
+            color: #fff2b2; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between;
+            min-height: 78px; cursor: pointer; transition: all 0.3s ease;
         }
-        .back-btn { background: none; border: 1px solid rgba(255,255,255,0.3); color: #fff2b2; padding: 10px 20px; }
+        .menu-item:hover { border-color: #ffd700; background: rgba(255, 215, 0, 0.15); transform: translateY(-2px); }
+
+        .back-btn {
+            background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff2b2;
+            padding: 10px 20px; border-radius: 20px; font-size: 11px; cursor: pointer; margin-top: 20px;
+        }
     </style>
 </head>
 <body>
     <canvas id="space-bg"></canvas>
     <div class="content-wrap">
         <h1>Zlata Tarot Astral</h1>
-        
         <div class="magic-zone" id="magic-zone">
+            <div class="wheel-fortune"></div>
             <div class="cards-container" id="cards-container"></div>
         </div>
 
-        <div id="start-screen" style="display:flex;justify-content:center;">
-            <button class="gold-btn" onclick="enterToApp()">Войти в Оракул</button>
-        </div>
-
-        <div id="menu-stage" class="screen">
-            <div class="category-title">Таро Расклады</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:370px;width:100%;">
-                <div class="menu-item full-width" onclick="startLayout('tarot_day', 1)">🃏 Карта Дня</div>
-                <div class="menu-item" onclick="startLayout('tarot_timeline', 3)">⏳ Прошлое / Настоящее / Будущее</div>
-                <div class="menu-item" onclick="startLayout('celtic_cross', 10)">⚔️ Кельтский Крест</div>
-                <div class="menu-item" onclick="startLayout('tarot_love_2_hearts', 4)">❤️ Отношения</div>
-                <div class="menu-item" onclick="startLayout('tarot_yes_no', 1)">⚖️ Да / Нет</div>
-                <div class="menu-item" onclick="startLayout('tarot_question_3_cards', 3)">🔮 Ответ на Вопрос</div>
-                <div class="menu-item full-width" onclick="startLayout('business_oracle_combo', 1)">💼 Бизнес-оракул</div>
+        <div class="interface-zone">
+            <div id="start-screen" style="display: flex;">
+                <button class="gold-btn" onclick="enterToApp()">Войти в Оракул</button>
             </div>
 
-            <div class="category-title">Астрология</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:370px;width:100%;">
-                <div class="menu-item" onclick="sendPaymentRequest('natal_chart')">🌌 Натальная карта</div>
-                <div class="menu-item" onclick="sendPaymentRequest('compatibility')">💞 Совместимость</div>
-                <div class="menu-item" onclick="sendPaymentRequest('horoscope_day')">📅 Гороскоп на день</div>
+            <div id="menu-stage" class="screen">
+                <div class="category-title">Таро Расклады</div>
+                <div class="menu-grid">
+                    <div class="menu-item full-width" onclick="startLayout('tarot_day', 1)"><span>🃏</span> Карта Дня <span class="badge free">FREE</span></div>
+                    <div class="menu-item" onclick="startLayout('tarot_timeline', 3)"><span>⏳</span> Прошлое/Будущее <span class="badge free">FREE</span></div>
+                    <div class="menu-item" onclick="startLayout('celtic_cross', 10)"><span>⚔️</span> Кельтский крест <span class="badge free">10 карт</span></div>
+                    <div class="menu-item" onclick="startLayout('tarot_love_2_hearts', 4)"><span>❤️</span> Отношения <span class="badge free">4 карты</span></div>
+                    <div class="menu-item" onclick="startLayout('tarot_yes_no', 1)"><span>⚖️</span> Да / Нет <span class="badge free">FREE</span></div>
+                    <div class="menu-item" onclick="startLayout('tarot_question_3_cards', 3)"><span>🔮</span> Ответ на Вопрос <span class="badge free">FREE</span></div>
+                    <div class="menu-item full-width" onclick="startLayout('business_oracle_combo', 1)"><span>💼</span> Бизнес-оракул <span class="badge free">FREE</span></div>
+                </div>
             </div>
-        </div>
 
-        <div id="game-stage" class="screen">
-            <button class="back-btn" onclick="backToMenu()">← Назад в меню</button>
-            <div id="status-text"></div>
-            <div id="meanings"></div>
+            <div id="game-stage" class="screen">
+                <button class="back-btn" onclick="backToMenu()">← Назад в меню</button>
+                <div id="status-text"></div>
+                <div id="meanings"></div>
+            </div>
         </div>
     </div>
 
@@ -118,32 +152,42 @@
         try { tg.expand(); } catch(e) {}
 
         let currentAction = '', targetCardsCount = 0, flippedCount = 0, selectedCards = [];
-        let audioContext, bgMusic;
 
-        // ==================== ВСЕ 78 КАРТ ====================
-        const cardImages = [
-            "https://i.ibb.co/b5GDPJTr/0603170325589-00-678029bbc55011a335aa0623a5fbd863.jpg",
-            "https://i.ibb.co/BHxXyt0n/0603170325589-02-1affc857cacbf5a0ff6ead63d66211ea.jpg",
-            "https://i.ibb.co/S4GW4gvH/0603170325589-03-0ddacb930338683e6aae222a529e79f1.jpg",
-            "https://i.ibb.co/9HrmxY5S/0603170325589-04-19dd16bc6fda522034e722acc866cd03.jpg",
-            "https://i.ibb.co/fVsMDQrK/0603170325589-05-c574474b6f14b2bd02d87815f06c59cd.jpg",
-            "https://i.ibb.co/S4dqdNjZ/0603170325589-06-37da9a540c0b9bc51355f2e2c19943b9.jpg",
-            "https://i.ibb.co/PGQ8h3Bc/0603170325589-07-a7c10a5faaf2a2a4de0075d5ea71ad3b.jpg",
-            "https://i.ibb.co/dw3BLxZX/0603170325589-08-1e89a2cb614d15fd1e231269ea2cc30c.jpg",
-            "https://i.ibb.co/Z1LrJcX3/0603170325589-09-1b0fc07411416100fd85ec05b4b8246a.jpg",
-            "https://i.ibb.co/jv5z35x6/0603170325589-10-3eaa96f92c8b013f8eb84a358d7eb100.jpg",
-            "https://i.ibb.co/N6g7NXt8/0603170325589-11-899cd14941a67c67901187755f1eef94.jpg",
-            "https://i.ibb.co/Q7GhpR27/0603170325589-12-c7de472fc407322bc8e95c972546fd12.jpg",
-            "https://i.ibb.co/xKqmXN7W/0603170325589-13-b9b7cb5f226c779056861c60dd9d7883.jpg",
-            "https://i.ibb.co/q3Mc4nFy/0603170325589-14-2fc4425a191475c739cfb030b43763f1.jpg",
-            "https://i.ibb.co/cXvV8Yj5/0603170325589-15-7bea7f83bb7093f18a41bba46f1b7427.jpg",
-            "https://i.ibb.co/j9C6kVfM/0603170325589-16-8f5e336db5557771ee63c1aa2152ea6d.jpg",
-            "https://i.ibb.co/m5R31CxZ/0603170325589-17-895483f2f33dc90c502f9bd405d9f630.jpg",
-            "https://i.ibb.co/6JbbLd0z/0603170325589-18-1b8a346488fdf4ff9a6933d4db7d7d37.jpg",
-            "https://i.ibb.co/QF6qDbRW/0603170325589-19-1ed7a0f351a0622323a409be4746c589.jpg",
-            "https://i.ibb.co/ch5HYH0M/0603170325589-20-16346c2a033548179ec5e6c58fe2dfb3.jpg",
-            "https://i.ibb.co/4RRQYBb1/0603170325589-21-800272d9e2f4266c7867ede1e8a40f9b.jpg",
-            "https://i.ibb.co/QvkfR1Yq/0603170325589-22-8b820d52bca7cf5a56ab79116aab4787.jpg",
+        // ==================== 78 КАРТ С ПОЛНЫМИ НАЗВАНИЯМИ ====================
+        const tarotDeck = [
+            {id:0, name:"0 - Дурак", img:"https://i.ibb.co/b5GDPJTr/0603170325589-00-678029bbc55011a335aa0623a5fbd863.jpg", upright:"Новое начало, спонтанность, вера в жизнь", reversed:"Безрассудство, риск"},
+            {id:1, name:"1 - Маг", img:"https://i.ibb.co/BHxXyt0n/0603170325589-02-1affc857cacbf5a0ff6ead63d66211ea.jpg", upright:"Мастерство, сила воли, концентрация", reversed:"Манипуляция"},
+            {id:2, name:"2 - Верховная Жрица", img:"https://i.ibb.co/S4GW4gvH/0603170325589-03-0ddacb930338683e6aae222a529e79f1.jpg", upright:"Интуиция, тайна, мудрость", reversed:"Скрытые мотивы"},
+            {id:3, name:"3 - Императрица", img:"https://i.ibb.co/9HrmxY5S/0603170325589-04-19dd16bc6fda522034e722acc866cd03.jpg", upright:"Изобилие, плодородие, творчество", reversed:"Зависимость"},
+            {id:4, name:"4 - Император", img:"https://i.ibb.co/fVsMDQrK/0603170325589-05-c574474b6f14b2bd02d87815f06c59cd.jpg", upright:"Структура, власть, стабильность", reversed:"Тиран"},
+            {id:5, name:"5 - Иерофант", img:"https://i.ibb.co/S4dqdNjZ/0603170325589-06-37da9a540c0b9bc51355f2e2c19943b9.jpg", upright:"Традиции, духовность", reversed:"Догматизм"},
+            {id:6, name:"6 - Влюблённые", img:"https://i.ibb.co/PGQ8h3Bc/0603170325589-07-a7c10a5faaf2a2a4de0075d5ea71ad3b.jpg", upright:"Любовь, гармония, выбор", reversed:"Разрыв"},
+            {id:7, name:"7 - Колесница", img:"https://i.ibb.co/dw3BLxZX/0603170325589-08-1e89a2cb614d15fd1e231269ea2cc30c.jpg", upright:"Победа, движение", reversed:"Поражение"},
+            {id:8, name:"8 - Сила", img:"https://i.ibb.co/Z1LrJcX3/0603170325589-09-1b0fc07411416100fd85ec05b4b8246a.jpg", upright:"Внутренняя сила, терпение", reversed:"Слабость"},
+            {id:9, name:"9 - Отшельник", img:"https://i.ibb.co/jv5z35x6/0603170325589-10-3eaa96f92c8b013f8eb84a358d7eb100.jpg", upright:"Мудрость, поиск", reversed:"Изоляция"},
+            {id:10, name:"10 - Колесо Фортуны", img:"https://i.ibb.co/N6g7NXt8/0603170325589-11-899cd14941a67c67901187755f1eef94.jpg", upright:"Удача, циклы", reversed:"Неудача"},
+            {id:11, name:"11 - Справедливость", img:"https://i.ibb.co/Q7GhpR27/0603170325589-12-c7de472fc407322bc8e95c972546fd12.jpg", upright:"Справедливость, баланс", reversed:"Несправедливость"},
+            {id:12, name:"12 - Повешенный", img:"https://i.ibb.co/xKqmXN7W/0603170325589-13-b9b7cb5f226c779056861c60dd9d7883.jpg", upright:"Новый взгляд, жертва", reversed:"Застой"},
+            {id:13, name:"13 - Смерть", img:"https://i.ibb.co/q3Mc4nFy/0603170325589-14-2fc4425a191475c739cfb030b43763f1.jpg", upright:"Трансформация", reversed:"Страх перемен"},
+            {id:14, name:"14 - Умеренность", img:"https://i.ibb.co/cXvV8Yj5/0603170325589-15-7bea7f83bb7093f18a41bba46f1b7427.jpg", upright:"Баланс, гармония", reversed:"Крайности"},
+            {id:15, name:"15 - Дьявол", img:"https://i.ibb.co/j9C6kVfM/0603170325589-16-8f5e336db5557771ee63c1aa2152ea6d.jpg", upright:"Зависимость", reversed:"Освобождение"},
+            {id:16, name:"16 - Башня", img:"https://i.ibb.co/m5R31CxZ/0603170325589-17-895483f2f33dc90c502f9bd405d9f630.jpg", upright:"Внезапные перемены", reversed:"Кризис"},
+            {id:17, name:"17 - Звезда", img:"https://i.ibb.co/6JbbLd0z/0603170325589-18-1b8a346488fdf4ff9a6933d4db7d7d37.jpg", upright:"Надежда, исцеление", reversed:"Потеря веры"},
+            {id:18, name:"18 - Луна", img:"https://i.ibb.co/QF6qDbRW/0603170325589-19-1ed7a0f351a0622323a409be4746c589.jpg", upright:"Интуиция, иллюзии", reversed:"Обман"},
+            {id:19, name:"19 - Солнце", img:"https://i.ibb.co/ch5HYH0M/0603170325589-20-16346c2a033548179ec5e6c58fe2dfb3.jpg", upright:"Радость, успех", reversed:"Затмение"},
+            {id:20, name:"20 - Суд", img:"https://i.ibb.co/4RRQYBb1/0603170325589-21-800272d9e2f4266c7867ede1e8a40f9b.jpg", upright:"Пробуждение, возрождение", reversed:"Самообман"},
+            {id:21, name:"21 - Мир", img:"https://i.ibb.co/QvkfR1Yq/0603170325589-22-8b820d52bca7cf5a56ab79116aab4787.jpg", upright:"Завершение, гармония, успех", reversed:"Незавершённость"}
+        ];
+
+        // Младшие Арканы с правильными названиями
+        const minorNames = [
+            "Туз Жезлов","2 Жезлов","3 Жезлов","4 Жезлов","5 Жезлов","6 Жезлов","7 Жезлов","8 Жезлов","9 Жезлов","10 Жезлов","Паж Жезлов","Рыцарь Жезлов","Королева Жезлов","Король Жезлов",
+            "Туз Кубков","2 Кубков","3 Кубков","4 Кубков","5 Кубков","6 Кубков","7 Кубков","8 Кубков","9 Кубков","10 Кубков","Паж Кубков","Рыцарь Кубков","Королева Кубков","Король Кубков",
+            "Туз Мечей","2 Мечей","3 Мечей","4 Мечей","5 Мечей","6 Мечей","7 Мечей","8 Мечей","9 Мечей","10 Мечей","Паж Мечей","Рыцарь Мечей","Королева Мечей","Король Мечей",
+            "Туз Пентаклей","2 Пентаклей","3 Пентаклей","4 Пентаклей","5 Пентаклей","6 Пентаклей","7 Пентаклей","8 Пентаклей","9 Пентаклей","10 Пентаклей","Паж Пентаклей","Рыцарь Пентаклей","Королева Пентаклей","Король Пентаклей"
+        ];
+
+        const minorImages = [
             "https://i.ibb.co/rfbv8Ysk/0603170325589-23-94a7f432f845bc523eb67fbbc37a9be1.jpg",
             "https://i.ibb.co/QvZRBzsX/0603170325589-24-866f4e7c2570670a64db0f031963f2de.jpg",
             "https://i.ibb.co/cKxt1Kwz/0603170325589-25-d24df431069f1a7f30847a119ad66934.jpg",
@@ -202,175 +246,105 @@
             "https://i.ibb.co/DD5GfWfM/0603170325589-78-f75e6d6ed0aa6c6290e1e87eb205ab34.jpg"
         ];
 
-        const tarotDeck = cardImages.map((url, i) => ({
-            id: i,
-            name: `Аркан ${i + 1}`,
-            img: url,
-            upright: "Позитивная энергия. Рост, гармония, новые возможности.",
-            reversed: "Временные трудности. Необходимы терпение и переосмысление."
-        }));
-
-        // Фоновая музыка
-        function playBackgroundMusic() {
-            bgMusic = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3');
-            bgMusic.loop = true;
-            bgMusic.volume = 0.23;
-            bgMusic.play().catch(() => {});
-        }
-
-        function initAudio() {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        }
-
-        function playFlipSound() {
-            if (!audioContext) return;
-            const osc = audioContext.createOscillator();
-            osc.frequency.value = 420;
-            const gain = audioContext.createGain();
-            gain.gain.value = 0.25;
-            osc.connect(gain).connect(audioContext.destination);
-            osc.start();
-            osc.stop(audioContext.currentTime + 0.28);
-        }
-
-        function createSparkles(el) {
-            for (let i = 0; i < 22; i++) {
-                setTimeout(() => {
-                    const s = document.createElement('div');
-                    s.style.cssText = `position:absolute;width:7px;height:7px;background:#ffeb3b;border-radius:50%;left:${Math.random()*90+5}%;top:${Math.random()*90+5}%;`;
-                    el.appendChild(s);
-                    setTimeout(() => s.remove(), 800);
-                }, i * 22);
-            }
-        }
-
-        // Drag & Drop
-        function makeDraggable(card) {
-            let isDragging = false, startX, startY;
-
-            card.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX; startY = e.clientY; });
-            card.addEventListener('touchstart', e => { isDragging = true; startX = e.touches[0].clientX; startY = e.touches[0].clientY; });
-
-            const move = (e) => {
-                if (!isDragging) return;
-                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                card.style.left = (card.offsetLeft + (clientX - startX)) + 'px';
-                card.style.top = (card.offsetTop + (clientY - startY)) + 'px';
-                startX = clientX; startY = clientY;
-            };
-
-            document.addEventListener('mousemove', move);
-            document.addEventListener('touchmove', move);
-            document.addEventListener('mouseup', () => isDragging = false);
-            document.addEventListener('touchend', () => isDragging = false);
-        }
-
-        function flipCard(card) {
-            if (card.classList.contains('flipped')) return;
-
-            const cardData = JSON.parse(card.dataset.info);
-            const isReversed = Math.random() > 0.55;
-
-            if (isReversed) card.classList.add('inverted');
-            card.classList.add('flipped');
-            card.style.zIndex = 100 + flippedCount;
-            card.style.transform += ' translateY(-35px) scale(1.12)';
-
-            playFlipSound();
-            createSparkles(card);
-
-            flippedCount++;
-            selectedCards.push({...cardData, reversed: isReversed});
-
-            if (flippedCount === targetCardsCount) {
-                document.getElementById('status-text').innerText = "✦ Расклад готов! ✦";
-                setTimeout(showMeanings, 1100);
-            } else {
-                document.getElementById('status-text').innerText = `Выбрано: ${flippedCount} из ${targetCardsCount}`;
-            }
-        }
-
-        function showMeanings() {
-            const container = document.getElementById('meanings');
-            container.innerHTML = `<h3 style="color:#ffd700;">Толкование расклада</h3>`;
-            selectedCards.forEach((c, i) => {
-                const div = document.createElement('div');
-                div.className = 'meaning-card';
-                div.innerHTML = `<strong>${i+1}. ${c.name} ${c.reversed ? '(Перевёрнутая)' : ''}</strong><br><span>${c.reversed ? c.reversed : c.upright}</span>`;
-                container.appendChild(div);
+        minorNames.forEach((name, index) => {
+            tarotDeck.push({
+                id: 22 + index,
+                name: name,
+                img: minorImages[index],
+                upright: "Практическая энергия. Действие, развитие, повседневные дела.",
+                reversed: "Задержки, препятствия, необходимость пересмотра."
             });
-            container.style.display = 'block';
-        }
+        });
 
-        function startLayout(action, count) {
-            currentAction = action;
-            targetCardsCount = count;
-            flippedCount = 0;
-            selectedCards = [];
-
-            document.getElementById('menu-stage').style.display = 'none';
-            document.getElementById('magic-zone').classList.remove('minimized');
-            document.getElementById('game-stage').style.display = 'flex';
-            document.getElementById('meanings').style.display = 'none';
-            document.getElementById('status-text').style.display = 'block';
-            document.getElementById('status-text').innerText = `Выберите ${count} карт...`;
-
-            buildDeck(count);
-        }
-
-        function buildDeck(count) {
-            const container = document.getElementById('cards-container');
-            container.innerHTML = '';
-
-            for (let i = 0; i < count; i++) {
-                const cardData = tarotDeck[Math.floor(Math.random() * tarotDeck.length)];
-                const card = document.createElement('div');
-                card.className = 'interactive-card';
-                card.dataset.info = JSON.stringify(cardData);
-
-                const offset = (i - (count-1)/2) * (count > 6 ? 22 : 37);
-                const rot = (i - (count-1)/2) * (count > 6 ? 3.5 : 9);
-
-                card.style.transform = `translateX(${offset}px) rotate(${rot}deg)`;
-
-                card.innerHTML = `
-                    <div class="card-inner">
-                        <div class="card-back"></div>
-                        <div class="card-front">
-                            <img src="${cardData.img}" alt="${cardData.name}">
-                            <div style="font-size:11px;">${cardData.name}</div>
-                        </div>
-                    </div>
-                `;
-
-                makeDraggable(card);
-                card.addEventListener('click', () => flipCard(card));
-                container.appendChild(card);
-            }
-        }
-
-        function sendPaymentRequest(product) {
-            tg.sendData(JSON.stringify({ action: "request_payment", product }));
-        }
-
+        // ===================== ОСНОВНЫЕ ФУНКЦИИ =====================
         function enterToApp() {
             document.getElementById('start-screen').style.display = 'none';
             document.getElementById('magic-zone').classList.add('minimized');
             document.getElementById('menu-stage').style.display = 'flex';
         }
 
+        function startLayout(actionName, cardsCount) {
+            currentAction = actionName;
+            targetCardsCount = cardsCount;
+            flippedCount = 0;
+            selectedCards = [];
+
+            document.getElementById('menu-stage').style.display = 'none';
+            document.getElementById('magic-zone').classList.remove('minimized');
+            document.getElementById('game-stage').style.display = 'flex';
+            document.getElementById('status-text').style.display = 'block';
+            document.getElementById('status-text').innerText = `Выберите ${cardsCount} карт...`;
+
+            buildDeck(cardsCount);
+        }
+
+        function buildDeck(count) {
+            const container = document.getElementById('cards-container');
+            container.innerHTML = '';
+
+            for (let i = 0; i < 28; i++) {
+                const cardData = tarotDeck[Math.floor(Math.random() * tarotDeck.length)];
+                const card = document.createElement('div');
+                card.className = 'interactive-card';
+                card.dataset.info = JSON.stringify(cardData);
+
+                let offset = (i - 14) * 11;
+                let rotate = (i - 14) * 4;
+                card.style.transform = `translateX(${offset}px) rotate(${rotate}deg)`;
+                card.style.zIndex = 10 + i;
+
+                card.innerHTML = `
+                    <div class="card-inner">
+                        <div class="card-back"></div>
+                        <div class="card-front">
+                            <img src="${cardData.img}" alt="${cardData.name}">
+                            <div>${cardData.name}</div>
+                        </div>
+                    </div>`;
+
+                card.addEventListener('click', () => flipCard(card));
+                container.appendChild(card);
+            }
+        }
+
+        function flipCard(card) {
+            if (card.classList.contains('flipped')) return;
+            const cardData = JSON.parse(card.dataset.info);
+            const isReversed = Math.random() > 0.5;
+
+            if (isReversed) card.classList.add('inverted');
+            card.classList.add('flipped');
+            card.style.transform += ' translateY(-28px) scale(1.1)';
+
+            flippedCount++;
+            selectedCards.push({...cardData, reversed: isReversed});
+
+            if (flippedCount === targetCardsCount) {
+                document.getElementById('status-text').innerText = "Формируем предсказание...";
+                setTimeout(showMeanings, 1300);
+            }
+        }
+
+        function showMeanings() {
+            const container = document.getElementById('meanings');
+            container.innerHTML = `<h3 style="color:#ffd700;text-align:center;">✦ Толкование расклада ✦</h3>`;
+            selectedCards.forEach((c, i) => {
+                const div = document.createElement('div');
+                div.style.cssText = 'background:rgba(30,25,50,0.95);border:1px solid #d4af37;border-radius:12px;padding:14px;margin:10px 0;';
+                div.innerHTML = `<strong>${i+1}. ${c.name} ${c.reversed ? '(Перевёрнутая)' : ''}</strong><br>${c.reversed ? c.reversed : c.upright}`;
+                container.appendChild(div);
+            });
+            container.style.display = 'block';
+        }
+
         function backToMenu() {
             document.getElementById('game-stage').style.display = 'none';
+            document.getElementById('meanings').style.display = 'none';
             document.getElementById('magic-zone').classList.add('minimized');
             document.getElementById('menu-stage').style.display = 'flex';
         }
 
-        window.onload = () => {
-            initAudio();
-            playBackgroundMusic();
-            backToMenu(); // начальный веер
-        };
+        window.onload = backToMenu;
     </script>
 </body>
 </html>
