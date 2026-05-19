@@ -126,7 +126,7 @@
         .menu-item:hover { border-color: #d4af37; background: rgba(212, 175, 55, 0.1); transform: translateY(-2px); }
         .menu-item .title-box { display: flex; align-items: center; gap: 6px; font-weight: 600; width: 100%; }
         
-        .badge { font-size: 9px; padding: 2px 6px; border-radius: 8px; font-weight: bold; margin-top: 8px; align-self: flex-end; }
+        .badge { font-size: 9px; padding: 2px 6px; border-radius: 8px; font-weight: bold; margin-top: 8px; align- its-self: flex-end; }
         .badge.free { background: rgba(76, 175, 80, 0.15); color: #81c784; border: 1px solid rgba(76, 175, 80, 0.4); }
         .badge.premium { background: rgba(212, 175, 55, 0.1); color: #ffe58f; border: 1px solid rgba(212, 175, 55, 0.4); }
 
@@ -155,7 +155,8 @@
         </div>
 
         <div class="interface-zone">
-            <button class="gold-btn" id="enter-btn" onclick="handleStartButtonClick(event)">Войти в Оракул</button>
+            <!-- Упрощенный клик для максимальной совместимости -->
+            <button class="gold-btn" id="enter-btn" onclick="handleStartButtonClick()">Войти в Оракул</button>
             
             <div id="status-text">Выберите карты...</div>
 
@@ -230,8 +231,8 @@
         let flippedCount = 0;
         let selectedCards = [];
 
-        function handleStartButtonClick(event) {
-            createSparks(event);
+        function handleStartButtonClick() {
+            createSparks();
             setTimeout(function() {
                 enterToApp();
             }, 300);
@@ -358,11 +359,12 @@
             }
         }
         
-        function createSparks(e) {
+        function createSparks() {
             if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
             
-            let clientX = e.clientX || (e.touches && e.touches[clientX]) || (window.innerWidth / 2);
-            let clientY = e.clientY || (e.touches && e.touches[clientY]) || (window.innerHeight - 100);
+            // Фиксированные координаты взрыва точно по центру нижней трети экрана (над кнопкой)
+            let clientX = window.innerWidth / 2;
+            let clientY = window.innerHeight - 120;
 
             for (let i = 0; i < 45; i++) {
                 let angle = Math.random() * Math.PI * 2;
