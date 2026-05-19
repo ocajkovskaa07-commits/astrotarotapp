@@ -159,7 +159,6 @@
         </div>
 
         <div class="interface-zone">
-            <!-- Единая функция на клик, которая сначала взрывает искры, а потом переключает экран -->
             <button class="gold-btn" id="enter-btn" onclick="handleStartButtonClick(event)">Войти в Оракул</button>
             
             <div id="status-text">Выберите карты...</div>
@@ -235,12 +234,8 @@
         let flippedCount = 0;
         let selectedCards = [];
 
-        // Новая функция управления кликом на старте
         function handleStartButtonClick(event) {
-            // 1. Немедленно пускаем искры и включаем Haptic
             createSparks(event);
-
-            // 2. Делаем контролируемую паузу в 300мс, чтобы искры успели красиво вылететь
             setTimeout(() => {
                 enterToApp();
             }, 300);
@@ -382,13 +377,12 @@
         function createSparks(e) {
             if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
             
-            // Рассчитываем координаты центра кнопки для красивого взрыва, если событие смазано
-            let clientX = e.clientX || (e.touches && e.touches[0].clientX) || (window.innerWidth / 2);
-            let clientY = e.clientY || (e.touches && e.touches[0].clientY) || (window.innerHeight - 100);
+            let clientX = e.clientX || (e.touches && e.touches.clientX) || (window.innerWidth / 2);
+            let clientY = e.clientY || (e.touches && e.touches.clientY) || (window.innerHeight - 100);
 
             for (let i = 0; i < 45; i++) {
                 let angle = Math.random() * Math.PI * 2;
-                let speed = Math.random() * 5 + 2.5; // Слегка увеличили скорость разлета частиц
+                let speed = Math.random() * 5 + 2.5;
                 sparks.push({
                     x: clientX, y: clientY, size: Math.random() * 2.5 + 1,
                     speedX: Math.cos(angle) * speed, speedY: Math.sin(angle) * speed - 1.5,
