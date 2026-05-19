@@ -126,7 +126,7 @@
         .menu-item:hover { border-color: #d4af37; background: rgba(212, 175, 55, 0.1); transform: translateY(-2px); }
         .menu-item .title-box { display: flex; align-items: center; gap: 6px; font-weight: 600; width: 100%; }
         
-        .badge { font-size: 9px; padding: 2px 6px; border-radius: 8px; font-weight: bold; margin-top: 8px; align- its-self: flex-end; }
+        .badge { font-size: 9px; padding: 2px 6px; border-radius: 8px; font-weight: bold; margin-top: 8px; align-self: flex-end; }
         .badge.free { background: rgba(76, 175, 80, 0.15); color: #81c784; border: 1px solid rgba(76, 175, 80, 0.4); }
         .badge.premium { background: rgba(212, 175, 55, 0.1); color: #ffe58f; border: 1px solid rgba(212, 175, 55, 0.4); }
 
@@ -155,7 +155,7 @@
         </div>
 
         <div class="interface-zone">
-            <!-- Упрощенный клик для максимальной совместимости -->
+            <!-- Железобетонная кнопка без лишних JS-параметров -->
             <button class="gold-btn" id="enter-btn" onclick="handleStartButtonClick()">Войти в Оракул</button>
             
             <div id="status-text">Выберите карты...</div>
@@ -362,7 +362,6 @@
         function createSparks() {
             if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
             
-            // Фиксированные координаты взрыва точно по центру нижней трети экрана (над кнопкой)
             let clientX = window.innerWidth / 2;
             let clientY = window.innerHeight - 120;
 
