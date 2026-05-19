@@ -30,7 +30,6 @@
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), margin 0.6s ease, height 0.6s ease;
         }
         
-        /* Класс для уменьшения графики при переходе в меню */
         .magic-zone.minimized {
             transform: scale(0.65) translateY(-30px);
             margin: 0 auto;
@@ -81,7 +80,6 @@
         .card-front .symbol { font-size: 26px; text-shadow: 0 0 8px #d4af37; margin-bottom: 5px; }
         .card-front .card-index { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
 
-        /* Начальное веерное положение для интро-экрана */
         .card-pos-1 { transform: translateX(-35px) rotate(-10deg); }
         .card-pos-2 { transform: translateY(-5px) scale(1.03); z-index: 4; }
         .card-pos-3 { transform: translateX(35px) rotate(10deg); }
@@ -91,7 +89,6 @@
         /* --- ЗОНА ИНТЕРФЕЙСА И КНОПОК --- */
         .interface-zone { width: 100%; display: flex; flex-direction: column; align-items: center; }
 
-        /* Кнопка входа */
         .gold-btn {
             position: relative; background: linear-gradient(135deg, #ffe58f 0%, #d4af37 40%, #aa7c11 100%);
             color: #0b0b0d; font-family: 'Cinzel', serif; font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
@@ -113,10 +110,9 @@
             100% { box-shadow: 0 0 0 20px rgba(212, 175, 55, 0); opacity: 0; }
         }
 
-        /* Текст состояния для расклада */
         #status-text { display: none; font-size: 14px; color: #f3e5ab; text-align: center; margin: 10px 0; min-height: 20px; letter-spacing: 1px;}
 
-        /* --- ГЛАВНОЕ МЕНЮ (скрыто на старте) --- */
+        /* --- ГЛАВНОЕ МЕНЮ --- */
         .stage-container { display: none; width: 100%; flex-direction: column; align-items: center; opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
         .stage-container.visible { display: flex; opacity: 1; transform: translateY(0); }
         
@@ -153,11 +149,9 @@
     <div class="content-wrap">
         <h1 id="main-title">Zlata Tarot Astral</h1>
 
-        <!-- Центральная графика (общая для интро и для раскладов) -->
         <div class="magic-zone" id="magic-zone">
             <div class="wheel-fortune"></div>
             <div class="cards-container" id="cards-container">
-                <!-- Стартовые декоративные карты (для красивого фона) -->
                 <div class="interactive-card card-pos-1" id="intro-c1"><div class="card-inner"><div class="card-back"></div></div></div>
                 <div class="interactive-card card-pos-2" id="intro-c2"><div class="card-inner"><div class="card-back"></div></div></div>
                 <div class="interactive-card card-pos-3" id="intro-c3"><div class="card-inner"><div class="card-back"></div></div></div>
@@ -165,12 +159,11 @@
         </div>
 
         <div class="interface-zone">
-            <!-- СТАРТОВАЯ КНОПКА ДЛЯ ПОДДКЛЮЧЕНИЯ ПЕРВОГО ЭКРАНА -->
-            <button class="gold-btn" id="enter-btn" onmousedown="createSparks(event)" ontouchstart="createSparks(event)" onclick="enterToApp()">Войти в Оракул</button>
+            <!-- Единая функция на клик, которая сначала взрывает искры, а потом переключает экран -->
+            <button class="gold-btn" id="enter-btn" onclick="handleStartButtonClick(event)">Войти в Оракул</button>
             
             <div id="status-text">Выберите карты...</div>
 
-            <!-- ================= ЭКРАН С ПЕРЕЧНЕМ РАСКЛАДОВ ================= -->
             <div id="menu-stage" class="stage-container">
                 <div class="category-title">Таро Расклады</div>
                 <div class="menu-grid">
@@ -229,9 +222,7 @@
                 </div>
             </div>
 
-            <!-- ================= КНОПКА НАЗАД ДЛЯ ИНТЕРАКТИВНОГО ЭКРАНА ================= -->
             <button id="back-btn" class="back-btn" style="display: none;" onclick="backToMenu()">← Назад в меню</button>
-
         </div>
     </div>
 
@@ -244,20 +235,26 @@
         let flippedCount = 0;
         let selectedCards = [];
 
-        // ФУНКЦИЯ ПЕРЕХОДА ИЗ ИНТРО В ГЛАВНОЕ МЕНЮ
+        // Новая функция управления кликом на старте
+        function handleStartButtonClick(event) {
+            // 1. Немедленно пускаем искры и включаем Haptic
+            createSparks(event);
+
+            // 2. Делаем контролируемую паузу в 300мс, чтобы искры успели красиво вылететь
+            setTimeout(() => {
+                enterToApp();
+            }, 300);
+        }
+
         function enterToApp() {
             document.getElementById('enter-btn').style.display = 'none';
-            
-            // Запускаем красивое сжатие Колеса Фортуны и карт наверх
             document.getElementById('magic-zone').classList.add('minimized');
 
-            // Показываем меню
             const menu = document.getElementById('menu-stage');
             menu.style.display = 'flex';
             setTimeout(() => { menu.classList.add('visible'); }, 50);
         }
 
-        // ВЫБОР РАСКЛАДА ИЗ МЕНЮ
         function startLayout(actionName, tariff, cardsCount) {
             currentAction = actionName;
             targetCardsCount = cardsCount;
@@ -270,7 +267,6 @@
 
             if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
             
-            // Скрываем меню, разворачиваем графику обратно в полный размер для интерактивной игры
             document.getElementById('menu-stage').style.display = 'none';
             document.getElementById('menu-stage').classList.remove('visible');
             document.getElementById('magic-zone').classList.remove('minimized');
@@ -287,10 +283,9 @@
             tg.close();
         }
 
-        // СБОРКА ИГРОВОЙ КОЛОДЫ КАРТ
         function buildDeck(count) {
             const container = document.getElementById('cards-container');
-            container.innerHTML = ''; // Стираем стартовые декоративные карты
+            container.innerHTML = '';
             flippedCount = 0;
             selectedCards = [];
             document.getElementById('status-text').innerText = `Выберите ${count} ${count === 1 ? 'карту' : 'карт(ы)'}:`;
@@ -354,7 +349,6 @@
             document.getElementById('status-text').style.display = 'none';
             document.getElementById('back-btn').style.display = 'none';
             
-            // Возвращаем дефолтные три карты на интро-подложку
             const container = document.getElementById('cards-container');
             container.innerHTML = `
                 <div class="interactive-card card-pos-1"><div class="card-inner"><div class="card-back"></div></div></div>
@@ -384,22 +378,25 @@
                 });
             }
         }
+        
         function createSparks(e) {
             if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-            let clientX = e.clientX || (e.touches && e.touches.clientX);
-            let clientY = e.clientY || (e.touches && e.touches.clientY);
-            if (!clientX || !clientY) return;
+            
+            // Рассчитываем координаты центра кнопки для красивого взрыва, если событие смазано
+            let clientX = e.clientX || (e.touches && e.touches[0].clientX) || (window.innerWidth / 2);
+            let clientY = e.clientY || (e.touches && e.touches[0].clientY) || (window.innerHeight - 100);
 
-            for (let i = 0; i < 40; i++) {
+            for (let i = 0; i < 45; i++) {
                 let angle = Math.random() * Math.PI * 2;
-                let speed = Math.random() * 4 + 2;
+                let speed = Math.random() * 5 + 2.5; // Слегка увеличили скорость разлета частиц
                 sparks.push({
                     x: clientX, y: clientY, size: Math.random() * 2.5 + 1,
-                    speedX: Math.cos(angle) * speed, speedY: Math.sin(angle) * speed - 1,
-                    alpha: 1, decay: Math.random() * 0.02 + 0.015, color: Math.random() > 0.4 ? '#ffe58f' : '#d4af37'
+                    speedX: Math.cos(angle) * speed, speedY: Math.sin(angle) * speed - 1.5,
+                    alpha: 1, decay: Math.random() * 0.025 + 0.015, color: Math.random() > 0.4 ? '#ffe58f' : '#d4af37'
                 });
             }
         }
+        
         function drawSpace() {
             ctx.fillStyle = '#050508'; ctx.fillRect(0, 0, canvas.width, canvas.height);
             for (let i = 0; i < stars.length; i++) {
@@ -408,9 +405,9 @@
                 ctx.fillStyle = `rgba(243, 229, 171, ${alpha})`; ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); ctx.fill();
             }
             for (let i = sparks.length - 1; i >= 0; i--) {
-                let p = sparks[i]; p.x += p.speedX; p.y += p.speedY; p.speedY += 0.05; p.alpha -= p.decay;
+                let p = sparks[i]; p.x += p.speedX; p.y += p.speedY; p.speedY += 0.04; p.alpha -= p.decay;
                 if (p.alpha <= 0) { sparks.splice(i, 1); continue; }
-                ctx.save(); ctx.globalAlpha = p.alpha; ctx.shadowBlur = 8; ctx.shadowColor = p.color; ctx.fillStyle = p.color;
+                ctx.save(); ctx.globalAlpha = p.alpha; ctx.shadowBlur = 10; ctx.shadowColor = p.color; ctx.fillStyle = p.color;
                 ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill(); ctx.restore();
             }
             requestAnimationFrame(drawSpace);
