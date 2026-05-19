@@ -23,7 +23,7 @@
             margin: 10px 0 15px 0; text-align: center; text-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
         }
 
-        /* --- ЯРКОЕ ЗОЛОТОЕ КОЛЕСО ФОРТУНЫ И ЗОДИАК --- */
+        /* --- СВЕРХ-ЯРКОЕ ЗОЛОТОЕ КОЛЕСО И НЕОНОВЫЙ ЗОДИАК --- */
         .magic-zone {
             position: relative; display: flex; justify-content: center; align-items: center;
             width: 100%; max-width: 320px; height: 320px; margin: 20px auto;
@@ -37,18 +37,19 @@
 
         .wheel-fortune {
             position: absolute; width: 100%; height: 100%; border-radius: 50%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 200 200"><circle cx="100" cy="100" r="95" fill="none" stroke="%23ffd700" stroke-width="1.2" opacity="0.6"/><circle cx="100" cy="100" r="75" fill="none" stroke="%23ffd700" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.7"/><path d="M100,5 L100,195 M5,100 L195,100 M32.8,32.8 L167.2,167.2 M32.8,167.2 L167.2,32.8" stroke="%23ffd700" stroke-width="0.6" opacity="0.4"/></svg>');
-            border: 2px solid #ffd700; 
-            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.45));
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 200 200"><circle cx="100" cy="100" r="95" fill="none" stroke="%23ffd700" stroke-width="1.5" opacity="0.8"/><circle cx="100" cy="100" r="75" fill="none" stroke="%23ffd700" stroke-width="1.0" stroke-dasharray="3,2" opacity="0.9"/><path d="M100,5 L100,195 M5,100 L195,100 M32.8,32.8 L167.2,167.2 M32.8,167.2 L167.2,32.8" stroke="%23ffd700" stroke-width="0.6" opacity="0.5"/></svg>');
+            border: 2.5px solid #ffd700; 
+            filter: drop-shadow(0 0 18px rgba(255, 215, 0, 0.6));
             animation: spin 80s linear infinite;
         }
         
+        /* Мощное неоновое свечение цветных знаков зодиака */
         .wheel-fortune::before {
             content: '♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓';
-            position: absolute; width: 100%; height: 100%; color: #fff2b2; font-size: 16px;
+            position: absolute; width: 100%; height: 100%; color: #fff2b2; font-size: 17px;
             font-weight: bold; display: flex; align-items: center; justify-content: center;
             letter-spacing: 12px; padding-left: 12px;
-            text-shadow: 0 0 12px #ffbb00, 0 0 20px #ffd700;
+            text-shadow: 0 0 12px #ffbb00, 0 0 25px #ffd700, 0 0 35px #ffaa00;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
@@ -69,7 +70,7 @@
         .card-front, .card-back {
             position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
             border: 2px solid #ffd700; border-radius: 8px; overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.6), 0 0 15px rgba(255, 215, 0, 0.25);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6), 0 0 15px rgba(255, 215, 0, 0.35);
         }
         
         .card-back { 
@@ -83,7 +84,7 @@
             position: absolute; width: 80%; height: 86%;
             border: 1px dashed rgba(255, 215, 0, 0.5);
             border-radius: 5px; display: flex; align-items: center; justify-content: center;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 40 40"><polygon points="20,2 38,20 20,38 2,20" fill="none" stroke="%23ffd700" stroke-width="0.6" opacity="0.35"/><circle cx="20" cy="20" r="6" fill="none" stroke="%23ffd700" stroke-width="0.5" opacity="0.4"/></svg>') center/cover;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 40 40"><polygon points="20,2 38,20 20,38 2,20" fill="none" stroke="%23ffd700" stroke-width="0.6" opacity="0.4"/><circle cx="20" cy="20" r="6" fill="none" stroke="%23ffd700" stroke-width="0.5" opacity="0.5"/></svg>') center/cover;
         }
         
         .card-back::after {
@@ -99,12 +100,13 @@
         .card-front .symbol { font-size: 32px; filter: drop-shadow(0 0 8px rgba(212,175,55,0.6)); margin-bottom: 5px; }
         .card-front .card-index { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #7a5c38; }
 
-        /* Стартовый веер из 3-х карт */
         .card-pos-1 { transform: translateX(-35px) rotate(-10deg); }
         .card-pos-2 { transform: translateY(-5px) scale(1.03); z-index: 4; }
         .card-pos-3 { transform: translateX(35px) rotate(10deg); }
 
-        /* --- ИНТЕРФЕЙСНЫЕ СЛОИ --- */
+        @keyframes shimmer { 0% { transform: translate(-30%, -30%); } 100% { transform: translate(30%, 30%); } }
+
+        /* --- ИНТЕРФЕЙСНЫЕ СЛОИ И КНОПКА С СОЧНОЙ ПУЛЬСАЦИЕЙ --- */
         .interface-zone { width: 100%; display: flex; flex-direction: column; align-items: center; }
         .screen { display: none; width: 100%; flex-direction: column; align-items: center; }
 
@@ -112,15 +114,25 @@
             position: relative; background: linear-gradient(135deg, #fff4cc 0%, #ffd700 50%, #cc9900 100%);
             color: #050508; font-family: 'Cinzel', serif; font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
             border: none; border-radius: 40px; padding: 18px 45px; cursor: pointer; margin-top: 25px;
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.5); outline: none; overflow: hidden;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.5); outline: none; overflow: hidden;
             animation: pulseGlow 2s infinite ease-in-out; transition: all 0.4s ease;
         }
-        .gold-btn::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 40px; box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.6); animation: wavePulse 2s infinite ease-in-out; }
+        .gold-btn::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 40px; box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); animation: wavePulse 2s infinite ease-in-out; }
+        
+        @keyframes pulseGlow {
+            0% { transform: scale(1); box-shadow: 0 0 25px rgba(255, 215, 0, 0.5); }
+            50% { transform: scale(1.04); box-shadow: 0 0 45px rgba(255, 215, 0, 0.85); }
+            100% { transform: scale(1); box-shadow: 0 0 25px rgba(255, 215, 0, 0.5); }
+        }
+        @keyframes wavePulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.6); opacity: 1; }
+            100% { box-shadow: 0 0 0 25px rgba(255, 215, 0, 0); opacity: 0; }
+        }
 
         #status-text { display: none; font-size: 14px; color: #fff2b2; text-align: center; margin: 10px 0; min-height: 20px; letter-spacing: 1px; text-shadow: 0 0 5px #ffbb00;}
 
         /* --- ФИОЛЕТОВОЕ МЕНЮ РАСКЛАДОВ --- */
-        #menu-stage { max-width: 360px; }
+        #menu-stage { max-width: 360px; width: 100%; display: none; flex-direction: column; align-items: center; }
         .category-title { font-size: 12px; color: #bbaec9; letter-spacing: 2px; text-transform: uppercase; margin: 18px 0 8px 5px; width: 100%; text-align: left; }
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
         .full-width { grid-column: span 2; }
@@ -138,6 +150,7 @@
         .badge.free { background: rgba(76, 175, 80, 0.2); color: #a1ffb2; border: 1px solid #4caf50; }
         .badge.premium { background: rgba(255, 215, 0, 0.15); color: #ffd700; border: 1px solid #ffd700; }
 
+        #game-stage { width: 100%; display: none; flex-direction: column; align-items: center; }
         .back-btn {
             background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff2b2;
             padding: 10px 20px; border-radius: 20px; font-family: inherit; font-size: 11px;
@@ -162,13 +175,13 @@
         </div>
 
         <div class="interface-zone">
-            <!-- ЭКРАН 1: СТАРТОВАЯ КНОПКА -->
+            <!-- ЭКРАН 1 -->
             <div id="start-screen" style="display: flex;">
                 <button class="gold-btn" onclick="enterToApp()">Войти в Оракул</button>
             </div>
             
-            <!-- ЭКРАН 2: СПИСОК РАСКЛАДОВ -->
-            <div id="menu-stage" class="screen">
+            <!-- ЭКРАН 2 -->
+            <div id="menu-stage">
                 <div class="category-title">Таро Расклады</div>
                 <div class="menu-grid">
                     <div class="menu-item full-width" onclick="startLayout('tarot_day', 1)">
@@ -226,8 +239,8 @@
                 </div>
             </div>
 
-            <!-- ЭКРАН 3: ИГРОВОЕ ПОЛЕ -->
-            <div id="game-stage" class="screen">
+            <!-- ЭКРАН 3 -->
+            <div id="game-stage">
                 <button class="back-btn" onclick="backToMenu()">← Назад в меню</button>
             </div>
         </div>
@@ -248,7 +261,6 @@
             document.getElementById('menu-stage').style.display = 'flex';
         }
 
-        // Параметры функции теперь строго соответствуют вызовам из кнопок (убран лишний параметр tariff)
         function startLayout(actionName, cardsCount) {
             currentAction = actionName;
             targetCardsCount = cardsCount;
@@ -256,7 +268,6 @@
             document.getElementById('menu-stage').style.display = 'none';
             document.getElementById('magic-zone').className = 'magic-zone';
             document.getElementById('status-text').style.display = 'block';
-            
             document.getElementById('game-stage').style.display = 'flex';
             
             buildDeck(cardsCount);
