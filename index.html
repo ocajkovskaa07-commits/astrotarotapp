@@ -3,235 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Astro Tarot Oracle</title>
+    <title>Zlata Tarot Astral</title>
     <link href="https://googleapis.com" rel="stylesheet">
     <script src="https://telegram.org"></script>
     <style>
-        * {
-            box-sizing: border-box;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-
+        * { box-sizing: border-box; user-select: none; -webkit-user-select: none; }
         body {
-            background: #050508;
-            color: #f4f4f6;
-            font-family: 'Cinzel', serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            min-height: 100vh;
-            margin: 0;
-            padding: 30px 20px;
-            overflow: hidden;
-            position: relative;
+            background: #050508; color: #f4f4f6; font-family: 'Cinzel', serif;
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+            min-height: 100vh; margin: 0; padding: 15px; overflow-x: hidden; position: relative;
         }
-
-        #space-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .content-wrap {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            height: 100%;
-            flex-grow: 1;
-        }
-
+        #space-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        .content-wrap { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; width: 100%; }
+        
         h1 {
-            font-size: 24px;
-            font-weight: 400;
-            letter-spacing: 4px;
-            text-transform: uppercase;
+            font-size: 22px; font-weight: 400; letter-spacing: 3px; text-transform: uppercase;
             background: linear-gradient(135deg, #fff 10%, #f3e5ab 50%, #d4af37 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 10px 0 30px 0;
-            text-align: center;
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin: 5px 0 15px 0; text-align: center; text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
         }
+
+        /* --- ГЛАВНОЕ МЕНЮ КАТЕГОРИЙ --- */
+        .stage-container { width: 100%; display: flex; flex-direction: column; align-items: center; }
+        #menu-stage { display: flex; width: 100%; max-width: 360px; }
+        .category-title { font-size: 12px; color: #a19da9; letter-spacing: 2px; text-transform: uppercase; margin: 15px 0 8px 5px; width: 100%; text-align: left;}
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+        .full-width { grid-column: span 2; }
+        
+        .menu-item {
+            background: rgba(18, 18, 26, 0.75); border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 12px; padding: 12px 14px; font-family: 'Cinzel', serif; font-size: 12px;
+            color: #f3e5ab; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between;
+            min-height: 75px; cursor: pointer; transition: all 0.3s ease; backdrop-filter: blur(4px);
+        }
+        .menu-item:hover { border-color: #d4af37; background: rgba(212, 175, 55, 0.1); transform: translateY(-2px); }
+        .menu-item .title-box { display: flex; align-items: center; gap: 6px; font-weight: 600; width: 100%; }
+        
+        .badge { font-size: 9px; padding: 2px 6px; border-radius: 8px; font-weight: bold; margin-top: 8px; align-self: flex-end; }
+        .badge.free { background: rgba(76, 175, 80, 0.15); color: #81c784; border: 1px solid rgba(76, 175, 80, 0.4); }
+        .badge.premium { background: rgba(212, 175, 55, 0.1); color: #ffe58f; border: 1px solid rgba(212, 175, 55, 0.4); }
+
+        /* --- ЭКРАН ИНТЕРАКТИВНОГО РАСКЛАДА --- */
+        #game-stage { display: none; }
+        #status-text { font-size: 14px; color: #f3e5ab; text-align: center; margin: 15px 0; min-height: 20px; letter-spacing: 1px;}
 
         .magic-zone {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            max-width: 340px;
-            height: 340px;
-            margin: auto;
+            position: relative; display: flex; justify-content: center; align-items: center;
+            width: 100%; max-width: 320px; height: 280px; margin: 10px auto;
         }
-
         .wheel-fortune {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 200 200"><circle cx="100" cy="100" r="95" fill="none" stroke="%23d4af37" stroke-width="1" opacity="0.4"/><circle cx="100" cy="100" r="75" fill="none" stroke="%23d4af37" stroke-width="0.7" stroke-dasharray="2,2" opacity="0.6"/><path d="M100,5 L100,195 M5,100 L195,100 M32.8,32.8 L167.2,167.2 M32.8,167.2 L167.2,32.8" stroke="%23d4af37" stroke-width="0.5" opacity="0.25"/></svg>');
-            border: 2px solid rgba(212, 175, 55, 0.45);
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.15), inset 0 0 30px rgba(212, 175, 55, 0.15);
-            animation: spin 90s linear infinite;
+            position: absolute; width: 280px; height: 280px; border-radius: 50%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 200 200"><circle cx="100" cy="100" r="95" fill="none" stroke="%23d4af37" stroke-width="0.8" opacity="0.25"/><circle cx="100" cy="100" r="75" fill="none" stroke="%23d4af37" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.4"/></svg>');
+            border: 1px solid rgba(212, 175, 55, 0.25); animation: spin 100s linear infinite;
         }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .wheel-fortune::before {
-            content: '♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            color: #f3e5ab;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            letter-spacing: 11px;
-            padding-left: 11px;
-            opacity: 0.7;
-            text-shadow: 0 0 8px rgba(212, 175, 55, 0.8);
+        .cards-deck {
+            position: relative; width: 100%; height: 200px; display: flex; justify-content: center; align-items: center;
         }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        
+        .interactive-card {
+            position: absolute; width: 90px; height: 150px; cursor: pointer;
+            perspective: 1000px; transition: all 0.5s ease;
         }
-
-        .cards-container {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 200px;
-            height: 240px;
-            z-index: 3;
+        .interactive-card .card-inner {
+            position: relative; width: 100%; height: 100%; text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d;
         }
+        .interactive-card.flipped .card-inner { transform: rotateY(180deg); }
 
-        .tarot-card {
-            position: absolute;
-            width: 110px;
-            height: 190px;
-            background: linear-gradient(145deg, #12121a, #1a1a26);
-            border: 2px solid #d4af37;
-            border-radius: 8px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5), 0 0 15px rgba(212,175,55,0.2);
-            overflow: hidden;
-            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        /* Поддержка перевернутых карт для Да/Нет */
+        .interactive-card.inverted .card-front { transform: rotateY(180deg) rotateZ(180deg); }
+
+        .card-front, .card-back {
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+            border: 2px solid #d4af37; border-radius: 8px; overflow: hidden;
         }
-
-        .tarot-card::after {
-            content: '';
-            position: absolute;
-            top: -50%; left: -60%;
-            width: 200%; height: 200%;
-            background: linear-gradient(115deg, 
-                rgba(255,255,255,0) 0%, 
-                rgba(255,255,255,0) 40%, 
-                rgba(212,175,55,0.25) 48%, 
-                rgba(255,255,255,0.5) 50%, 
-                rgba(212,175,55,0.25) 52%, 
-                rgba(255,255,255,0) 60%, 
-                rgba(255,255,255,0) 100%
-            );
-            mix-blend-mode: overlay;
-            animation: shimmer 6s infinite linear;
-        }
-
         .card-back {
-            width: 100%;
-            height: 100%;
-            padding: 6px;
+            background: linear-gradient(145deg, #12121a, #1a1a26); display: flex; align-items: center; justify-content: center;
         }
-        .card-inner-border {
-            width: 100%;
-            height: 100%;
-            border: 1px dashed rgba(212, 175, 55, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 60 60"><polygon points="30,5 55,30 30,55 5,30" fill="none" stroke="%23d4af37" stroke-width="0.5" opacity="0.3"/><circle cx="30" cy="30" r="8" fill="none" stroke="%23d4af37" stroke-width="0.5" opacity="0.5"/></svg>') center/cover;
+        .card-back::after {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(115deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 60%);
+            mix-blend-mode: overlay; animation: shimmer 6s infinite linear;
         }
-        .card-inner-border::before {
-            content: '✦';
-            color: #d4af37;
-            font-size: 20px;
-            text-shadow: 0 0 10px #d4af37;
+        .card-front {
+            background: linear-gradient(145deg, #201a15, #0f0b08); transform: rotateY(180deg);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; color: #ffe58f;
         }
+        .card-front .symbol { font-size: 26px; text-shadow: 0 0 8px #d4af37; margin-bottom: 5px; }
+        .card-front .card-index { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
 
-        .card-1 { transform: translateX(-45px) rotate(-12deg); }
-        .card-2 { transform: translateY(-5px) scale(1.03); z-index: 4; }
-        .card-3 { transform: translateX(45px) rotate(12deg); }
-
-        @keyframes shimmer {
-            0% { transform: translate(-30%, -30%) rotate(0deg); }
-            100% { transform: translate(15%, 15%) rotate(0deg); }
+        .back-btn {
+            background: none; border: 1px solid rgba(255,255,255,0.15); color: #a19da9;
+            padding: 10px 20px; border-radius: 20px; font-family: inherit; font-size: 11px;
+            cursor: pointer; margin-top: 20px; transition: all 0.3s;
         }
-
-        .btn-container {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .gold-btn {
-            position: relative;
-            background: linear-gradient(135deg, #ffe58f 0%, #d4af37 40%, #aa7c11 100%);
-            color: #0b0b0d;
-            font-family: 'Cinzel', serif;
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            border: none;
-            border-radius: 40px;
-            padding: 18px 40px;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
-            outline: none;
-            overflow: hidden;
-            animation: pulseGlow 2s infinite ease-in-out;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .gold-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 40px;
-            box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.6);
-            transition: all 0.3s;
-            animation: wavePulse 2s infinite ease-in-out;
-        }
-
-        .gold-btn:hover {
-            transform: scale(1.03);
-            box-shadow: 0 0 35px rgba(212, 175, 55, 0.8);
-        }
-
-        .gold-btn:active {
-            transform: scale(0.97);
-        }
-
-        @keyframes pulseGlow {
-            0% { transform: scale(1); box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
-            50% { transform: scale(1.02); box-shadow: 0 0 35px rgba(212, 175, 55, 0.7); }
-            100% { transform: scale(1); box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
-        }
-
-        @keyframes wavePulse {
-            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.5); opacity: 1; }
-            100% { box-shadow: 0 0 0 20px rgba(212, 175, 55, 0); opacity: 0; }
-        }
+        .back-btn:hover { border-color: #f3e5ab; color: #f3e5ab; }
     </style>
 </head>
 <body>
@@ -239,19 +107,76 @@
     <canvas id="space-bg"></canvas>
 
     <div class="content-wrap">
-        <h1 id="title">Astro Tarot</h1>
+        <h1 id="main-title">Zlata Tarot Astral</h1>
 
-        <div class="magic-zone">
-            <div class="wheel-fortune"></div>
-            <div class="cards-container">
-                <div class="tarot-card card-1"><div class="card-back"><div class="card-inner-border"></div></div></div>
-                <div class="tarot-card card-2"><div class="card-back"><div class="card-inner-border"></div></div></div>
-                <div class="tarot-card card-3"><div class="card-back"><div class="card-inner-border"></div></div></div>
+        <!-- ================= СТРАНИЦА МЕНЮ БОТА ================= -->
+        <div id="menu-stage" class="stage-container">
+            
+            <div class="category-title">Таро Расклады</div>
+            <div class="menu-grid">
+                <div class="menu-item full-width" onclick="startLayout('tarot_day', 'free', 1)">
+                    <div class="title-box"><span>🃏</span> <span>Карта Дня</span></div>
+                    <span class="badge free">FREE</span>
+                </div>
+                <div class="menu-item" onclick="startLayout('tarot_timeline', 'interactive_premium', 3)">
+                    <div class="title-box"><span>⏳</span> <span>Прошлое/Будущее</span></div>
+                    <span class="badge premium">🔒 3 Карты</span>
+                </div>
+                <div class="menu-item" onclick="startLayout('celtic_cross', 'interactive_premium', 10)">
+                    <div class="title-box"><span>⚔️</span> <span>Кельтский крест</span></div>
+                    <span class="badge premium">🔒 10 Карт</span>
+                </div>
+                <div class="menu-item" onclick="startLayout('tarot_love_2_hearts', 'interactive_premium', 4)">
+                    <div class="title-box"><span>❤️</span> <span>Отношения (2 сердца)</span></div>
+                    <span class="badge premium">🔒 4 Карты</span>
+                </div>
+                <div class="menu-item" onclick="startLayout('tarot_yes_no', 'interactive_premium', 1)">
+                    <div class="title-box"><span>⚖️</span> <span>Да / Нет</span></div>
+                    <span class="badge premium">🔒 1 Карта</span>
+                </div>
+                <div class="menu-item" onclick="startLayout('tarot_question_3_cards', 'interactive_premium', 3)">
+                    <div class="title-box"><span>🔮</span> <span>Вопрос</span></div>
+                    <span class="badge premium">🔒 3 Карты</span>
+                </div>
+                <div class="menu-item full-width" onclick="startLayout('business_oracle_combo', 'interactive_premium', 1)">
+                    <div class="title-box"><span>💼</span> <span>Бизнес-оракул (Астро + 1 Карта Таро)</span></div>
+                    <span class="badge premium">🔒 Комбо Расклад</span>
+                </div>
+            </div>
+
+            <div class="category-title">Чистая Астрология</div>
+            <div class="menu-grid">
+                <div class="menu-item" onclick="startLayout('natal_chart', 'direct_payment', 0)">
+                    <div class="title-box"><span>🌌</span> <span>Натальная карта</span></div>
+                    <span class="badge premium">🔒 Платный PDF</span>
+                </div>
+                <div class="menu-item" onclick="startLayout('compatibility', 'direct_payment', 0)">
+                    <div class="title-box"><span>💞</span> <span>Совместимость</span></div>
+                    <span class="badge premium">🔒 Платный PDF</span>
+                </div>
+                <div class="menu-item" onclick="startLayout('horoscope_day', 'direct_payment', 0)">
+                    <div class="title-box"><span>📅</span> <span>Гороскоп на День</span></div>
+                    <span class="badge premium">🔒 Отчет</span>
+                </div>
+                <div class="menu-item" onclick="startLayout('horoscope_month', 'direct_payment', 0)">
+                    <div class="title-box"><span>🌙</span> <span>Гороскоп на Месяц</span></div>
+                    <span class="badge premium">🔒 Отчет</span>
+                </div>
+                <div class="menu-item full-width" onclick="startLayout('horoscope_year', 'direct_payment', 0)">
+                    <div class="title-box"><span>☀️</span> <span>Гороскоп на Год</span></div>
+                    <span class="badge premium">🔒 Платный PDF</span>
+                </div>
             </div>
         </div>
 
-        <div class="btn-container">
-            <button class="gold-btn" onmousedown="createSparks(event)" ontouchstart="createSparks(event)" onclick="handleButtonClick()">Запустить Астро Таро Оракул</button>
+        <!-- ================= СТРАНИЦА ИНТЕРАКТИВНОГО РАСКЛАДА ================= -->
+        <div id="game-stage" class="stage-container">
+            <div id="status-text">Выберите карты...</div>
+            <div class="magic-zone">
+                <div class="wheel-fortune"></div>
+                <div class="cards-deck" id="cards-deck"></div>
+            </div>
+            <button class="back-btn" onclick="showMenu()">← Назад в меню</button>
         </div>
     </div>
 
@@ -259,168 +184,149 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        const locales = {
-            ru: { title: "Astro Tarot Oracle", btn: "Запустить Астро Таро Оракул" },
-            en: { title: "Astro Tarot Oracle", btn: "Launch Astro Tarot Oracle" },
-            tr: { title: "Astro Tarot Oracle", btn: "Astro Tarot Oracle'ı Başlat" },
-            es: { title: "Astro Tarot Oracle", btn: "Iniciar Astro Tarot Oracle" },
-            pt: { title: "Astro Tarot Oracle", btn: "Iniciar Astro Tarot Oracle" },
-            id: { title: "Astro Tarot Oracle", btn: "Luncurkan Astro Tarot Oracle" },
-            hi: { title: "Astro Tarot Oracle", btn: "एस्ट्रो टैро ओреकल लॉन्च करें" },
-            ar: { title: "Astro Tarot Oracle", btn: "تشغيل أسترو تاروت أوراكل" }
-        };
+        let currentAction = '';
+        let targetCardsCount = 0;
+        let flippedCount = 0;
+        let selectedCards = [];
 
-        const params = new URLSearchParams(window.location.search);
-        const langCode = params.get('lang') || 'ru';
-        const lang = locales[langCode] || locales['ru'];
+        function startLayout(actionName, tariff, cardsCount) {
+            currentAction = actionName;
+            targetCardsCount = cardsCount;
 
-        document.getElementById('title').innerText = lang.title;
-        document.querySelector('.gold-btn').innerText = lang.btn;
+            // Сценарий 1: Чистая астрология (сразу закрываем и шлем инвойс в чат)
+            if (tariff === 'direct_payment') {
+                if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('warning');
+                sendPaymentRequest(actionName);
+                return;
+            }
 
-        function handleButtonClick() {
-            setTimeout(() => {
-                const payload = {
-                    action: "generate_pdf",
-                    lang: langCode,
-                    user_id: tg.initDataUnsafe?.user?.id,
-                    cards: [1, 5, 12]
-                };
-                tg.sendData(JSON.stringify(payload));
-                tg.close();
-            }, 600); 
+            // Сценарий 2: Интерактивный расклад (Таро)
+            if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+            
+            document.getElementById('menu-stage').style.display = 'none';
+            document.getElementById('game-stage').style.display = 'flex';
+            buildDeck(cardsCount);
         }
 
-        // --- ДВИЖОК КОСМОСА, ИСКР И ВИБРАЦИИ ---
+        function sendPaymentRequest(productName) {
+            const payload = {
+                action: "request_payment",
+                product: productName,
+                user_id: tg.initDataUnsafe?.user?.id
+            };
+            tg.sendData(JSON.stringify(payload));
+            tg.close();
+        }
+
+        function buildDeck(count) {
+            const deck = document.getElementById('cards-deck');
+            deck.innerHTML = '';
+            flippedCount = 0;
+            selectedCards = [];
+            document.getElementById('status-text').innerText = `Выберите ${count} ${count === 1 ? 'карту' : 'карт(ы)'}:`;
+
+            for (let i = 0; i < count; i++) {
+                const card = document.createElement('div');
+                card.className = 'interactive-card';
+                
+                let offset = (i - (count - 1) / 2) * (count > 4 ? 18 : 35);
+                let rotate = (i - (count - 1) / 2) * (count > 4 ? 2 : 6);
+                card.style.transform = `translateX(${offset}px) rotate(${rotate}deg)`;
+
+                card.innerHTML = `
+                    <div class="card-inner">
+                        <div class="card-back"></div>
+                        <div class="card-front">
+                            <div class="symbol">✨</div>
+                            <div class="card-index">Карта ${i+1}</div>
+                        </div>
+                    </div>
+                `;
+                
+                card.addEventListener('click', () => handleCardFlip(card, i + 1));
+                deck.appendChild(card);
+            }
+        }
+
+        function handleCardFlip(cardElement, num) {
+            if (cardElement.classList.contains('flipped')) return;
+
+            if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+
+            // Специфика расклада "Да / Нет": определяем ориентацию карты (прямая / перевернутая)
+            let orientation = "upright";
+            if (currentAction === 'tarot_yes_no') {
+                if (Math.random() > 0.5) {
+                    cardElement.classList.add('inverted');
+                    orientation = "reversed";
+                }
+            }
+
+            cardElement.classList.add('flipped');
+            cardElement.style.transform += ' translateY(-15px) scale(1.05)';
+            cardElement.style.zIndex = 10 + flippedCount;
+
+            flippedCount++;
+            
+            // Сохраняем объект карты: ID и положение
+            selectedCards.push({
+                id: Math.floor(Math.random() * 78) + 1,
+                orientation: orientation
+            });
+
+            if (flippedCount === targetCardsCount) {
+                document.getElementById('status-text').innerText = "Выбор сделан! Формируем запрос...";
+                setTimeout(() => {
+                    if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+                    
+                    const payload = {
+                        action: currentAction,
+                        lang: "ru",
+                        user_id: tg.initDataUnsafe?.user?.id,
+                        cards: selectedCards
+                    };
+                    tg.sendData(JSON.stringify(payload));
+                    tg.close();
+                }, 1200);
+            } else {
+                document.getElementById('status-text').innerText = `Выбрано карт: ${flippedCount} из ${targetCardsCount}`;
+            }
+        }
+
+        function showMenu() {
+            document.getElementById('game-stage').style.display = 'none';
+            document.getElementById('menu-stage').style.display = 'flex';
+        }
+
+        // --- КОСМИЧЕСКИЙ ФОН CANVAS ---
         const canvas = document.getElementById('space-bg');
         const ctx = canvas.getContext('2d');
-
         let stars = [];
-        let sparks = [];
-        const numStars = 90;
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            initStars();
-        }
-
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; initStars(); }
         function initStars() {
             stars = [];
-            for (let i = 0; i < numStars; i++) {
+            for (let i = 0; i < 60; i++) {
                 stars.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    size: Math.random() * 1.5 + 0.5,
-                    twinkleSpeed: 0.01 + Math.random() * 0.03,
-                    phase: Math.random() * Math.PI,
-                    speedX: (Math.random() - 0.5) * 0.05,
-                    speedY: Math.random() * 0.08 + 0.02 
+                    x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+                    size: Math.random() * 1.2 + 0.4,
+                    twinkleSpeed: 0.01 + Math.random() * 0.02, phase: Math.random() * Math.PI,
+                    speedY: Math.random() * 0.04 + 0.01 
                 });
             }
         }
-
-        function createSparks(e) {
-            // ТРИГГЕР ДЛЯ ВИБРАЦИИ TELEGRAM (Успешное действие / Двойной мягкий клик)
-            if (tg.HapticFeedback) {
-                tg.HapticFeedback.notificationOccurred('success');
-            }
-
-            let clientX = e.clientX || (e.touches && e.touches[0].clientX);
-            let clientY = e.clientY || (e.touches && e.touches[0].clientY);
-            
-            if (!clientX || !clientY) return;
-
-            for (let i = 0; i < 40; i++) {
-                let angle = Math.random() * Math.PI * 2;
-                let speed = Math.random() * 4 + 2;
-                
-                sparks.push({
-                    x: clientX,
-                    y: clientY,
-                    size: Math.random() * 2.5 + 1,
-                    speedX: Math.cos(angle) * speed,
-                    speedY: Math.sin(angle) * speed - 1,
-                    alpha: 1,
-                    decay: Math.random() * 0.02 + 0.015,
-                    color: Math.random() > 0.4 ? '#ffe58f' : '#d4af37'
-                });
-            }
-        }
-
         function drawSpace() {
-            let bgGrad = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 10, canvas.width/2, canvas.height/2, canvas.height);
-            bgGrad.addColorStop(0, '#0c0c14');
-            bgGrad.addColorStop(1, '#040406');
-            ctx.fillStyle = bgGrad;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+            ctx.fillStyle = '#050508'; ctx.fillRect(0, 0, canvas.width, canvas.height);
             for (let i = 0; i < stars.length; i++) {
-                let s = stars[i];
-                s.y += s.speedY;
-                s.x += s.speedX;
-                if (s.y > canvas.height) s.y = 0;
-                if (s.x > canvas.width) s.x = 0;
-                if (s.x < 0) s.x = canvas.width;
-
-                s.phase += s.twinkleSpeed;
-                let alpha = 0.3 + (Math.sin(s.phase) + 1) * 0.35;
-
-                ctx.fillStyle = `rgba(243, 229, 171, ${alpha})`;
-                ctx.beginPath();
-                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-                ctx.fill();
-
-                if(s.size > 1.4) {
-                    ctx.fillStyle = `rgba(212, 175, 55, ${alpha * 0.3})`;
-                    ctx.beginPath();
-                    ctx.arc(s.x, s.y, s.size * 3, 0, Math.PI * 2);
-                    ctx.fill();
-                }
+                let s = stars[i]; s.y += s.speedY; if (s.y > canvas.height) s.y = 0;
+                s.phase += s.twinkleSpeed; let alpha = 0.2 + (Math.sin(s.phase) + 1) * 0.4;
+                ctx.fillStyle = `rgba(243, 229, 171, ${alpha})`; ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); ctx.fill();
             }
-
-            ctx.strokeStyle = 'rgba(212, 175, 55, 0.04)';
-            ctx.lineWidth = 0.5;
-            for (let i = 0; i < stars.length; i++) {
-                for (let j = i + 1; j < stars.length; j++) {
-                    let dist = Math.hypot(stars[i].x - stars[j].x, stars[i].y - stars[j].y);
-                    if (dist < 65) {
-                        ctx.beginPath();
-                        ctx.moveTo(stars[i].x, stars[i].y);
-                        ctx.lineTo(stars[j].x, stars[j].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-
-            for (let i = sparks.length - 1; i >= 0; i--) {
-                let p = sparks[i];
-                p.x += p.speedX;
-                p.y += p.speedY;
-                p.speedY += 0.05;
-                p.alpha -= p.decay;
-
-                if (p.alpha <= 0) {
-                    sparks.splice(i, 1);
-                    continue;
-                }
-
-                ctx.save();
-                ctx.globalAlpha = p.alpha;
-                ctx.shadowBlur = 8;
-                ctx.shadowColor = p.color;
-                ctx.fillStyle = p.color;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
-            }
-
             requestAnimationFrame(drawSpace);
         }
-
         window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-        drawSpace();
+        resizeCanvas(); drawSpace();
     </script>
 </body>
 </html>
+
