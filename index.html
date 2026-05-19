@@ -43,7 +43,8 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* ДЕКОРАТИВНЫЕ ПАРЯЩИЕ КАРТЫ НА СТАРТЕ */
-        .intro-deck { position: relative; width: 200px; height: 200px; display: flex; justify-content: center; align-items: center; }
+        .intro-deck { display: none; position: relative; width: 200px; height: 200px; justify-content: center; align-items: center; }
+        .intro-deck.active { display: flex; }
         .intro-card { position: absolute; width: 92px; height: 154px; border: 2px solid #ffd700; border-radius: 8px; background: linear-gradient(135deg, #0f1126, #1b1f4d); box-shadow: 0 8px 20px rgba(0,0,0,0.6); overflow: hidden; }
         .intro-card::before { content: '✦'; color: #ffd700; font-size: 24px; text-shadow: 0 0 12px #ffd700; display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; }
         .c-pos-1 { transform: translateX(-35px) rotate(-10deg); }
@@ -114,7 +115,7 @@
             <div class="wheel-fortune"></div>
             
             <!-- Декоративные стартовые карты -->
-            <div class="intro-deck" id="intro-deck">
+            <div class="intro-deck active" id="intro-deck">
                 <div class="intro-card c-pos-1"></div>
                 <div class="intro-card c-pos-2"></div>
                 <div class="intro-card c-pos-3"></div>
@@ -206,34 +207,30 @@
         let flippedCount = 0;
         let selectedCards = [];
 
-        // Переход с Главного экрана в Меню
         function enterToApp() {
             document.getElementById('start-screen').classList.remove('active');
             document.getElementById('menu-screen').classList.add('active');
         }
 
-        // Клик на Астрологию (Сразу запрос оплаты в бот)
         function sendPaymentRequest(productName) {
             const payload = { action: "request_payment", product: productName, user_id: tg.initDataUnsafe?.user?.id };
             try { tg.sendData(JSON.stringify(payload)); } catch(e) {}
             try { tg.close(); } catch(e) {}
         }
 
-        // Клик на Таро Расклад (Переход к картам)
         function startLayout(actionName, cardsCount) {
             currentAction = actionName;
             targetCardsCount = cardsCount;
             flippedCount = 0;
             selectedCards = [];
 
-            // Прячем меню и декоративные карты, включаем Игровой Экран
+            // Исправленная логика: управляем всеми экранами строго через переключение класса active
             document.getElementById('menu-screen').classList.remove('active');
-            document.getElementById('intro-deck').style.display = 'none';
+            document.getElementById('intro-deck').classList.remove('active');
             
             document.getElementById('game-screen').classList.add('active');
             document.getElementById('status-text').innerText = 'Выберите ' + cardsCount + ' карт(ы):';
 
-            // Генерируем колоду
             const deck = document.getElementById('game-deck');
             deck.innerHTML = '';
 
@@ -283,11 +280,11 @@
 
         function backToMenu() {
             document.getElementById('game-screen').classList.remove('active');
-            document.getElementById('intro-deck').style.style.display = 'flex';
+            document.getElementById('intro-deck').classList.add('active');
             document.getElementById('menu-screen').classList.add('active');
         }
 
-        // --- ДВИЖОК ЗВЕЗДНОГО НЕБА И МЕРЦАЮЩИХ СОЗВЕЗДИЙ ---
+        // --- ДВИЖОК ЗВЕЗДНОГО НЕБА ---
         const canvas = document.getElementById('space-bg');
         const ctx = canvas.getContext('2d');
         let stars = [];
