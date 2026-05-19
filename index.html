@@ -7,9 +7,74 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         /* (Твои стили остаются здесь) */
-        body { background: #000; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        .gold-btn { background: #D4AF37; padding: 15px 30px; border-radius: 20px; border: none; cursor: pointer; margin-top: 20px; }
-        .hidden { display: none; }
+        body {
+            background: radial-gradient(circle, #16161a 0%, #0b0b0d 100%);
+            color: #f4f4f6;
+            font-family: 'Cinzel', 'Playfair Display', 'Georgia', serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #fff 30%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 40px;
+            text-align: center;
+            text-shadow: 0px 4px 20px rgba(212, 175, 55, 0.15);
+        }
+
+        .gold-btn {
+            background: linear-gradient(135deg, #ffe58f 0%, #d4af37 50%, #aa7c11 100%);
+            color: #0b0b0d;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: 1px solid #ffe58f;
+            border-radius: 30px;
+            padding: 16px 36px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            transition: all 0.4s ease;
+            animation: pulseGlow 2.5s infinite ease-in-out;
+            outline: none;
+        }
+
+        .gold-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            background: linear-gradient(135deg, #fff 0%, #d4af37 50%, #aa7c11 100%);
+        }
+
+        .gold-btn:active {
+            transform: translateY(1px) scale(0.98);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 15px rgba(212, 175, 55, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 25px rgba(212, 175, 55, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            }
+            100% {
+                box-shadow: 0 0 15px rgba(212, 175, 55, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            }
+        }
     </style>
 </head>
 <body>
