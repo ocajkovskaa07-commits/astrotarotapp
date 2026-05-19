@@ -26,7 +26,7 @@
         .magic-zone {
             position: relative; display: flex; justify-content: center; align-items: center;
             width: 100%; max-width: 320px; height: 320px; margin: 20px auto;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), margin 0.6s ease, height 0.6s ease;
+            transition: transform 0.4s ease, margin 0.4s ease, height 0.4s ease;
         }
         
         .magic-zone.minimized {
@@ -109,7 +109,7 @@
 
         #status-text { display: none; font-size: 14px; color: #f3e5ab; text-align: center; margin: 10px 0; min-height: 20px; letter-spacing: 1px;}
 
-        .stage-container { display: none; width: 100%; flex-direction: column; align-items: center; opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .stage-container { display: none; width: 100%; flex-direction: column; align-items: center; opacity: 0; transform: translateY(20px); transition: all 0.4s ease; }
         .stage-container.visible { display: flex; opacity: 1; transform: translateY(0); }
         
         #menu-stage { width: 100%; max-width: 360px; }
@@ -155,8 +155,8 @@
         </div>
 
         <div class="interface-zone">
-            <!-- Железобетонная кнопка без лишних JS-параметров -->
-            <button class="gold-btn" id="enter-btn" onclick="handleStartButtonClick()">Войти в Оракул</button>
+            <!-- Кнопка теперь работает мгновенно и без сбоев -->
+            <button class="gold-btn" id="enter-btn" onclick="enterToApp()">Войти в Оракул</button>
             
             <div id="status-text">Выберите карты...</div>
 
@@ -224,21 +224,17 @@
 
     <script>
         const tg = window.Telegram.WebApp;
-        tg.expand();
+        try { tg.expand(); } catch(e) {}
 
         let currentAction = '';
         let targetCardsCount = 0;
         let flippedCount = 0;
         let selectedCards = [];
 
-        function handleStartButtonClick() {
-            createSparks();
-            setTimeout(function() {
-                enterToApp();
-            }, 300);
-        }
-
+        // Упрощенная функция: сначала взрыв, потом сразу переключение
         function enterToApp() {
+            createSparks();
+            
             document.getElementById('enter-btn').style.display = 'none';
             document.getElementById('magic-zone').classList.add('minimized');
 
@@ -252,12 +248,12 @@
             targetCardsCount = cardsCount;
 
             if (tariff === 'direct_payment') {
-                if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('warning');
+                try { if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('warning'); } catch(e) {}
                 sendPaymentRequest(actionName);
                 return;
             }
 
-            if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+            try { if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium'); } catch(e) {}
             
             document.getElementById('menu-stage').style.display = 'none';
             document.getElementById('menu-stage').classList.remove('visible');
@@ -271,8 +267,8 @@
 
         function sendPaymentRequest(productName) {
             const payload = { action: "request_payment", product: productName, user_id: tg.initDataUnsafe?.user?.id };
-            tg.sendData(JSON.stringify(payload));
-            tg.close();
+            try { tg.sendData(JSON.stringify(payload)); } catch(e) {}
+            try { tg.close(); } catch(e) {}
         }
 
         function buildDeck(count) {
@@ -299,7 +295,7 @@
 
         function handleCardFlip(cardElement) {
             if (cardElement.classList.contains('flipped')) return;
-            if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+            try { if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light'); } catch(e) {}
 
             let orientation = "upright";
             if (currentAction === 'tarot_yes_no') {
@@ -319,10 +315,10 @@
             if (flippedCount === targetCardsCount) {
                 document.getElementById('status-text').innerText = "Выбор сделан! Формируем сценарий...";
                 setTimeout(function() {
-                    if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+                    try { if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success'); } catch(e) {}
                     const payload = { action: currentAction, lang: "ru", user_id: tg.initDataUnsafe?.user?.id, cards: selectedCards };
-                    tg.sendData(JSON.stringify(payload));
-                    tg.close();
+                    try { tg.sendData(JSON.stringify(payload)); } catch(e) {}
+                    try { tg.close(); } catch(e) {}
                 }, 1200);
             } else {
                 document.getElementById('status-text').innerText = 'Выбрано карт: ' + flippedCount + ' из ' + targetCardsCount;
@@ -360,7 +356,7 @@
         }
         
         function createSparks() {
-            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            try { if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success'); } catch(e) {}
             
             let clientX = window.innerWidth / 2;
             let clientY = window.innerHeight - 120;
