@@ -182,7 +182,6 @@
             <div id="menu-stage" class="stage-container">
                 <div class="category-title">Таро Расклады</div>
                 <div class="menu-grid">
-                    <!-- ТЕСТ: ВСЕ ТАРО-КНОПКИ ТЕПЕРЬ ИМЕЮТ РЕЖИМ 'free' ДЛЯ РАСКЛАДЫВАНИЯ -->
                     <div class="menu-item full-width" onclick="startLayout('tarot_day', 'free', 1)">
                         <div class="title-box"><span>🃏</span> <span>Карта Дня</span></div>
                         <span class="badge free">FREE</span>
@@ -309,7 +308,6 @@
 
         function handleCardFlip(cardElement) {
             if (cardElement.classList.contains('flipped')) return;
-            try { if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light'); } catch(e) {}
 
             let orientation = "upright";
             if (currentAction === 'tarot_yes_no') {
@@ -327,8 +325,7 @@
             selectedCards.push({ id: Math.floor(Math.random() * 78) + 1, orientation: orientation });
 
             if (flippedCount === targetCardsCount) {
-                document.getElementById('status-text').innerText = "Выбор сделан! Сценарий отправлен в чат...";
-                // Увеличенная задержка для теста (2500мс), чтобы вы успели насладиться финальным переворотом
+                document.getElementById('status-text').innerText = "Выбор сделан! Формируем сценарий...";
                 setTimeout(function() {
                     const payload = { action: currentAction, lang: "ru", user_id: tg.initDataUnsafe?.user?.id, cards: selectedCards };
                     try { tg.sendData(JSON.stringify(payload)); } catch(e) {}
