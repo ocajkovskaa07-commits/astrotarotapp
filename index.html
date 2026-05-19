@@ -34,11 +34,11 @@
         }
         .magic-zone.minimized { transform: scale(0.65) translateY(-30px); margin: 0 auto; height: 190px; }
 
-        /* ВРАЩЕНИЕ ЯРКОГО ЗОЛОТОГО КОЛЕСА И НЕОНОВОГО ЗОДИАКА */
+        /* --- СВЕРХ-ЯРКОЕ ЗОЛОТОЕ КОЛЕСО И НЕОНОВЫЙ ЗОДИАК --- */
         .wheel-fortune {
             position: absolute; width: 100%; height: 100%; border-radius: 50%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 200 200"><circle cx="100" cy="100" r="95" fill="none" stroke="%23ffd700" stroke-width="1.5" opacity="0.8"/><circle cx="100" cy="100" r="75" fill="none" stroke="%23ffd700" stroke-width="1.0" stroke-dasharray="3,2" opacity="0.9"/><path d="M100,5 L100,195 M5,100 L195,100 M32.8,32.8 L167.2,167.2 M32.8,167.2 L167.2,32.8" stroke="%23ffd700" stroke-width="0.6" opacity="0.5"/></svg>');
-            border: 2px solid #ffd700; filter: drop-shadow(0 0 18px rgba(255, 215, 0, 0.6));
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 200 200"><circle cx="100" cy="100" r="95" fill="none" stroke="%23ffd700" stroke-width="1.5" opacity="0.8"/><circle cx="100" cy="100" r="75" fill="none" stroke="%23ffd700" stroke-width="1.0" stroke-dasharray="3,2" opacity="0.9"/><path d="M100,5 L100,195 M5,100 L195,100 M32.8,32.8 L167.2,167.2 M32.8,167.2 L167.2,32.8" stroke="%23ffd700" stroke-width="0.6" opacity="0.4"/></svg>');
+            border: 2.5px solid #ffd700; filter: drop-shadow(0 0 18px rgba(255, 215, 0, 0.6));
             animation: spin 80s linear infinite;
         }
         .wheel-fortune::before {
@@ -125,10 +125,10 @@
             margin: 15px 0; min-height: 26px; letter-spacing: 1px; text-shadow: 0 0 8px #ffbb00;
         }
 
-        /* ТОЧНЫЙ СТИЛЬ СЕТКИ И КНОПОК ИЗ ВАШЕГО ТРЕТЬЕГО СООБЩЕНИЯ */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; max-width: 360px; }
         .full-width { grid-column: span 2; }
 
+        /* ВАШИ СТИЛИ ИЗ ТРЕТЬЕГО СООБЩЕНИЯ */
         .menu-item {
             background: rgba(22, 24, 46, 0.8); border: 1.5px solid rgba(255, 215, 0, 0.3);
             border-radius: 14px; padding: 14px 16px; font-size: 13px;
@@ -152,7 +152,7 @@
             cursor: pointer; margin-top: 20px; transition: all 0.3s;
         }
 
-        /* Позиции карт для стартового экрана */
+        /* ПОЗИЦИИ КАРТ ДЛЯ ВАШЕГО СТАРТОВОГО ВЕЕРА */
         .card-pos-1 { transform: translateX(-35px) rotate(-10deg); }
         .card-pos-2 { transform: translateY(-5px) scale(1.03); z-index: 4; }
         .card-pos-3 { transform: translateX(35px) rotate(10deg); }
@@ -169,18 +169,18 @@
         <div class="magic-zone" id="magic-zone">
             <div class="wheel-fortune"></div>
             <div class="cards-container" id="cards-container">
-                <!-- Контейнер для стартовых и игровых карт -->
+                <!-- Скрипт сам выведет 3 парящие карты на старте, логика сохранена -->
             </div>
         </div>
 
         <div class="interface-zone">
-            <!-- СЛОЙ 1: КНОПКА СТАРТА -->
+            <!-- СЛОЙ 1 -->
             <div id="start-screen" style="display: flex;">
                 <button class="gold-btn" onclick="enterToApp()">Войти в Оракул</button>
             </div>
             
-            <!-- СЛОЙ 2: МЕНЮ ИЗ ВАШЕГО СООБЩЕНИЯ -->
-            <div id="menu-stage">
+            <!-- СЛОЙ 2 -->
+            <div id="menu-stage" class="screen">
                 <div class="category-title">Таро Расклады</div>
                 <div class="menu-grid">
                     <div class="menu-item full-width" onclick="startLayout('tarot_day', 1)">
@@ -238,9 +238,8 @@
                 </div>
             </div>
 
-            <!-- СЛОЙ 3: ИГРА ИЗ ВАШЕГО СООБЩЕНИЯ -->
-            <div id="game-stage">
-                <div id="status-text">Выберите карты...</div>
+            <!-- СЛОЙ 3 -->
+            <div id="game-stage" class="screen">
                 <button class="back-btn" onclick="backToMenu()">← Назад в меню</button>
             </div>
         </div>
@@ -255,6 +254,7 @@
         let flippedCount = 0;
         let selectedCards = [];
 
+        // ВАША ФУНКЦИЯ ВЫВОДА СТАРТОВЫХ КАРТ
         function showIntroCards() {
             const container = document.getElementById('cards-container');
             container.innerHTML = `
@@ -264,6 +264,7 @@
             `;
         }
 
+        // ВАШИ ФУНКЦИИ ИЗ ВТОРОГО СООБЩЕНИЯ
         function enterToApp() {
             document.getElementById('start-screen').style.display = 'none';
             document.getElementById('magic-zone').className = 'magic-zone minimized';
@@ -350,7 +351,7 @@
             document.getElementById('menu-stage').style.display = 'flex';
         }
 
-        // --- ДВИЖОК СВЕРХ-ЯРКОГО КОСМОСА ---
+        // --- ВАШ СТАБИЛЬНЫЙ ДВИЖОК КОСМОСА ---
         const canvas = document.getElementById('space-bg');
         const ctx = canvas.getContext('2d');
         let stars = [];
@@ -392,7 +393,10 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas(); drawSpace();
         
+        // Автоматический вывод 3 парящих карт на главный экран
         showIntroCards();
     </script>
 </body>
 </html>
+
+       
