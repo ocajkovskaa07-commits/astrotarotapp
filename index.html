@@ -23,9 +23,104 @@
             margin: 5px 0 15px 0; text-align: center; text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
         }
 
-        /* --- ГЛАВНОЕ МЕНЮ КАТЕГОРИЙ --- */
-        .stage-container { width: 100%; display: flex; flex-direction: column; align-items: center; }
-        #menu-stage { display: flex; width: 100%; max-width: 360px; }
+        /* --- ЦЕНТРАЛЬНАЯ ГРАФИЧЕСКАЯ ЗОНА --- */
+        .magic-zone {
+            position: relative; display: flex; justify-content: center; align-items: center;
+            width: 100%; max-width: 320px; height: 320px; margin: 20px auto;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), margin 0.6s ease, height 0.6s ease;
+        }
+        
+        /* Класс для уменьшения графики при переходе в меню */
+        .magic-zone.minimized {
+            transform: scale(0.65) translateY(-30px);
+            margin: 0 auto;
+            height: 190px;
+        }
+
+        .wheel-fortune {
+            position: absolute; width: 100%; height: 100%; border-radius: 50%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 200 200"><circle cx="100" cy="100" r="95" fill="none" stroke="%23d4af37" stroke-width="0.8" opacity="0.25"/><circle cx="100" cy="100" r="75" fill="none" stroke="%23d4af37" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.4"/><path d="M100,5 L100,195 M5,100 L195,100 M32.8,32.8 L167.2,167.2 M32.8,167.2 L167.2,32.8" stroke="%23d4af37" stroke-width="0.4" opacity="0.2"/></svg>');
+            border: 1px solid rgba(212, 175, 55, 0.25); animation: spin 100s linear infinite;
+        }
+        .wheel-fortune::before {
+            content: '♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓';
+            position: absolute; width: 100%; height: 100%; color: #f3e5ab; font-size: 14px;
+            display: flex; align-items: center; justify-content: center;
+            letter-spacing: 11px; padding-left: 11px; opacity: 0.6;
+            text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .cards-container { position: relative; width: 200px; height: 200px; display: flex; justify-content: center; align-items: center; }
+        
+        .interactive-card {
+            position: absolute; width: 90px; height: 150px; cursor: pointer;
+            perspective: 1000px; transition: all 0.5s ease;
+        }
+        .interactive-card .card-inner {
+            position: relative; width: 100%; height: 100%; text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d;
+        }
+        .interactive-card.flipped .card-inner { transform: rotateY(180deg); }
+        .interactive-card.inverted .card-front { transform: rotateY(180deg) rotateZ(180deg); }
+
+        .card-front, .card-back {
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+            border: 2px solid #d4af37; border-radius: 8px; overflow: hidden;
+        }
+        .card-back { background: linear-gradient(145deg, #12121a, #1a1a26); display: flex; align-items: center; justify-content: center; }
+        .card-back::after {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(115deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 60%);
+            mix-blend-mode: overlay; animation: shimmer 6s infinite linear;
+        }
+        .card-front {
+            background: linear-gradient(145deg, #201a15, #0f0b08); transform: rotateY(180deg);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; color: #ffe58f;
+        }
+        .card-front .symbol { font-size: 26px; text-shadow: 0 0 8px #d4af37; margin-bottom: 5px; }
+        .card-front .card-index { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* Начальное веерное положение для интро-экрана */
+        .card-pos-1 { transform: translateX(-35px) rotate(-10deg); }
+        .card-pos-2 { transform: translateY(-5px) scale(1.03); z-index: 4; }
+        .card-pos-3 { transform: translateX(35px) rotate(10deg); }
+
+        @keyframes shimmer { 0% { transform: translate(-30%, -30%); } 100% { transform: translate(30%, 30%); } }
+
+        /* --- ЗОНА ИНТЕРФЕЙСА И КНОПОК --- */
+        .interface-zone { width: 100%; display: flex; flex-direction: column; align-items: center; }
+
+        /* Кнопка входа */
+        .gold-btn {
+            position: relative; background: linear-gradient(135deg, #ffe58f 0%, #d4af37 40%, #aa7c11 100%);
+            color: #0b0b0d; font-family: 'Cinzel', serif; font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+            border: none; border-radius: 40px; padding: 18px 40px; cursor: pointer; margin-top: 20px;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); outline: none; overflow: hidden;
+            animation: pulseGlow 2s infinite ease-in-out; transition: all 0.4s ease;
+        }
+        .gold-btn::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 40px;
+            box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.6); animation: wavePulse 2s infinite ease-in-out;
+        }
+        @keyframes pulseGlow {
+            0% { transform: scale(1); box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+            50% { transform: scale(1.02); box-shadow: 0 0 35px rgba(212, 175, 55, 0.7); }
+            100% { transform: scale(1); box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+        }
+        @keyframes wavePulse {
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.5); opacity: 1; }
+            100% { box-shadow: 0 0 0 20px rgba(212, 175, 55, 0); opacity: 0; }
+        }
+
+        /* Текст состояния для расклада */
+        #status-text { display: none; font-size: 14px; color: #f3e5ab; text-align: center; margin: 10px 0; min-height: 20px; letter-spacing: 1px;}
+
+        /* --- ГЛАВНОЕ МЕНЮ (скрыто на старте) --- */
+        .stage-container { display: none; width: 100%; flex-direction: column; align-items: center; opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .stage-container.visible { display: flex; opacity: 1; transform: translateY(0); }
+        
+        #menu-stage { width: 100%; max-width: 360px; }
         .category-title { font-size: 12px; color: #a19da9; letter-spacing: 2px; text-transform: uppercase; margin: 15px 0 8px 5px; width: 100%; text-align: left;}
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
         .full-width { grid-column: span 2; }
@@ -43,57 +138,6 @@
         .badge.free { background: rgba(76, 175, 80, 0.15); color: #81c784; border: 1px solid rgba(76, 175, 80, 0.4); }
         .badge.premium { background: rgba(212, 175, 55, 0.1); color: #ffe58f; border: 1px solid rgba(212, 175, 55, 0.4); }
 
-        /* --- ЭКРАН ИНТЕРАКТИВНОГО РАСКЛАДА --- */
-        #game-stage { display: none; }
-        #status-text { font-size: 14px; color: #f3e5ab; text-align: center; margin: 15px 0; min-height: 20px; letter-spacing: 1px;}
-
-        .magic-zone {
-            position: relative; display: flex; justify-content: center; align-items: center;
-            width: 100%; max-width: 320px; height: 280px; margin: 10px auto;
-        }
-        .wheel-fortune {
-            position: absolute; width: 280px; height: 280px; border-radius: 50%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 200 200"><circle cx="100" cy="100" r="95" fill="none" stroke="%23d4af37" stroke-width="0.8" opacity="0.25"/><circle cx="100" cy="100" r="75" fill="none" stroke="%23d4af37" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.4"/></svg>');
-            border: 1px solid rgba(212, 175, 55, 0.25); animation: spin 100s linear infinite;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .cards-deck {
-            position: relative; width: 100%; height: 200px; display: flex; justify-content: center; align-items: center;
-        }
-        
-        .interactive-card {
-            position: absolute; width: 90px; height: 150px; cursor: pointer;
-            perspective: 1000px; transition: all 0.5s ease;
-        }
-        .interactive-card .card-inner {
-            position: relative; width: 100%; height: 100%; text-align: center;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d;
-        }
-        .interactive-card.flipped .card-inner { transform: rotateY(180deg); }
-
-        /* Поддержка перевернутых карт для Да/Нет */
-        .interactive-card.inverted .card-front { transform: rotateY(180deg) rotateZ(180deg); }
-
-        .card-front, .card-back {
-            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
-            border: 2px solid #d4af37; border-radius: 8px; overflow: hidden;
-        }
-        .card-back {
-            background: linear-gradient(145deg, #12121a, #1a1a26); display: flex; align-items: center; justify-content: center;
-        }
-        .card-back::after {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(115deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 60%);
-            mix-blend-mode: overlay; animation: shimmer 6s infinite linear;
-        }
-        .card-front {
-            background: linear-gradient(145deg, #201a15, #0f0b08); transform: rotateY(180deg);
-            display: flex; flex-direction: column; align-items: center; justify-content: center; color: #ffe58f;
-        }
-        .card-front .symbol { font-size: 26px; text-shadow: 0 0 8px #d4af37; margin-bottom: 5px; }
-        .card-front .card-index { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
-
         .back-btn {
             background: none; border: 1px solid rgba(255,255,255,0.15); color: #a19da9;
             padding: 10px 20px; border-radius: 20px; font-family: inherit; font-size: 11px;
@@ -109,74 +153,85 @@
     <div class="content-wrap">
         <h1 id="main-title">Zlata Tarot Astral</h1>
 
-        <!-- ================= СТРАНИЦА МЕНЮ БОТА ================= -->
-        <div id="menu-stage" class="stage-container">
-            
-            <div class="category-title">Таро Расклады</div>
-            <div class="menu-grid">
-                <div class="menu-item full-width" onclick="startLayout('tarot_day', 'free', 1)">
-                    <div class="title-box"><span>🃏</span> <span>Карта Дня</span></div>
-                    <span class="badge free">FREE</span>
-                </div>
-                <div class="menu-item" onclick="startLayout('tarot_timeline', 'interactive_premium', 3)">
-                    <div class="title-box"><span>⏳</span> <span>Прошлое/Будущее</span></div>
-                    <span class="badge premium">🔒 3 Карты</span>
-                </div>
-                <div class="menu-item" onclick="startLayout('celtic_cross', 'interactive_premium', 10)">
-                    <div class="title-box"><span>⚔️</span> <span>Кельтский крест</span></div>
-                    <span class="badge premium">🔒 10 Карт</span>
-                </div>
-                <div class="menu-item" onclick="startLayout('tarot_love_2_hearts', 'interactive_premium', 4)">
-                    <div class="title-box"><span>❤️</span> <span>Отношения (2 сердца)</span></div>
-                    <span class="badge premium">🔒 4 Карты</span>
-                </div>
-                <div class="menu-item" onclick="startLayout('tarot_yes_no', 'interactive_premium', 1)">
-                    <div class="title-box"><span>⚖️</span> <span>Да / Нет</span></div>
-                    <span class="badge premium">🔒 1 Карта</span>
-                </div>
-                <div class="menu-item" onclick="startLayout('tarot_question_3_cards', 'interactive_premium', 3)">
-                    <div class="title-box"><span>🔮</span> <span>Вопрос</span></div>
-                    <span class="badge premium">🔒 3 Карты</span>
-                </div>
-                <div class="menu-item full-width" onclick="startLayout('business_oracle_combo', 'interactive_premium', 1)">
-                    <div class="title-box"><span>💼</span> <span>Бизнес-оракул (Астро + 1 Карта Таро)</span></div>
-                    <span class="badge premium">🔒 Комбо Расклад</span>
-                </div>
-            </div>
-
-            <div class="category-title">Чистая Астрология</div>
-            <div class="menu-grid">
-                <div class="menu-item" onclick="startLayout('natal_chart', 'direct_payment', 0)">
-                    <div class="title-box"><span>🌌</span> <span>Натальная карта</span></div>
-                    <span class="badge premium">🔒 Платный PDF</span>
-                </div>
-                <div class="menu-item" onclick="startLayout('compatibility', 'direct_payment', 0)">
-                    <div class="title-box"><span>💞</span> <span>Совместимость</span></div>
-                    <span class="badge premium">🔒 Платный PDF</span>
-                </div>
-                <div class="menu-item" onclick="startLayout('horoscope_day', 'direct_payment', 0)">
-                    <div class="title-box"><span>📅</span> <span>Гороскоп на День</span></div>
-                    <span class="badge premium">🔒 Отчет</span>
-                </div>
-                <div class="menu-item" onclick="startLayout('horoscope_month', 'direct_payment', 0)">
-                    <div class="title-box"><span>🌙</span> <span>Гороскоп на Месяц</span></div>
-                    <span class="badge premium">🔒 Отчет</span>
-                </div>
-                <div class="menu-item full-width" onclick="startLayout('horoscope_year', 'direct_payment', 0)">
-                    <div class="title-box"><span>☀️</span> <span>Гороскоп на Год</span></div>
-                    <span class="badge premium">🔒 Платный PDF</span>
-                </div>
+        <!-- Центральная графика (общая для интро и для раскладов) -->
+        <div class="magic-zone" id="magic-zone">
+            <div class="wheel-fortune"></div>
+            <div class="cards-container" id="cards-container">
+                <!-- Стартовые декоративные карты (для красивого фона) -->
+                <div class="interactive-card card-pos-1" id="intro-c1"><div class="card-inner"><div class="card-back"></div></div></div>
+                <div class="interactive-card card-pos-2" id="intro-c2"><div class="card-inner"><div class="card-back"></div></div></div>
+                <div class="interactive-card card-pos-3" id="intro-c3"><div class="card-inner"><div class="card-back"></div></div></div>
             </div>
         </div>
 
-        <!-- ================= СТРАНИЦА ИНТЕРАКТИВНОГО РАСКЛАДА ================= -->
-        <div id="game-stage" class="stage-container">
+        <div class="interface-zone">
+            <!-- СТАРТОВАЯ КНОПКА ДЛЯ ПОДДКЛЮЧЕНИЯ ПЕРВОГО ЭКРАНА -->
+            <button class="gold-btn" id="enter-btn" onmousedown="createSparks(event)" ontouchstart="createSparks(event)" onclick="enterToApp()">Войти в Оракул</button>
+            
             <div id="status-text">Выберите карты...</div>
-            <div class="magic-zone">
-                <div class="wheel-fortune"></div>
-                <div class="cards-deck" id="cards-deck"></div>
+
+            <!-- ================= ЭКРАН С ПЕРЕЧНЕМ РАСКЛАДОВ ================= -->
+            <div id="menu-stage" class="stage-container">
+                <div class="category-title">Таро Расклады</div>
+                <div class="menu-grid">
+                    <div class="menu-item full-width" onclick="startLayout('tarot_day', 'free', 1)">
+                        <div class="title-box"><span>🃏</span> <span>Карта Дня</span></div>
+                        <span class="badge free">FREE</span>
+                    </div>
+                    <div class="menu-item" onclick="startLayout('tarot_timeline', 'interactive_premium', 3)">
+                        <div class="title-box"><span>⏳</span> <span>Прошлое/Будущее</span></div>
+                        <span class="badge premium">🔒 3 Карты</span>
+                    </div>
+                    <div class="menu-item" onclick="startLayout('celtic_cross', 'interactive_premium', 10)">
+                        <div class="title-box"><span>⚔️</span> <span>Кельтский крест</span></div>
+                        <span class="badge premium">🔒 10 Карт</span>
+                    </div>
+                    <div class="menu-item" onclick="startLayout('tarot_love_2_hearts', 'interactive_premium', 4)">
+                        <div class="title-box"><span>❤️</span> <span>Отношения (2 сердца)</span></div>
+                        <span class="badge premium">🔒 4 Карты</span>
+                    </div>
+                    <div class="menu-item" onclick="startLayout('tarot_yes_no', 'interactive_premium', 1)">
+                        <div class="title-box"><span>⚖️</span> <span>Да / Нет</span></div>
+                        <span class="badge premium">🔒 1 Карта</span>
+                    </div>
+                    <div class="menu-item" onclick="startLayout('tarot_question_3_cards', 'interactive_premium', 3)">
+                        <div class="title-box"><span>🔮</span> <span>Вопрос</span></div>
+                        <span class="badge premium">🔒 3 Карты</span>
+                    </div>
+                    <div class="menu-item full-width" onclick="startLayout('business_oracle_combo', 'interactive_premium', 1)">
+                        <div class="title-box"><span>💼</span> <span>Бизнес-оракул (Астро + 1 Карта Таро)</span></div>
+                        <span class="badge premium">🔒 Комбо Расклад</span>
+                    </div>
+                </div>
+
+                <div class="category-title">Чистая Астрология</div>
+                <div class="menu-grid">
+                    <div class="menu-item" onclick="startLayout('natal_chart', 'direct_payment', 0)">
+                        <div class="title-box"><span>🌌</span> <span>Натальная карта</span></div>
+                        <span class="badge premium">🔒 Платный PDF</span>
+                    </div>
+                    <div class="menu-item" onclick="startLayout('compatibility', 'direct_payment', 0)">
+                        <div class="title-box"><span>💞</span> <span>Совместимость</span></div>
+                        <span class="badge premium">🔒 Платный PDF</span>
+                    </div>
+                    <div class="menu-item" onclick="startLayout('horoscope_day', 'direct_payment', 0)">
+                        <div class="title-box"><span>📅</span> <span>Гороскоп на День</span></div>
+                        <span class="badge premium">🔒 Отчет</span>
+                    </div>
+                    <div class="menu-item" onclick="startLayout('horoscope_month', 'direct_payment', 0)">
+                        <div class="title-box"><span>🌙</span> <span>Гороскоп на Месяц</span></div>
+                        <span class="badge premium">🔒 Отчет</span>
+                    </div>
+                    <div class="menu-item full-width" onclick="startLayout('horoscope_year', 'direct_payment', 0)">
+                        <div class="title-box"><span>☀️</span> <span>Гороскоп на Год</span></div>
+                        <span class="badge premium">🔒 Платный PDF</span>
+                    </div>
+                </div>
             </div>
-            <button class="back-btn" onclick="showMenu()">← Назад в меню</button>
+
+            <!-- ================= КНОПКА НАЗАД ДЛЯ ИНТЕРАКТИВНОГО ЭКРАНА ================= -->
+            <button id="back-btn" class="back-btn" style="display: none;" onclick="backToMenu()">← Назад в меню</button>
+
         </div>
     </div>
 
@@ -189,38 +244,53 @@
         let flippedCount = 0;
         let selectedCards = [];
 
+        // ФУНКЦИЯ ПЕРЕХОДА ИЗ ИНТРО В ГЛАВНОЕ МЕНЮ
+        function enterToApp() {
+            document.getElementById('enter-btn').style.display = 'none';
+            
+            // Запускаем красивое сжатие Колеса Фортуны и карт наверх
+            document.getElementById('magic-zone').classList.add('minimized');
+
+            // Показываем меню
+            const menu = document.getElementById('menu-stage');
+            menu.style.display = 'flex';
+            setTimeout(() => { menu.classList.add('visible'); }, 50);
+        }
+
+        // ВЫБОР РАСКЛАДА ИЗ МЕНЮ
         function startLayout(actionName, tariff, cardsCount) {
             currentAction = actionName;
             targetCardsCount = cardsCount;
 
-            // Сценарий 1: Чистая астрология (сразу закрываем и шлем инвойс в чат)
             if (tariff === 'direct_payment') {
                 if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('warning');
                 sendPaymentRequest(actionName);
                 return;
             }
 
-            // Сценарий 2: Интерактивный расклад (Таро)
             if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
             
+            // Скрываем меню, разворачиваем графику обратно в полный размер для интерактивной игры
             document.getElementById('menu-stage').style.display = 'none';
-            document.getElementById('game-stage').style.display = 'flex';
+            document.getElementById('menu-stage').classList.remove('visible');
+            document.getElementById('magic-zone').classList.remove('minimized');
+            
+            document.getElementById('status-text').style.display = 'block';
+            document.getElementById('back-btn').style.display = 'block';
+            
             buildDeck(cardsCount);
         }
 
         function sendPaymentRequest(productName) {
-            const payload = {
-                action: "request_payment",
-                product: productName,
-                user_id: tg.initDataUnsafe?.user?.id
-            };
+            const payload = { action: "request_payment", product: productName, user_id: tg.initDataUnsafe?.user?.id };
             tg.sendData(JSON.stringify(payload));
             tg.close();
         }
 
+        // СБОРКА ИГРОВОЙ КОЛОДЫ КАРТ
         function buildDeck(count) {
-            const deck = document.getElementById('cards-deck');
-            deck.innerHTML = '';
+            const container = document.getElementById('cards-container');
+            container.innerHTML = ''; // Стираем стартовые декоративные карты
             flippedCount = 0;
             selectedCards = [];
             document.getElementById('status-text').innerText = `Выберите ${count} ${count === 1 ? 'карту' : 'карт(ы)'}:`;
@@ -229,7 +299,7 @@
                 const card = document.createElement('div');
                 card.className = 'interactive-card';
                 
-                let offset = (i - (count - 1) / 2) * (count > 4 ? 18 : 35);
+                let offset = (i - (count - 1) / 2) * (count > 4 ? 18 : 34);
                 let rotate = (i - (count - 1) / 2) * (count > 4 ? 2 : 6);
                 card.style.transform = `translateX(${offset}px) rotate(${rotate}deg)`;
 
@@ -243,17 +313,15 @@
                     </div>
                 `;
                 
-                card.addEventListener('click', () => handleCardFlip(card, i + 1));
-                deck.appendChild(card);
+                card.addEventListener('click', () => handleCardFlip(card));
+                container.appendChild(card);
             }
         }
 
-        function handleCardFlip(cardElement, num) {
+        function handleCardFlip(cardElement) {
             if (cardElement.classList.contains('flipped')) return;
-
             if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
 
-            // Специфика расклада "Да / Нет": определяем ориентацию карты (прямая / перевернутая)
             let orientation = "upright";
             if (currentAction === 'tarot_yes_no') {
                 if (Math.random() > 0.5) {
@@ -263,28 +331,17 @@
             }
 
             cardElement.classList.add('flipped');
-            cardElement.style.transform += ' translateY(-15px) scale(1.05)';
+            cardElement.style.transform += ' translateY(-18px) scale(1.04)';
             cardElement.style.zIndex = 10 + flippedCount;
 
             flippedCount++;
-            
-            // Сохраняем объект карты: ID и положение
-            selectedCards.push({
-                id: Math.floor(Math.random() * 78) + 1,
-                orientation: orientation
-            });
+            selectedCards.push({ id: Math.floor(Math.random() * 78) + 1, orientation: orientation });
 
             if (flippedCount === targetCardsCount) {
-                document.getElementById('status-text').innerText = "Выбор сделан! Формируем запрос...";
+                document.getElementById('status-text').innerText = "Выбор сделан! Формируем сценарий...";
                 setTimeout(() => {
                     if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-                    
-                    const payload = {
-                        action: currentAction,
-                        lang: "ru",
-                        user_id: tg.initDataUnsafe?.user?.id,
-                        cards: selectedCards
-                    };
+                    const payload = { action: currentAction, lang: "ru", user_id: tg.initDataUnsafe?.user?.id, cards: selectedCards };
                     tg.sendData(JSON.stringify(payload));
                     tg.close();
                 }, 1200);
@@ -293,25 +350,53 @@
             }
         }
 
-        function showMenu() {
-            document.getElementById('game-stage').style.display = 'none';
-            document.getElementById('menu-stage').style.display = 'flex';
+        function backToMenu() {
+            document.getElementById('status-text').style.display = 'none';
+            document.getElementById('back-btn').style.display = 'none';
+            
+            // Возвращаем дефолтные три карты на интро-подложку
+            const container = document.getElementById('cards-container');
+            container.innerHTML = `
+                <div class="interactive-card card-pos-1"><div class="card-inner"><div class="card-back"></div></div></div>
+                <div class="interactive-card card-pos-2"><div class="card-inner"><div class="card-back"></div></div></div>
+                <div class="interactive-card card-pos-3"><div class="card-inner"><div class="card-back"></div></div></div>
+            `;
+
+            document.getElementById('magic-zone').classList.add('minimized');
+            const menu = document.getElementById('menu-stage');
+            menu.style.display = 'flex';
+            setTimeout(() => { menu.classList.add('visible'); }, 50);
         }
 
-        // --- КОСМИЧЕСКИЙ ФОН CANVAS ---
+        // --- ДВИЖОК КОСМОСА И СИСТЕМА ИСКР ---
         const canvas = document.getElementById('space-bg');
         const ctx = canvas.getContext('2d');
         let stars = [];
+        let sparks = [];
 
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; initStars(); }
         function initStars() {
             stars = [];
             for (let i = 0; i < 60; i++) {
                 stars.push({
-                    x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-                    size: Math.random() * 1.2 + 0.4,
-                    twinkleSpeed: 0.01 + Math.random() * 0.02, phase: Math.random() * Math.PI,
-                    speedY: Math.random() * 0.04 + 0.01 
+                    x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 1.2 + 0.4,
+                    twinkleSpeed: 0.01 + Math.random() * 0.02, phase: Math.random() * Math.PI, speedY: Math.random() * 0.04 + 0.01 
+                });
+            }
+        }
+        function createSparks(e) {
+            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            let clientX = e.clientX || (e.touches && e.touches.clientX);
+            let clientY = e.clientY || (e.touches && e.touches.clientY);
+            if (!clientX || !clientY) return;
+
+            for (let i = 0; i < 40; i++) {
+                let angle = Math.random() * Math.PI * 2;
+                let speed = Math.random() * 4 + 2;
+                sparks.push({
+                    x: clientX, y: clientY, size: Math.random() * 2.5 + 1,
+                    speedX: Math.cos(angle) * speed, speedY: Math.sin(angle) * speed - 1,
+                    alpha: 1, decay: Math.random() * 0.02 + 0.015, color: Math.random() > 0.4 ? '#ffe58f' : '#d4af37'
                 });
             }
         }
@@ -322,6 +407,12 @@
                 s.phase += s.twinkleSpeed; let alpha = 0.2 + (Math.sin(s.phase) + 1) * 0.4;
                 ctx.fillStyle = `rgba(243, 229, 171, ${alpha})`; ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); ctx.fill();
             }
+            for (let i = sparks.length - 1; i >= 0; i--) {
+                let p = sparks[i]; p.x += p.speedX; p.y += p.speedY; p.speedY += 0.05; p.alpha -= p.decay;
+                if (p.alpha <= 0) { sparks.splice(i, 1); continue; }
+                ctx.save(); ctx.globalAlpha = p.alpha; ctx.shadowBlur = 8; ctx.shadowColor = p.color; ctx.fillStyle = p.color;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+            }
             requestAnimationFrame(drawSpace);
         }
         window.addEventListener('resize', resizeCanvas);
@@ -329,4 +420,3 @@
     </script>
 </body>
 </html>
-
