@@ -23,143 +23,83 @@
             margin: 10px 0 15px 0; text-align: center; text-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
         }
 
-        /* --- ВРАЩАЮЩЕЕСЯ КОЛЕСО И ЗОДИАК --- */
+        /* АНИМАЦИЯ ВРАЩЕНИЯ КОЛЕСА И ЗОДИАКА */
         .magic-zone {
             position: relative; display: flex; justify-content: center; align-items: center;
             width: 100%; max-width: 320px; height: 320px; margin: 20px auto;
-            transition: transform 0.5s ease, margin 0.5s ease, height 0.5s ease;
         }
-        
-        .magic-zone.minimized {
-            transform: scale(0.65) translateY(-30px);
-            margin: 0 auto; height: 190px;
-        }
-
         .wheel-fortune {
             position: absolute; width: 100%; height: 100%; border-radius: 50%;
             background: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 200 200"><circle cx="100" cy="100" r="95" fill="none" stroke="%23ffd700" stroke-width="1.2" opacity="0.6"/><circle cx="100" cy="100" r="75" fill="none" stroke="%23ffd700" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.7"/><path d="M100,5 L100,195 M5,100 L195,100 M32.8,32.8 L167.2,167.2 M32.8,167.2 L167.2,32.8" stroke="%23ffd700" stroke-width="0.6" opacity="0.4"/></svg>');
-            border: 2px solid #ffd700; 
-            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.45));
+            border: 2px solid #ffd700; filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.45));
             animation: spin 80s linear infinite;
         }
-        
         .wheel-fortune::before {
             content: '♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓';
             position: absolute; width: 100%; height: 100%; color: #fff2b2; font-size: 16px;
             font-weight: bold; display: flex; align-items: center; justify-content: center;
-            letter-spacing: 12px; padding-left: 12px;
-            text-shadow: 0 0 12px #ffbb00, 0 0 20px #ffd700;
+            letter-spacing: 12px; padding-left: 12px; text-shadow: 0 0 12px #ffbb00, 0 0 20px #ffd700;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* --- ЯРКИЕ ТАРО КАРТЫ --- */
-        .cards-container { position: relative; width: 200px; height: 200px; display: flex; justify-content: center; align-items: center; z-index: 5; }
-        
-        .interactive-card {
-            position: absolute; width: 92px; height: 154px; cursor: pointer;
-            perspective: 1000px; transition: all 0.5s ease;
-        }
-        .interactive-card .card-inner {
-            position: relative; width: 100%; height: 100%; text-align: center;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d;
-        }
+        /* ДЕКОРАТИВНЫЕ ПАРЯЩИЕ КАРТЫ НА СТАРТЕ */
+        .intro-deck { position: relative; width: 200px; height: 200px; display: flex; justify-content: center; align-items: center; }
+        .intro-card { position: absolute; width: 92px; height: 154px; border: 2px solid #ffd700; border-radius: 8px; background: linear-gradient(135deg, #0f1126, #1b1f4d); box-shadow: 0 8px 20px rgba(0,0,0,0.6); overflow: hidden; }
+        .intro-card::before { content: '✦'; color: #ffd700; font-size: 24px; text-shadow: 0 0 12px #ffd700; display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; }
+        .c-pos-1 { transform: translateX(-35px) rotate(-10deg); }
+        .c-pos-2 { transform: translateY(-5px) scale(1.03); z-index: 4; }
+        .c-pos-3 { transform: translateX(35px) rotate(10deg); }
+
+        /* ИГРОВЫЕ ИНТЕРАКТИВНЫЕ КАРТЫ */
+        .game-deck { position: relative; width: 100%; height: 180px; display: flex; justify-content: center; align-items: center; }
+        .interactive-card { position: absolute; width: 92px; height: 154px; cursor: pointer; perspective: 1000px; transition: transform 0.4s ease; }
+        .card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s ease; transform-style: preserve-3d; }
         .interactive-card.flipped .card-inner { transform: rotateY(180deg); }
         .interactive-card.inverted .card-inner { transform: rotateY(180deg) rotateZ(180deg); }
-
-        .card-front, .card-back {
-            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
-            border: 2px solid #ffd700; border-radius: 8px; overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.6), 0 0 15px rgba(255, 215, 0, 0.25);
-        }
-        
-        .card-back { 
-            background: linear-gradient(135deg, #0f1126 0%, #1b1f4d 50%, #0a0b1a 100%); 
-            display: flex; align-items: center; justify-content: center; 
-        }
-        
-        .card-back::before {
-            content: '✦'; color: #ffd700; font-size: 24px;
-            text-shadow: 0 0 12px #ffd700, 0 0 20px #ffcc00;
-            position: absolute; width: 80%; height: 86%;
-            border: 1px dashed rgba(255, 215, 0, 0.5);
-            border-radius: 5px; display: flex; align-items: center; justify-content: center;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 40 40"><polygon points="20,2 38,20 20,38 2,20" fill="none" stroke="%23ffd700" stroke-width="0.6" opacity="0.35"/><circle cx="20" cy="20" r="6" fill="none" stroke="%23ffd700" stroke-width="0.5" opacity="0.4"/></svg>') center/cover;
-        }
-        
-        .card-back::after {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(115deg, rgba(255,255,255,0) 35%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 65%);
-            mix-blend-mode: overlay; animation: shimmer 5s infinite linear;
-        }
-        
-        .card-front {
-            background: linear-gradient(145deg, #fffbee, #f5e6c4); transform: rotateY(180deg);
-            display: flex; flex-direction: column; align-items: center; justify-content: center; color: #4a3319;
-        }
-        .card-front .symbol { font-size: 32px; filter: drop-shadow(0 0 8px rgba(212,175,55,0.6)); margin-bottom: 5px; }
-        .card-front .card-index { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #7a5c38; }
-
-        .card-pos-1 { transform: translateX(-35px) rotate(-10deg); }
-        .card-pos-2 { transform: translateY(-5px) scale(1.03); z-index: 4; }
-        .card-pos-3 { transform: translateX(35px) rotate(10deg); }
-
+        .card-front, .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border: 2px solid #ffd700; border-radius: 8px; overflow: hidden; }
+        .card-back { background: linear-gradient(135deg, #0f1126, #1b1f4d); display: flex; align-items: center; justify-content: center; }
+        .card-back::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(115deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 60%); mix-blend-mode: overlay; animation: shimmer 5s infinite linear; }
+        .card-front { background: linear-gradient(145deg, #fffbee, #f5e6c4); transform: rotateY(180deg); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #4a3319; }
+        .card-front .symbol { font-size: 32px; margin-bottom: 5px; }
+        .card-front .card-index { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #7a5c38; }
         @keyframes shimmer { 0% { transform: translate(-30%, -30%); } 100% { transform: translate(30%, 30%); } }
 
-        /* --- КНОПКА С ПУЛЬСАЦИЕЙ --- */
+        /* ИНТЕРФЕЙС И ЭКРАНЫ */
         .interface-zone { width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .screen { display: none; width: 100%; flex-direction: column; align-items: center; }
+        .screen.active { display: flex; }
 
+        /* СТАРТОВАЯ КНОПКА С ПУЛЬСАЦИЕЙ */
         .gold-btn {
             position: relative; background: linear-gradient(135deg, #fff4cc 0%, #ffd700 50%, #cc9900 100%);
             color: #050508; font-family: 'Cinzel', serif; font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
             border: none; border-radius: 40px; padding: 18px 45px; cursor: pointer; margin-top: 25px;
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.5); outline: none; overflow: hidden;
-            animation: pulseGlow 2s infinite ease-in-out; transition: all 0.4s ease;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.5); outline: none; overflow: hidden;
+            animation: pulseGlow 2s infinite ease-in-out;
         }
-        .gold-btn::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 40px;
-            box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); animation: wavePulse 2s infinite ease-in-out;
-        }
-        @keyframes pulseGlow {
-            0% { transform: scale(1); box-shadow: 0 0 25px rgba(255, 215, 0, 0.5); }
-            50% { transform: scale(1.03); box-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
-            100% { transform: scale(1); box-shadow: 0 0 25px rgba(255, 215, 0, 0.5); }
-        }
-        @keyframes wavePulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.6); opacity: 1; }
-            100% { box-shadow: 0 0 0 25px rgba(255, 215, 0, 0); opacity: 0; }
-        }
+        .gold-btn::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 40px; box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); animation: wavePulse 2s infinite ease-in-out; }
+        @keyframes pulseGlow { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
+        @keyframes wavePulse { 0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.6); opacity: 1; } 100% { box-shadow: 0 0 0 25px rgba(255, 215, 0, 0); opacity: 0; } }
 
-        #status-text { display: none; font-size: 14px; color: #fff2b2; text-align: center; margin: 10px 0; min-height: 20px; letter-spacing: 1px; text-shadow: 0 0 5px #ffbb00;}
-
-        /* --- ПАНЕЛЬ МЕНЮ --- */
-        .stage-container { display: none; width: 100%; flex-direction: column; align-items: center; opacity: 0; transform: translateY(20px); transition: all 0.4s ease; }
-        .stage-container.visible { display: flex; opacity: 1; transform: translateY(0); }
-        
-        #menu-stage { width: 100%; max-width: 360px; }
-        .category-title { font-size: 12px; color: #bbaec9; letter-spacing: 2px; text-transform: uppercase; margin: 18px 0 8px 5px; width: 100%; text-align: left; text-shadow: 0 0 5px rgba(255,255,255,0.1); }
+        /* МЕНЮ РАСКЛАДОВ */
+        #menu-screen { max-width: 360px; }
+        .category-title { font-size: 12px; color: #bbaec9; letter-spacing: 2px; text-transform: uppercase; margin: 15px 0 8px 5px; width: 100%; text-align: left; }
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
         .full-width { grid-column: span 2; }
-        
         .menu-item {
-            background: rgba(22, 24, 46, 0.75); border: 1.5px solid rgba(255, 215, 0, 0.3);
-            border-radius: 12px; padding: 13px 15px; font-family: 'Cinzel', serif; font-size: 12px;
-            color: #fff2b2; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between;
-            min-height: 78px; cursor: pointer; transition: all 0.3s ease; backdrop-filter: blur(5px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            background: rgba(22, 24, 46, 0.75); border: 1.5px solid rgba(255, 215, 0, 0.3); border-radius: 12px; padding: 13px 15px; 
+            font-family: 'Cinzel', serif; font-size: 12px; color: #fff2b2; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between;
+            min-height: 78px; cursor: pointer; transition: all 0.2s ease; backdrop-filter: blur(5px);
         }
-        .menu-item:hover { border-color: #ffd700; background: rgba(255, 215, 0, 0.15); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,215,0,0.15); }
+        .menu-item:hover { border-color: #ffd700; background: rgba(255, 215, 0, 0.15); transform: translateY(-2px); }
         .menu-item .title-box { display: flex; align-items: center; gap: 6px; font-weight: 600; width: 100%; }
-        
         .badge { font-size: 9px; padding: 2px 6px; border-radius: 8px; font-weight: bold; margin-top: 8px; align-self: flex-end; }
         .badge.free { background: rgba(76, 175, 80, 0.2); color: #a1ffb2; border: 1px solid #4caf50; }
         .badge.premium { background: rgba(255, 215, 0, 0.15); color: #ffd700; border: 1px solid #ffd700; }
 
-        .back-btn {
-            background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff2b2;
-            padding: 10px 20px; border-radius: 20px; font-family: inherit; font-size: 11px;
-            cursor: pointer; margin-top: 20px; transition: all 0.3s;
-        }
-        .back-btn:hover { border-color: #ffd700; background: rgba(255,255,0,0.05); }
+        /* ИГРОВОЙ ЭКРАН */
+        #status-text { font-size: 14px; color: #fff2b2; text-align: center; margin: 15px 0; min-height: 20px; text-shadow: 0 0 5px #ffbb00; }
+        .back-btn { background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff2b2; padding: 10px 20px; border-radius: 20px; font-family: inherit; font-size: 11px; cursor: pointer; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -167,81 +107,93 @@
     <canvas id="space-bg"></canvas>
 
     <div class="content-wrap">
-        <h1 id="main-title">Zlata Tarot Astral</h1>
+        <h1>Zlata Tarot Astral</h1>
 
-        <div class="magic-zone" id="magic-zone">
+        <!-- Центральная графическая зона -->
+        <div class="magic-zone">
             <div class="wheel-fortune"></div>
-            <div class="cards-container" id="cards-container">
-                <div class="interactive-card card-pos-1" id="intro-c1"><div class="card-inner"><div class="card-back"></div></div></div>
-                <div class="interactive-card card-pos-2" id="intro-c2"><div class="card-inner"><div class="card-back"></div></div></div>
-                <div class="interactive-card card-pos-3" id="intro-c3"><div class="card-inner"><div class="card-back"></div></div></div>
+            
+            <!-- Декоративные стартовые карты -->
+            <div class="intro-deck" id="intro-deck">
+                <div class="intro-card c-pos-1"></div>
+                <div class="intro-card c-pos-2"></div>
+                <div class="intro-card c-pos-3"></div>
             </div>
         </div>
 
         <div class="interface-zone">
-            <button class="gold-btn" id="enter-btn" onclick="enterToApp()">Войти в Оракул</button>
             
-            <div id="status-text">Выберите карты...</div>
-
-            <div id="menu-stage" class="stage-container">
+            <!-- ЭКРАН 1: СТАРТОВАЯ КНОПКА ВХОДА -->
+            <div id="start-screen" class="screen active">
+                <button class="gold-btn" onclick="enterToApp()">Войти в Оракул</button>
+            </div>
+            
+            <!-- ЭКРАН 2: ГЛАВНОЕ МЕНЮ РАСКЛАДОВ -->
+            <div id="menu-screen" class="screen">
                 <div class="category-title">Таро Расклады</div>
                 <div class="menu-grid">
-                    <div class="menu-item full-width" onclick="startLayout('tarot_day', 'free', 1)">
+                    <div class="menu-item full-width" onclick="startLayout('tarot_day', 1)">
                         <div class="title-box"><span>🃏</span> <span>Карта Дня</span></div>
                         <span class="badge free">FREE</span>
                     </div>
-                    <div class="menu-item" onclick="startLayout('tarot_timeline', 'free', 3)">
+                    <div class="menu-item" onclick="startLayout('tarot_timeline', 3)">
                         <div class="title-box"><span>⏳</span> <span>Прошлое/Будущее</span></div>
                         <span class="badge free">TEST OPEN</span>
                     </div>
-                    <div class="menu-item" onclick="startLayout('celtic_cross', 'free', 10)">
+                    <div class="menu-item" onclick="startLayout('celtic_cross', 10)">
                         <div class="title-box"><span>⚔️</span> <span>Кельтский крест</span></div>
                         <span class="badge free">TEST 10 КАРТ</span>
                     </div>
-                    <div class="menu-item" onclick="startLayout('tarot_love_2_hearts', 'free', 4)">
+                    <div class="menu-item" onclick="startLayout('tarot_love_2_hearts', 4)">
                         <div class="title-box"><span>❤️</span> <span>Отношения (2 сердца)</span></div>
                         <span class="badge free">TEST 4 КАРТЫ</span>
                     </div>
-                    <div class="menu-item" onclick="startLayout('tarot_yes_no', 'free', 1)">
+                    <div class="menu-item" onclick="startLayout('tarot_yes_no', 1)">
                         <div class="title-box"><span>⚖️</span> <span>Да / Нет</span></div>
                         <span class="badge free">TEST UPRIGHT/REV</span>
                     </div>
-                    <div class="menu-item" onclick="startLayout('tarot_question_3_cards', 'free', 3)">
+                    <div class="menu-item" onclick="startLayout('tarot_question_3_cards', 3)">
                         <div class="title-box"><span>🔮</span> <span>Вопрос</span></div>
                         <span class="badge free">TEST OPEN</span>
                     </div>
-                    <div class="menu-item full-width" onclick="startLayout('business_oracle_combo', 'free', 1)">
-                        <div class="title-box"><span>💼</span> <span>Бизнес-оракул (Астро + 1 Карта Таро)</span></div>
+                    <div class="menu-item full-width" onclick="startLayout('business_oracle_combo', 1)">
+                        <div class="title-box"><span>💼</span> <span>Бизнес-оракул (Астро + 1 Таро)</span></div>
                         <span class="badge free">TEST COMBO</span>
                     </div>
                 </div>
 
                 <div class="category-title">Чистая Астрология</div>
                 <div class="menu-grid">
-                    <div class="menu-item" onclick="startLayout('natal_chart', 'direct_payment', 0)">
+                    <div class="menu-item" onclick="sendPaymentRequest('natal_chart')">
                         <div class="title-box"><span>🌌</span> <span>Натальная карта</span></div>
                         <span class="badge premium">🔒 Платный PDF</span>
                     </div>
-                    <div class="menu-item" onclick="startLayout('compatibility', 'direct_payment', 0)">
+                    <div class="menu-item" onclick="sendPaymentRequest('compatibility')">
                         <div class="title-box"><span>💞</span> <span>Совместимость</span></div>
                         <span class="badge premium">🔒 Платный PDF</span>
                     </div>
-                    <div class="menu-item" onclick="startLayout('horoscope_day', 'direct_payment', 0)">
+                    <div class="menu-item" onclick="sendPaymentRequest('horoscope_day')">
                         <div class="title-box"><span>📅</span> <span>Гороскоп на День</span></div>
                         <span class="badge premium">🔒 Отчет</span>
                     </div>
-                    <div class="menu-item" onclick="startLayout('horoscope_month', 'direct_payment', 0)">
+                    <div class="menu-item" onclick="sendPaymentRequest('horoscope_month')">
                         <div class="title-box"><span>🌙</span> <span>Гороскоп на Месяц</span></div>
                         <span class="badge premium">🔒 Отчет</span>
                     </div>
-                    <div class="menu-item full-width" onclick="startLayout('horoscope_year', 'direct_payment', 0)">
+                    <div class="menu-item full-width" onclick="sendPaymentRequest('horoscope_year')">
                         <div class="title-box"><span>☀️</span> <span>Гороскоп на Год</span></div>
                         <span class="badge premium">🔒 Платный PDF</span>
                     </div>
                 </div>
             </div>
 
-            <button id="back-btn" class="back-btn" style="display: none;" onclick="backToMenu()">← Назад в меню</button>
+            <!-- ЭКРАН 3: ЗОНА ДИНАМИЧЕСКОГО ИГРОВОГО РАСКЛАДА -->
+            <div id="game-screen" class="screen">
+                <div id="status-text">Выберите карты...</div>
+                <div class="game-deck" id="game-deck"></div>
+                <button class="back-btn" onclick="backToMenu()">← Назад в меню</button>
+            </div>
+
         </div>
     </div>
 
@@ -254,59 +206,49 @@
         let flippedCount = 0;
         let selectedCards = [];
 
+        // Переход с Главного экрана в Меню
         function enterToApp() {
-            document.getElementById('enter-btn').style.display = 'none';
-            document.getElementById('magic-zone').classList.add('minimized');
-
-            const menu = document.getElementById('menu-stage');
-            menu.style.display = 'flex';
-            setTimeout(function() { menu.classList.add('visible'); }, 50);
+            document.getElementById('start-screen').classList.remove('active');
+            document.getElementById('menu-screen').classList.add('active');
         }
 
-        function startLayout(actionName, tariff, cardsCount) {
-            currentAction = actionName;
-            targetCardsCount = cardsCount;
-
-            if (tariff === 'direct_payment') {
-                sendPaymentRequest(actionName);
-                return;
-            }
-            
-            document.getElementById('menu-stage').style.display = 'none';
-            document.getElementById('menu-stage').classList.remove('visible');
-            document.getElementById('magic-zone').classList.remove('minimized');
-            
-            document.getElementById('status-text').style.display = 'block';
-            document.getElementById('back-btn').style.display = 'block';
-            
-            buildDeck(cardsCount);
-        }
-
+        // Клик на Астрологию (Сразу запрос оплаты в бот)
         function sendPaymentRequest(productName) {
             const payload = { action: "request_payment", product: productName, user_id: tg.initDataUnsafe?.user?.id };
             try { tg.sendData(JSON.stringify(payload)); } catch(e) {}
             try { tg.close(); } catch(e) {}
         }
 
-        function buildDeck(count) {
-            const container = document.getElementById('cards-container');
-            container.innerHTML = '';
+        // Клик на Таро Расклад (Переход к картам)
+        function startLayout(actionName, cardsCount) {
+            currentAction = actionName;
+            targetCardsCount = cardsCount;
             flippedCount = 0;
             selectedCards = [];
-            document.getElementById('status-text').innerText = 'Выберите ' + count + ' карт(ы):';
 
-            for (let i = 0; i < count; i++) {
+            // Прячем меню и декоративные карты, включаем Игровой Экран
+            document.getElementById('menu-screen').classList.remove('active');
+            document.getElementById('intro-deck').style.display = 'none';
+            
+            document.getElementById('game-screen').classList.add('active');
+            document.getElementById('status-text').innerText = 'Выберите ' + cardsCount + ' карт(ы):';
+
+            // Генерируем колоду
+            const deck = document.getElementById('game-deck');
+            deck.innerHTML = '';
+
+            for (let i = 0; i < cardsCount; i++) {
                 const card = document.createElement('div');
                 card.className = 'interactive-card';
                 
-                let offset = (i - (count - 1) / 2) * (count > 4 ? 16 : 32);
-                let rotate = (i - (count - 1) / 2) * (count > 4 ? 1.5 : 5);
+                let offset = (i - (cardsCount - 1) / 2) * (cardsCount > 4 ? 16 : 32);
+                let rotate = (i - (cardsCount - 1) / 2) * (cardsCount > 4 ? 1.5 : 5);
                 card.style.transform = 'translateX(' + offset + 'px) rotate(' + rotate + 'deg)';
 
                 card.innerHTML = '<div class="card-inner"><div class="card-back"></div><div class="card-front"><div class="symbol">🔮</div><div class="card-index">Карта ' + (i+1) + '</div></div></div>';
                 
                 card.addEventListener('click', function() { handleCardFlip(card); });
-                container.appendChild(card);
+                deck.appendChild(card);
             }
         }
 
@@ -322,9 +264,8 @@
             }
 
             cardElement.classList.add('flipped');
-            cardElement.style.transform += ' translateY(-18px) scale(1.04)';
-            cardElement.style.zIndex = 10 + flippedCount;
-
+            cardElement.style.transform += ' translateY(-15px) scale(1.03)';
+            
             flippedCount++;
             selectedCards.push({ id: Math.floor(Math.random() * 78) + 1, orientation: orientation });
 
@@ -334,26 +275,19 @@
                     const payload = { action: currentAction, lang: "ru", user_id: tg.initDataUnsafe?.user?.id, cards: selectedCards };
                     try { tg.sendData(JSON.stringify(payload)); } catch(e) {}
                     try { tg.close(); } catch(e) {}
-                }, 2500);
+                }, 1500);
             } else {
                 document.getElementById('status-text').innerText = 'Выбрано карт: ' + flippedCount + ' из ' + targetCardsCount;
             }
         }
 
         function backToMenu() {
-            document.getElementById('status-text').style.display = 'none';
-            document.getElementById('back-btn').style.display = 'none';
-            
-            const container = document.getElementById('cards-container');
-            container.innerHTML = '<div class="interactive-card card-pos-1"><div class="card-inner"><div class="card-back"></div></div></div><div class="interactive-card card-pos-2"><div class="card-inner"><div class="card-back"></div></div></div><div class="interactive-card card-pos-3"><div class="card-inner"><div class="card-back"></div></div></div>';
-
-            document.getElementById('magic-zone').classList.add('minimized');
-            const menu = document.getElementById('menu-stage');
-            menu.style.display = 'flex';
-            setTimeout(function() { menu.classList.add('visible'); }, 50);
+            document.getElementById('game-screen').classList.remove('active');
+            document.getElementById('intro-deck').style.style.display = 'flex';
+            document.getElementById('menu-screen').classList.add('active');
         }
 
-        // --- ЖИВОЙ КОСМОС И СОЗВЕЗДИЯ ---
+        // --- ДВИЖОК ЗВЕЗДНОГО НЕБА И МЕРЦАЮЩИХ СОЗВЕЗДИЙ ---
         const canvas = document.getElementById('space-bg');
         const ctx = canvas.getContext('2d');
         let stars = [];
@@ -363,14 +297,12 @@
             stars = [];
             for (let i = 0; i < 75; i++) {
                 stars.push({
-                    x: Math.random() * canvas.width, y: Math.random() * canvas.height, 
-                    size: Math.random() * 1.8 + 0.6,
+                    x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 1.8 + 0.6,
                     twinkleSpeed: 0.015 + Math.random() * 0.025, phase: Math.random() * Math.PI,
                     speedX: (Math.random() - 0.5) * 0.04, speedY: Math.random() * 0.06 + 0.03 
                 });
             }
         }
-        
         function drawSpace() {
             let bgGrad = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 10, canvas.width/2, canvas.height/2, canvas.height);
             bgGrad.addColorStop(0, '#090a1a'); bgGrad.addColorStop(1, '#020205');
@@ -379,25 +311,15 @@
             for (let i = 0; i < stars.length; i++) {
                 let s = stars[i]; s.y += s.speedY; s.x += s.speedX;
                 if (s.y > canvas.height) s.y = 0; if (s.x > canvas.width) s.x = 0; if (s.x < 0) s.x = canvas.width;
-                s.phase += s.twinkleSpeed; 
-                let alpha = 0.35 + (Math.sin(s.phase) + 1) * 0.45;
-
-                ctx.fillStyle = 'rgba(255, 244, 204, ' + alpha + ')'; 
-                ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); ctx.fill();
-
-                if(s.size > 1.3) {
-                    ctx.fillStyle = 'rgba(255, 215, 0, ' + (alpha * 0.4) + ')';
-                    ctx.beginPath(); ctx.arc(s.x, s.y, s.size * 2.5, 0, Math.PI * 2); ctx.fill();
-                }
+                s.phase += s.twinkleSpeed; let alpha = 0.35 + (Math.sin(s.phase) + 1) * 0.45;
+                ctx.fillStyle = 'rgba(255, 244, 204, ' + alpha + ')'; ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); ctx.fill();
             }
 
             ctx.strokeStyle = 'rgba(255, 215, 0, 0.12)'; ctx.lineWidth = 0.6;
             for (let i = 0; i < stars.length; i++) {
                 for (let j = i + 1; j < stars.length; j++) {
                     let dist = Math.hypot(stars[i].x - stars[j].x, stars[i].y - stars[j].y);
-                    if (dist < 70) {
-                        ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(stars[j].x, stars[j].y); ctx.stroke();
-                    }
+                    if (dist < 70) { ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(stars[j].x, stars[j].y); ctx.stroke(); }
                 }
             }
             requestAnimationFrame(drawSpace);
