@@ -3,637 +3,495 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Astro Tarot Oracle</title>
+    <title>Launch Astro Tarot Oracle</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
     <style>
-        * { box-sizing: border-box; user-select: none; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body { background: #030306; color: #f4f4f6; font-family: 'Cinzel', serif; min-height: 100vh; overflow-x: hidden; position: relative; }
-        .stage { display: none; width: 100%; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; position: absolute; top: 0; left: 0; }
-        #start-screen { display: flex; z-index: 2000; background: #030306; }
-        #menu-stage { display: none; z-index: 1000; }
-        .zodiac-wheel-wrap { position: relative; width: 220px; height: 220px; border: 1px solid #ffd700; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 30px; animation: spinZodiac 60s linear infinite; }
-        .zodiac-icon { position: absolute; font-size: 20px; color: #ffd700; text-shadow: 0 0 10px #ff00ff; transform-origin: 110px center; }
-        @keyframes spinZodiac { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .start-fan { display: flex; gap: 10px; margin-bottom: 40px; }
-        .fan-card { width: 60px; height: 90px; border: 2px solid #ffd700; border-radius: 8px; background: rgba(255,215,0,0.1); }
-        .card-left { transform: rotate(-15deg); } .card-right { transform: rotate(15deg); }
-        .btn-mystic { width: 250px; padding: 18px; background: #ffd700; color: #000; border: none; border-radius: 30px; font-weight: 800; cursor: pointer; z-index: 9999; pointer-events: auto; }
-        /* --- ОСТАЛЬНЫЕ ВАШИ СТИЛИ ИЗ ИСХОДНОГО ФАЙЛА --- */
-        #space-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at center, #1b1b2e 0%, #030306 100%); }
-        .main-container { width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        h1 { font-size: 24px; margin-bottom: 20px; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
-        .grid-menu { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; margin-top: 20px; }
-        .menu-item { background: rgba(255, 255, 255, 0.05); padding: 20px; border: 1px solid #ffd700; border-radius: 15px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .menu-item:hover { background: rgba(255, 215, 0, 0.1); }
-        .card-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-        .card-img { width: 200px; height: 350px; border-radius: 10px; margin-bottom: 20px; }
+        * { box-sizing: border-box; user-select: none; -webkit-user-select: none; }
+        
+        body {
+            background: #030306; color: #f4f4f6; font-family: 'Cinzel', serif;
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+            min-height: 100vh; margin: 0; padding: 15px; overflow-x: hidden; position: relative;
+        }
+        #space-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+
+        .content-wrap { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; width: 100%; }
+        
+        h1 {
+            font-size: 24px; font-weight: 700; letter-spacing: 4px; margin-top: 30px; margin-bottom: 5px;
+            text-align: center; color: #fff2b2; text-shadow: 0 0 10px rgba(255,242,178,0.3);
+        }
+        .subtitle { font-size: 11px; letter-spacing: 2px; color: #8a8ab0; margin-bottom: 40px; text-transform: uppercase; }
+
+        /* ЭКРАНЫ */
+        .stage { display: none; width: 100%; flex-direction: column; align-items: center; }
+        #start-screen { display: flex; }
+
+        /* КНОПКИ */
+        .btn-mystic {
+            background: linear-gradient(135deg, #1b133a 0%, #0c081d 100%);
+            color: #fff2b2; border: 1px solid #4a3b7d; padding: 15px 35px;
+            font-family: 'Cinzel', serif; font-size: 14px; font-weight: 600; letter-spacing: 2px;
+            border-radius: 30px; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(12, 8, 29, 0.6), inset 0 0 10px rgba(138, 138, 176, 0.1);
+            margin-top: 20px; text-transform: uppercase;
+        }
+        .btn-mystic:active { transform: scale(0.97); border-color: #fff2b2; box-shadow: 0 0 15px rgba(255,242,178,0.2); }
+
+        .btn-back {
+            position: absolute; top: 10px; left: 10px; background: transparent; border: none;
+            color: #8a8ab0; font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 1px;
+            cursor: pointer; padding: 5px 10px; text-transform: uppercase; z-index: 10;
+        }
+
+        /* МЕНЮ РАСКЛАДОВ */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 400px; padding: 10px; }
+        .menu-item {
+            background: rgba(15, 11, 38, 0.5); border: 1px solid rgba(74, 59, 125, 0.4);
+            border-radius: 12px; padding: 20px 10px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease;
+            text-align: center; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+        }
+        .menu-item:active { background: rgba(35, 25, 78, 0.7); border-color: #fff2b2; }
+        .menu-item .icon { font-size: 24px; margin-bottom: 8px; filter: drop-shadow(0 0 5px rgba(255,215,0,0.3)); }
+        .menu-item .title { font-size: 12px; font-weight: 600; color: #f4f4f6; letter-spacing: 1px; }
+        .menu-item .desc { font-size: 9px; color: #8a8ab0; margin-top: 4px; font-family: sans-serif; }
+
+        /* ИГРОВОЙ СТОЛ И КАРТЫ */
+        #status-text {
+            font-size: 12px; color: #fff2b2; letter-spacing: 1px; text-align: center;
+            margin-bottom: 25px; min-height: 18px; font-family: sans-serif;
+        }
+        
+        /* Зона размещения карт на столе */
+        .magic-table {
+            position: relative; width: 100%; max-width: 400px; height: 320px;
+            margin-bottom: 20px; display: flex; align-items: center; justify-content: center;
+        }
+
+        /* ИНТЕРАКТИВНАЯ КАРТА */
+        .interactive-card {
+            position: absolute; width: 72px; height: 124px; perspective: 1000px;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), z-index 0.1s ease;
+            cursor: pointer; -webkit-tap-highlight-color: transparent;
+        }
+        .card-inner {
+            position: relative; width: 100%; height: 100%; text-align: center;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            transform-style: preserve-3d; border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+        .interactive-card.flipped .card-inner { transform: rotateY(180deg); }
+        
+        /* Перевернутая карта (механика Да/Нет) */
+        .interactive-card.inverted .card-inner { transform: rotateY(180deg) rotate(180deg); }
+
+        .card-back, .card-front {
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+            -webkit-backface-visibility: hidden; border-radius: 8px; overflow: hidden;
+        }
+        
+        /* Рубашка */
+        .card-back {
+            background: #0d0a1b linear-gradient(135deg, #130f2b 0%, #070512 100%);
+            border: 2px solid #3d306b; box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .card-back::after {
+            content: "✨"; font-size: 20px; color: #4a3b7d;
+            opacity: 0.6; filter: drop-shadow(0 0 5px rgba(255,215,0,0.2));
+        }
+
+        /* Лицо карты */
+        .card-front {
+            background: #000; border: 1.5px solid #fff2b2;
+            transform: rotateY(180deg); display: flex; align-items: center;
+            justify-content: center; padding: 0;
+        }
+        .card-img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+
+        /* Декоративный хрустальный шар */
+        .oracle-sphere {
+            width: 140px; height: 140px; background: radial-gradient(circle at 30% 30%, #2b1f54 0%, #0a0618 70%, #020105 100%);
+            border-radius: 50%; margin: 40px 0; position: relative;
+            box-shadow: 0 0 30px rgba(74, 59, 125, 0.4), inset -10px -10px 25px rgba(0,0,0,0.7), inset 10px 10px 20px rgba(255,255,255,0.1);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .oracle-sphere::before {
+            content: ""; position: absolute; top: 12px; left: 22px; width: 25px; height: 15px;
+            background: rgba(255,255,255,0.15); border-radius: 50%; transform: rotate(-30deg); filter: blur(1px);
+        }
+        .oracle-glow {
+            position: absolute; width: 100%; height: 100%; border-radius: 50%;
+            background: radial-gradient(circle, rgba(147,112,219,0.2) 0%, transparent 70%);
+            animation: pulseGlow 4s infinite ease-in-out; pointer-events: none;
+        }
+        @keyframes pulseGlow { 0%, 100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.15); } }
     </style>
 </head>
 <body>
-    <div id="start-screen" class="stage" style="display: flex;">
-        <div class="zodiac-wheel-wrap"><div id="zodiac-container"></div></div>
-        <div class="start-fan">
-            <div class="fan-card card-left"></div>
-            <div class="fan-card"></div>
-            <div class="fan-card card-right"></div>
+
+    <canvas id="space-bg"></canvas>
+
+    <div class="content-wrap">
+        <h1>Astro Tarot Oracle</h1>
+        <div class="subtitle">Astral Portal</div>
+
+        <div id="start-screen" class="stage">
+            <div class="oracle-sphere"><div class="oracle-glow"></div>🔮</div>
+            <button class="btn-mystic" onclick="enterToApp()">Запустить Астро Таро Оракул</button>
         </div>
-        <button class="btn-mystic" onclick="enterToApp()">ВОЙТИ В ОРАКУЛ</button>
-    </div>
-    <div id="menu-stage" class="stage">
-        <div id="space-bg"></div>
-        <div class="main-container">
-            <h1>ASTRO TAROT ORACLE</h1>
-            <div class="grid-menu">
-                <div class="menu-item" onclick="openLayout('daily')">Карта дня</div>
-                <div class="menu-item" onclick="openLayout('love')">Любовь</div>
-                <div class="menu-item" onclick="openLayout('career')">Карьера</div>
-                <div class="menu-item" onclick="openLayout('advice')">Совет</div>
+
+        <div id="menu-stage" class="stage">
+            <div class="menu-grid">
+                <div class="menu-item" onclick="startLayout('tarot_day', 1)">
+                    <div class="icon">☀️</div>
+                    <div class="title">Карта Дня</div>
+                    <div class="desc">Главный фокус суток</div>
+                </div>
+                <div class="menu-item" onclick="startLayout('tarot_yes_no', 1)">
+                    <div class="icon">⚖️</div>
+                    <div class="title">Да / Нет</div>
+                    <div class="desc">Четкий ответ оракула</div>
+                </div>
+                <div class="menu-item" onclick="startLayout('business_oracle_combo', 1)">
+                    <div class="icon">💼</div>
+                    <div class="title">Бизнес Совет</div>
+                    <div class="desc">Стратегия и деньги</div>
+                </div>
+                <div class="menu-item" onclick="startLayout('tarot_timeline', 3)">
+                    <div class="icon">⏳</div>
+                    <div class="title">Три Времени</div>
+                    <div class="desc">Прошлое, настоящее, будущее</div>
+                </div>
+                <div class="menu-item" onclick="startLayout('tarot_question_3_cards', 3)">
+                    <div class="icon">🔱</div>
+                    <div class="title">Разбор Ситуации</div>
+                    <div class="desc">Суть, преграда, решение</div>
+                </div>
+                <div class="menu-item" onclick="startLayout('tarot_love_2_hearts', 4)">
+                    <div class="icon">💖</div>
+                    <div class="title">Два Сердца</div>
+                    <div class="desc">Анализ отношений и связи</div>
+                </div>
+                <div class="menu-item" onclick="startLayout('celtic_cross', 10)" style="grid-column: span 2;">
+                    <div class="icon">🔱</div>
+                    <div class="title">Кельтский Крест</div>
+                    <div class="desc">Глубокий разбор судьбы и любых вопросов (10 карт)</div>
+                </div>
             </div>
         </div>
-        <div id="card-modal" class="card-modal">
-            <img id="modal-img" class="card-img" src="" alt="Карта">
-            <h2 id="modal-title" style="margin-bottom: 10px;"></h2>
-            <p id="modal-desc" style="padding: 0 20px; text-align: center; margin-bottom: 20px;"></p>
-            <button class="btn-mystic" onclick="closeCardModal()">Закрыть</button>
+
+        <div id="game-stage" class="stage">
+            <button class="btn-back" onclick="backToMenu()">◀ Назад</button>
+            <div id="status-text">Выберите карты</div>
+            
+            <div class="magic-table" id="magic-table-zone"></div>
+            
+            <div id="cards-container"></div>
         </div>
     </div>
+
     <script>
-        // ИНИЦИАЛИЗАЦИЯ И СИСТЕМНЫЕ ПРОВЕРКИ
         const tg = window.Telegram.WebApp;
-        tg.expand();
+        try { tg.expand(); } catch(e) {}
+
+        let currentAction = '';
+        let targetCardsCount = 0;
+        let flippedCount = 0;
+        let selectedCards = [];
+
+        // БАЗА 78 КАРТ ТАРО С ПРЯМЫМИ ССЫЛКАМИ НА ВАШ ИМГББ
+        const tarotDeck = [
+            { id: 1, name: "Дурак", img: "https://i.ibb.co/b5GDPJTr/0603170325589-00-678029bbc55011a335aa0623a5fbd863.jpg" },
+            { id: 2, name: "Маг", img: "https://i.ibb.co/BHxXyt0n/0603170325589-02-1affc857cacbf5a0ff6ead63d66211ea.jpg" },
+            { id: 3, name: "Верховная Жрица", img: "https://i.ibb.co/S4GW4gvH/0603170325589-03-0ddacb930338683e6aae222a529e79f1.jpg" },
+            { id: 4, name: "Императрица", img: "https://i.ibb.co/9HrmxY5S/0603170325589-04-19dd16bc6fda522034e722acc866cd03.jpg" },
+            { id: 5, name: "Император", img: "https://i.ibb.co/fVsMDQrK/0603170325589-05-c574474b6f14b2bd02d87815f06c59cd.jpg" },
+            { id: 6, name: "Иерофант", img: "https://i.ibb.co/S4dqdNjZ/0603170325589-06-37da9a540c0b9bc51355f2e2c19943b9.jpg" },
+            { id: 7, name: "Влюблённые", img: "https://i.ibb.co/PGQ8h3Bc/0603170325589-07-a7c10a5faaf2a2a4de0075d5ea71ad3b.jpg" },
+            { id: 8, name: "Колесница", img: "https://i.ibb.co/dw3BLxZX/0603170325589-08-1e89a2cb614d15fd1e231269ea2cc30c.jpg" },
+            { id: 9, name: "Сила", img: "https://i.ibb.co/Z1LrJcX3/0603170325589-09-1b0fc07411416100fd85ec05b4b8246a.jpg" },
+            { id: 10, name: "Отшельник", img: "https://i.ibb.co/jv5z35x6/0603170325589-10-3eaa96f92c8b013f8eb84a358d7eb100.jpg" },
+            { id: 11, name: "Колесо Фортуны", img: "https://i.ibb.co/N6g7NXt8/0603170325589-11-899cd14941a67c67901187755f1eef94.jpg" },
+            { id: 12, name: "Справедливость", img: "https://i.ibb.co/Q7GhpR27/0603170325589-12-c7de472fc407322bc8e95c972546fd12.jpg" },
+            { id: 13, name: "Повешенный", img: "https://i.ibb.co/xKqmXN7W/0603170325589-13-b9b7cb5f226c779056861c60dd9d7883.jpg" },
+            { id: 14, name: "Смерть", img: "https://i.ibb.co/q3Mc4nFy/0603170325589-14-2fc4425a191475c739cfb030b43763f1.jpg" },
+            { id: 15, name: "Умеренность", img: "https://i.ibb.co/cXvV8Yj5/0603170325589-15-7bea7f83bb7093f18a41bba46f1b7427.jpg" },
+            { id: 16, name: "Дьявол", img: "https://i.ibb.co/j9C6kVfM/0603170325589-16-8f5e336db5557771ee63c1aa2152ea6d.jpg" },
+            { id: 17, name: "Башня", img: "https://i.ibb.co/m5R31CxZ/0603170325589-17-895483f2f33dc90c502f9bd405d9f630.jpg" },
+            { id: 18, name: "Звезда", img: "https://i.ibb.co/6JbbLd0z/0603170325589-18-1b8a346488fdf4ff9a6933d4db7d7d37.jpg" },
+            { id: 19, name: "Луна", img: "https://i.ibb.co/QF6qDbRW/0603170325589-19-1ed7a0f351a0622323a409be4746c589.jpg" },
+            { id: 20, name: "Солнце", img: "https://i.ibb.co/ch5HYH0M/0603170325589-20-16346c2a033548179ec5e6c58fe2dfb3.jpg" },
+            { id: 21, name: "Суд", img: "https://i.ibb.co/4RRQYBb1/0603170325589-21-800272d9e2f4266c7867ede1e8a40f9b.jpg" },
+            { id: 22, name: "Мир", img: "https://i.ibb.co/QvkfR1Yq/0603170325589-22-8b820d52bca7cf5a56ab79116aab4787.jpg" },
+            { id: 23, name: "Туз Жезлов", img: "https://i.ibb.co/rfbv8Ysk/0603170325589-23-94a7f432f845bc523eb67fbbc37a9be1.jpg" },
+            { id: 24, name: "Двойка Жезлов", img: "https://i.ibb.co/QvZRBzsX/0603170325589-24-866f4e7c2570670a64db0f031963f2de.jpg" },
+            { id: 25, name: "Тройка Жезлов", img: "https://i.ibb.co/cKxt1Kwz/0603170325589-25-d24df431069f1a7f30847a119ad66934.jpg" },
+            { id: 26, name: "Четвёрка Жезлов", img: "https://i.ibb.co/39xvjQK8/0603170325589-26-9e730438f5a36003eacb58fa91178855.jpg" },
+            { id: 27, name: "Пятёрка Жезлов", img: "https://i.ibb.co/zh2pRWzW/0603170325589-27-d2a089deccfec6127f07f6ca0e2f84dd.jpg" },
+            { id: 28, name: "Шесть Жезлов", img: "https://i.ibb.co/hqw2j2X/0603170325589-28-497a49a55c8c3769dd6095781ba725ee.jpg" },
+            { id: 29, name: "Семёрка Жезлов", img: "https://i.ibb.co/spjmm5Cq/0603170325589-29-9bcbf1dc7e5ad05b2780a1d82857e4cb.jpg" },
+            { id: 30, name: "Восьмёрка Жезлов", img: "https://i.ibb.co/1GffD16m/0603170325589-30-1d1f1456263bf60fadfe12231db9b403.jpg" },
+            { id: 31, name: "Девятка Жезлов", img: "https://i.ibb.co/tT4kwnh8/0603170325589-31-253e6e7f3b5eb88ada02b90563d4bcf9.jpg" },
+            { id: 32, name: "Десятка Жезлов", img: "https://i.ibb.co/FkMKw00t/0603170325589-32-7026f2023309f46f84866f6fcc31bc15.jpg" },
+            { id: 33, name: "Паж Жезлов", img: "https://i.ibb.co/DDPG35dL/0603170325589-33-31ed5cc76401b7be30b5753b45d2b95f.jpg" },
+            { id: 34, name: "Рыцарь Жезлов", img: "https://i.ibb.co/7JsHQQ2t/0603170325589-34-3b6053b9ffa8b117f8952672768867fc.jpg" },
+            { id: 35, name: "Королева Жезлов", img: "https://i.ibb.co/XvmMX6M/0603170325589-35-ff7dea6d2fb1a739d51702c4eaaca93b.jpg" },
+            { id: 36, name: "Король Жезлов", img: "https://i.ibb.co/TDMWZK7m/0603170325589-36-25b80e8f176c8458ea67bceaa6381416.jpg" },
+            { id: 37, name: "Туз Кубков", img: "https://i.ibb.co/b52jHVCx/0603170325589-37-f82ba2b10d25c69f574f0d0cb0fe975e.jpg" },
+            { id: 38, name: "Двойка Кубков", img: "https://i.ibb.co/R4SVRVQB/0603170325589-38-b1071086789d14cf28db5c78c7af73ce.jpg" },
+            { id: 39, name: "Тройка Кубков", img: "https://i.ibb.co/Sw8yPx8Q/0603170325589-39-5703c98740de1e53219f1ec654df9b6f.jpg" },
+            { id: 40, name: "Четвёрка Кубков", img: "https://i.ibb.co/PzbDGyjk/0603170325589-40-245d0eaebca2720b429325e07f88cc62.jpg" },
+            { id: 41, name: "Пятёрка Кубков", img: "https://i.ibb.co/1p6ZHsz/0603170325589-41-2c9641d1278e6d26efdd26129602f6d5.jpg" },
+            { id: 42, name: "Шесть Кубков", img: "https://i.ibb.co/DfwWTrHK/0603170325589-42-90db6d602a8c552e1f27f810e6493325.jpg" },
+            { id: 43, name: "Семёрка Кубков", img: "https://i.ibb.co/p6LNPv1k/0603170325589-43-e9d4f6d1912842da855ce7bbf6a69a1c.jpg" },
+            { id: 44, name: "Восьмёрка Кубков", img: "https://i.ibb.co/4RPYj3zn/0603170325589-44-6a1af0658104847d9b014fd63ed108f5.jpg" },
+            { id: 45, name: "Девятка Кубков", img: "https://i.ibb.co/pj7D8N8H/0603170325589-45-73b46e415f97a956f5a10199b1ebbdef.jpg" },
+            { id: 46, name: "Десятка Кубков", img: "https://i.ibb.co/6c3rFtWF/0603170325589-46-5ca9d96219727b64fe1f427b46a80cbe.jpg" },
+            { id: 47, name: "Паж Кубков", img: "https://i.ibb.co/kgqHjRR1/0603170325589-47-34877d455aac72367cf0eadb9f6a3c56.jpg" },
+            { id: 48, name: "Рыцарь Кубков", img: "https://i.ibb.co/9kHgytZB/0603170325589-48-6199bb0364076aba448e9678b3a1ca3d.jpg" },
+            { id: 49, name: "Королева Кубков", img: "https://i.ibb.co/M5n3Mh7Y/0603170325589-49-54b0e1c53b93504ad02fa774b84bacde.jpg" },
+            { id: 50, name: "Король Кубков", img: "https://i.ibb.co/20tcCfBg/0603170325589-50-5b537786818416df612720b0745a48b9.jpg" },
+            { id: 51, name: "Туз Мечей", img: "https://i.ibb.co/LhCwX4J6/0603170325589-51-6faa9b3750f79b8b9ba79808c9f129c7.jpg" },
+            { id: 52, name: "Двойка Мечей", img: "https://i.ibb.co/NnGfWb0R/0603170325589-52-af4ea8bab3e734f8a23998ef0924fbeb.jpg" },
+            { id: 53, name: "Тройка Мечей", img: "https://i.ibb.co/DgVmkC4R/0603170325589-53-536f2a13a6a3386c5a8e80f47f425da9.jpg" },
+            { id: 54, name: "Четвёрка Мечей", img: "https://i.ibb.co/35qrmxcq/0603170325589-54-efa56e98b81e6f8a7d2f818c0fa87b7a.jpg" },
+            { id: 55, name: "Пятёрка Мечей", img: "https://i.ibb.co/prhvwNKx/0603170325589-55-b912951f62204a57a59212a9523c0bd9.jpg" },
+            { id: 56, name: "Шесть Мечей", img: "https://i.ibb.co/bMPYdgjD/0603170325589-56-98db19f0fe8ed325fd5f33864f7ae946.jpg" },
+            { id: 57, name: "Семёрка Мечей", img: "https://i.ibb.co/6RjmKkRX/0603170325589-57-e4e579f414d5d392a2161f70ecd77096.jpg" },
+            { id: 58, name: "Восьмёрка Мечей", img: "https://i.ibb.co/351t44zN/0603170325589-58-2ffa141abd999c386724aa67607d32ba.jpg" },
+            { id: 59, name: "Девятка Мечей", img: "https://i.ibb.co/8LRVyD1X/0603170325589-59-bdda863a9afcf0dce618a85df877e499.jpg" },
+            { id: 60, name: "Десятка Мечей", img: "https://i.ibb.co/dJtKYZct/0603170325589-60-1bec875cee48f1c917978096309b6208.jpg" },
+            { id: 61, name: "Паж Мечей", img: "https://i.ibb.co/F4MXs1Fh/0603170325589-61-8e8fb4f0d35590c06424ad86100eaf14.jpg" },
+            { id: 62, name: "Рыцарь Мечей", img: "https://i.ibb.co/pvHFJG9r/0603170325589-62-ae60212f4337fb84cad553620100e6a5.jpg" },
+            { id: 63, name: "Королева Мечей", img: "https://i.ibb.co/201pZGrB/0603170325589-63-6f6fc92430a03bf16e8e38f0696fb10b.jpg" },
+            { id: 64, name: "Король Мечей", img: "https://i.ibb.co/ymtyTrny/0603170325589-64-047d5b3338f27d3ad5dbfb27b4347f17.jpg" },
+            { id: 65, name: "Туз Пентаклей", img: "https://i.ibb.co/HTfP4cks/0603170325589-65-88c2404780c00becee3d87e532de4514.jpg" },
+            { id: 66, name: "Двойка Пентаклей", img: "https://i.ibb.co/J9CWZ7W/0603170325589-66-20175148e8d46abd938d016572de27b2.jpg" },
+            { id: 67, name: "Тройка Пентаклей", img: "https://i.ibb.co/HDj0C9YH/0603170325589-67-b99fb44507245d7b4d0a0bd11c71982d.jpg" },
+            { id: 68, name: "Четвёрка Пентаклей", img: "https://i.ibb.co/C35NBxjk/0603170325589-68-e8a5a5dacfdc5dc4736be581d1e8a740.jpg" },
+            { id: 69, name: "Пятёрка Пентаклей", img: "https://i.ibb.co/8gg2MBp7/0603170325589-69-3058847baca9fe5d934faa66fcf11ad6.jpg" },
+            { id: 70, name: "Шесть Пентаклей", img: "https://i.ibb.co/4ZxJ8LH7/0603170325589-70-b92bf0d485241121623f30f035c4438c.jpg" },
+            { id: 71, name: "Семёрка Пентаклей", img: "https://i.ibb.co/J9NFRgF/0603170325589-71-1514302647d4792da008c30ae8546697.jpg" },
+            { id: 72, name: "Восьмёрка Пентаклей", img: "https://i.ibb.co/0y0rWnNq/0603170325589-72-d4d7230f841919802d1a1e85990e9210.jpg" },
+            { id: 73, name: "Девятка Пентаклей", img: "https://i.ibb.co/0p5BPLxz/0603170325589-73-a9ea25216d7a372f63b4177ff76f5bd6.jpg" },
+            { id: 74, name: "Десятка Пентаклей", img: "https://i.ibb.co/d0bRBPnb/0603170325589-74-c76f6b123224075336f2b372196eef4f.jpg" },
+            { id: 75, name: "Паж Пентаклей", img: "https://i.ibb.co/Q7pSsyNJ/0603170325589-75-0f41f086308b4227c36d4e34a300336c.jpg" },
+            { id: 76, name: "Рыцарь Пентаклей", img: "https://i.ibb.co/5gKJjbtp/0603170325589-76-9f2041a8543dce108b46a9f2a2ced143.jpg" },
+            { id: 77, name: "Королева Пентаклей", img: "https://i.ibb.co/9khYwVGQ/0603170325589-77-e264de9d0c24d5e1d6ea510e00a4305b.jpg" },
+            { id: 78, name: "Король Пентаклей", img: "https://i.ibb.co/DD5GfWfM/0603170325589-78-f75e6d6ed0aa6c6290e1e87eb205ab34.jpg" }
+        ];
+
+        // КООРДИНАТЫ ГЕОМЕТРИЧЕСКИХ ПАТТЕРНОВ НА СТОЛЕ
+        const layoutPatterns = {
+            tarot_day: [{ x: 0, y: -45, rotate: 0, label: "Карта дня" }],
+            tarot_yes_no: [{ x: 0, y: -45, rotate: 0, label: "Ответ оракула" }],
+            business_oracle_combo: [{ x: 0, y: -45, rotate: 0, label: "Бизнес Совет" }],
+            tarot_timeline: [
+                { x: -95, y: -45, rotate: 0, label: "Прошлое" },
+                { x: 0, y: -45, rotate: 0, label: "Настоящее" },
+                { x: 95, y: -45, rotate: 0, label: "Будущее" }
+            ],
+            tarot_question_3_cards: [
+                { x: -95, y: -45, rotate: 0, label: "Суть проблемы" },
+                { x: 0, y: -45, rotate: 0, label: "Препятствие" },
+                { x: 95, y: -45, rotate: 0, label: "Совет карт" }
+            ],
+            tarot_love_2_hearts: [
+                { x: -85, y: -45, rotate: -4, label: "Вы" },
+                { x: 85, y: -45, rotate: 4, label: "Партнер" },
+                { x: 0, y: -130, rotate: 0, label: "Связь" },
+                { x: 0, y: 40, rotate: 0, label: "Перспектива" }
+            ],
+            celtic_cross: [
+                { x: -55, y: -45, rotate: 0, label: "1. Основа" },
+                { x: -55, y: -45, rotate: 90, label: "2. Вызов" }, // Поверх первой крестом
+                { x: -55, y: -140, rotate: 0, label: "3. Прошлое" },
+                { x: 30, y: -45, rotate: 0, label: "4. Цель" },
+                { x: -55, y: 50, rotate: 0, label: "5. Будущее" },
+                { x: -140, y: -45, rotate: 0, label: "6. Подсознание" },
+                { x: 115, y: 75, rotate: 0, label: "7. Ваше Я" },
+                { x: 115, y: 0, rotate: 0, label: "8. Окружение" },
+                { x: 115, y: -75, rotate: 0, label: "9. Надежды" },
+                { x: 115, y: -150, rotate: 0, label: "10. Итог" }
+            ]
+        };
+
         function enterToApp() {
             document.getElementById('start-screen').style.display = 'none';
             document.getElementById('menu-stage').style.display = 'flex';
         }
-        const zCont = document.getElementById('zodiac-container');
-        ['♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓'].forEach((s, i) => {
-            const el = document.createElement('div');
-            el.className = 'zodiac-icon';
-            el.innerText = s;
-            el.style.transform = `rotate(${i * 30}deg) translateX(110px)`;
-            zCont.appendChild(el);
-        });
-        // ЗДЕСЬ НАЧИНАЕТСЯ ВАШ ИСХОДНЫЙ КОД (БЛОК 2 БУДЕТ ПРОДОЛЖЕНИЕМ)
-        // БЛОК 2: Инициализация массивов и логика обработки карт
-        const cards = [
-            { id: 0, name: "Шут", img: "cards/0.jpg", desc: "Начало пути, спонтанность." },
-            { id: 1, name: "Маг", img: "cards/1.jpg", desc: "Сила воли, мастерство, потенциал." },
-            { id: 2, name: "Верховная Жрица", img: "cards/2.jpg", desc: "Интуиция, тайна, подсознание." },
-            { id: 3, name: "Императрица", img: "cards/3.jpg", desc: "Плодородие, изобилие, творчество." },
-            { id: 4, name: "Император", img: "cards/4.jpg", desc: "Власть, структура, стабильность." },
-            { id: 5, name: "Иерофант", img: "cards/5.jpg", desc: "Традиции, духовность, учение." },
-            { id: 6, name: "Влюбленные", img: "cards/6.jpg", desc: "Выбор, отношения, гармония." },
-            { id: 7, name: "Колесница", img: "cards/7.jpg", desc: "Победа, целеустремленность, контроль." },
-            { id: 8, name: "Сила", img: "cards/8.jpg", desc: "Мужество, терпение, мягкая сила." },
-            { id: 9, name: "Отшельник", img: "cards/9.jpg", desc: "Поиск, мудрость, одиночество." },
-            { id: 10, name: "Колесо Фортуны", img: "cards/10.jpg", desc: "Судьба, циклы, изменения." },
-            { id: 11, name: "Справедливость", img: "cards/11.jpg", desc: "Равновесие, карма, честность." },
-            { id: 12, name: "Повешенный", img: "cards/12.jpg", desc: "Жертва, переоценка, пауза." },
-            { id: 13, name: "Смерть", img: "cards/13.jpg", desc: "Трансформация, конец, обновление." },
-            { id: 14, name: "Умеренность", img: "cards/14.jpg", desc: "Баланс, сдержанность, алхимия." },
-            { id: 15, name: "Дьявол", img: "cards/15.jpg", desc: "Искушение, зависимость, тень." },
-            { id: 16, name: "Башня", img: "cards/16.jpg", desc: "Разрушение, кризис, освобождение." },
-            { id: 17, name: "Звезда", img: "cards/17.jpg", desc: "Надежда, вдохновение, исцеление." },
-            { id: 18, name: "Луна", img: "cards/18.jpg", desc: "Иллюзии, страхи, интуиция." },
-            { id: 19, name: "Солнце", img: "cards/19.jpg", desc: "Успех, радость, ясность." },
-            { id: 20, name: "Суд", img: "cards/20.jpg", desc: "Возрождение, призвание, решение." },
-            { id: 21, name: "Мир", img: "cards/21.jpg", desc: "Завершение, целостность, успех." },
-            { id: 22, name: "Туз Жезлов", img: "cards/22.jpg", desc: "Энергия, вдохновение, идея." },
-            { id: 23, name: "Двойка Жезлов", img: "cards/23.jpg", desc: "Планирование, выбор пути." },
-            { id: 24, name: "Тройка Жезлов", img: "cards/24.jpg", desc: "Перспективы, предвидение." },
-            { id: 25, name: "Четверка Жезлов", img: "cards/25.jpg", desc: "Празднование, гармония в доме." },
-            { id: 26, name: "Пятерка Жезлов", img: "cards/26.jpg", desc: "Конкуренция, трения, спор." },
-            { id: 27, name: "Шестерка Жезлов", img: "cards/27.jpg", desc: "Успех, признание, победа." },
-            { id: 28, name: "Семерка Жезлов", img: "cards/28.jpg", desc: "Защита своих позиций." },
-            { id: 29, name: "Восьмерка Жезлов", img: "cards/29.jpg", desc: "Скорость, новости, прогресс." },
-            { id: 30, name: "Девятка Жезлов", img: "cards/30.jpg", desc: "Стойкость, ожидание, упорство." },
-            { id: 31, name: "Десятка Жезлов", img: "cards/31.jpg", desc: "Ноша, переутомление." },
-            { id: 32, name: "Паж Жезлов", img: "cards/32.jpg", desc: "Энтузиазм, вестник." },
-            { id: 33, name: "Рыцарь Жезлов", img: "cards/33.jpg", desc: "Действие, страсть, скорость." },
-            { id: 34, name: "Королева Жезлов", img: "cards/34.jpg", desc: "Уверенность, харизма." },
-            { id: 35, name: "Король Жезлов", img: "cards/35.jpg", desc: "Лидерство, предприимчивость." },
-            { id: 36, name: "Туз Кубков", img: "cards/36.jpg", desc: "Любовь, новые эмоции." },
-            { id: 37, name: "Двойка Кубков", img: "cards/37.jpg", desc: "Партнерство, союз." },
-            { id: 38, name: "Тройка Кубков", img: "cards/38.jpg", desc: "Дружба, радость, социум." },
-            { id: 39, name: "Четверка Кубков", img: "cards/39.jpg", desc: "Апатия, раздумья." },
-            { id: 40, name: "Пятерка Кубков", img: "cards/40.jpg", desc: "Потеря, сожаление." },
-            { id: 41, name: "Шестерка Кубков", img: "cards/41.jpg", desc: "Ностальгия, воспоминания." },
-            { id: 42, name: "Семерка Кубков", img: "cards/42.jpg", desc: "Выбор, фантазии, иллюзии." },
-            { id: 43, name: "Восьмерка Кубков", img: "cards/43.jpg", desc: "Уход, отказ от старого." },
-            { id: 44, name: "Девятка Кубков", img: "cards/44.jpg", desc: "Удовлетворение, исполнение." },
-            { id: 45, name: "Десятка Кубков", img: "cards/45.jpg", desc: "Счастье, гармония." },
-            { id: 46, name: "Паж Кубков", img: "cards/46.jpg", desc: "Творчество, чувства." },
-            { id: 47, name: "Рыцарь Кубков", img: "cards/47.jpg", desc: "Романтика, предложение." },
-            { id: 48, name: "Королева Кубков", img: "cards/48.jpg", desc: "Эмпатия, понимание." },
-            { id: 49, name: "Король Кубков", img: "cards/49.jpg", desc: "Эмоциональный контроль." },
-            { id: 50, name: "Туз Мечей", img: "cards/50.jpg", desc: "Ясность, прорыв, правда." },
-            { id: 51, name: "Двойка Мечей", img: "cards/51.jpg", desc: "Выбор, закрытость." },
-            { id: 52, name: "Тройка Мечей", img: "cards/52.jpg", desc: "Боль, расставание." },
-            { id: 53, name: "Четверка Мечей", img: "cards/53.jpg", desc: "Отдых, покой, восстановление." },
-            { id: 54, name: "Пятерка Мечей", img: "cards/54.jpg", desc: "Поражение, конфликт." },
-            { id: 55, name: "Шестерка Мечей", img: "cards/55.jpg", desc: "Переход, путь к лучшему." },
-            { id: 56, name: "Семерка Мечей", img: "cards/56.jpg", desc: "Хитрость, обман, стратегия." },
-            { id: 57, name: "Восьмерка Мечей", img: "cards/57.jpg", desc: "Ограничения, плен мыслей." },
-            { id: 58, name: "Девятка Мечей", img: "cards/58.jpg", desc: "Тревога, страхи, бессонница." },
-            { id: 59, name: "Десятка Мечей", img: "cards/59.jpg", desc: "Окончательный крах." },
-            { id: 60, name: "Паж Мечей", img: "cards/60.jpg", desc: "Любопытство, бдительность." },
-            { id: 61, name: "Рыцарь Мечей", img: "cards/61.jpg", desc: "Напор, интеллект." },
-            { id: 62, name: "Королева Мечей", img: "cards/62.jpg", desc: "Независимость, логика." },
-            { id: 63, name: "Король Мечей", img: "cards/63.jpg", desc: "Власть разума, авторитет." },
-            { id: 64, name: "Туз Пентаклей", img: "cards/64.jpg", desc: "Шанс, успех, изобилие." },
-            { id: 65, name: "Двойка Пентаклей", img: "cards/65.jpg", desc: "Гибкость, баланс дел." },
-            { id: 66, name: "Тройка Пентаклей", img: "cards/66.jpg", desc: "Мастерство, работа, команда." },
-            { id: 67, name: "Четверка Пентаклей", img: "cards/67.jpg", desc: "Контроль, собственность." },
-            { id: 68, name: "Пятерка Пентаклей", img: "cards/68.jpg", desc: "Лишения, кризис." },
-            { id: 69, name: "Шестерка Пентаклей", img: "cards/69.jpg", desc: "Помощь, щедрость." },
-            { id: 70, name: "Семерка Пентаклей", img: "cards/70.jpg", desc: "Терпение, ожидание плодов." },
-            { id: 71, name: "Восьмерка Пентаклей", img: "cards/71.jpg", desc: "Труд, усердие." },
-            { id: 72, name: "Девятка Пентаклей", img: "cards/72.jpg", desc: "Самодостаточность." },
-            { id: 73, name: "Десятка Пентаклей", img: "cards/73.jpg", desc: "Наследие, богатство рода." },
-            { id: 74, name: "Паж Пентаклей", img: "cards/74.jpg", desc: "Учеба, финансовые планы." },
-            { id: 75, name: "Рыцарь Пентаклей", img: "cards/75.jpg", desc: "Надежность, труд." },
-            { id: 76, name: "Королева Пентаклей", img: "cards/76.jpg", desc: "Забота, комфорт." },
-            { id: 77, name: "Король Пентаклей", img: "cards/77.jpg", desc: "Стабильность, бизнес." }
-        ];
-        // БЛОК 3: Логика взаимодействия с картами
-        function getRandomCard() {
-            return cards[Math.floor(Math.random() * cards.length)];
+
+        function backToMenu() {
+            document.getElementById('game-stage').style.display = 'none';
+            document.getElementById('menu-stage').style.display = 'flex';
         }
 
-        function openLayout(type) {
-            if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
-            const card = getRandomCard();
-            const modal = document.getElementById('card-modal');
-            const img = document.getElementById('modal-img');
-            const title = document.getElementById('modal-title');
-            const desc = document.getElementById('modal-desc');
-
-            img.src = card.img;
-            img.onerror = () => { img.src = 'cards/fallback.jpg'; }; // Заглушка, если файл не найден
-            title.innerText = card.name;
-            desc.innerText = card.desc;
+        function startLayout(actionName, cardsCount) {
+            currentAction = actionName;
+            targetCardsCount = cardsCount;
+            flippedCount = 0;
+            selectedCards = [];
             
-            modal.style.display = 'flex';
+            document.getElementById('menu-stage').style.display = 'none';
+            document.getElementById('game-stage').style.display = 'flex';
+            
+            const tableZone = document.getElementById('magic-table-zone');
+            tableZone.innerHTML = ''; 
+
+            buildDeck();
         }
 
-        function closeCardModal() {
-            if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
-            document.getElementById('card-modal').style.display = 'none';
-        }
+        function buildDeck() {
+            const container = document.getElementById('cards-container');
+            container.innerHTML = '';
+            container.style.position = 'relative';
+            container.style.width = '100%';
+            container.style.height = '150px'; 
+            
+            document.getElementById('status-text').innerText = `Выберите ${targetCardsCount} карт(ы):`;
 
-        // Обработка внешних событий и кнопок
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeCardModal();
-        });
+            const cardsInFan = 22;
+            for (let i = 0; i < cardsInFan; i++) {
+                const card = document.createElement('div');
+                card.className = 'interactive-card';
+                
+                let offset = (i - (cardsInFan - 1) / 2) * 14; 
+                let rotate = (i - (cardsInFan - 1) / 2) * 3;
+                let translateY = Math.abs(i - (cardsInFan - 1) / 2) * 2 + 10; 
 
-        // Блокировка стандартного поведения скролла при взаимодействии
-        document.body.addEventListener('touchmove', (e) => {
-            if (e.target.closest('.card-modal')) return;
-        }, { passive: false });
+                card.style.transform = `translateX(${offset}px) translateY(${translateY}px) rotate(${rotate}deg)`;
+                card.style.zIndex = 10 + i;
 
-        // Инициализация при готовности WebApp
-        tg.onEvent('viewportChanged', () => {
-            console.log("Viewport updated: " + tg.viewportHeight);
-        });
+                card.innerHTML = `
+                    <div class="card-inner">
+                        <div class="card-back"></div>
+                        <div class="card-front">
+                            <img class="card-img" src="" alt="card">
+                        </div>
+                    </div>`;
 
-        // --- ВАШ КОД ДЛЯ КОНКРЕТНЫХ РАСКЛАДОВ (ПРОДОЛЖЕНИЕ) ---
-        // Ниже идут функции, которые могут специфично обрабатывать типы гаданий
-        function performDailySpread() {
-            // Логика карты дня
-            console.log("Расклад: Карта дня");
-        }
-
-        function performLoveSpread() {
-            // Логика расклада на любовь
-            console.log("Расклад: Любовь");
-        }
-
-        function performCareerSpread() {
-            // Логика расклада на карьеру
-            console.log("Расклад: Карьера");
-        }
-
-        function performAdviceSpread() {
-            // Логика расклада на совет
-            console.log("Расклад: Совет");
-        }
-
-        // Фиксация высоты для мобильных устройств
-        function setFullHeight() {
-            let vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--vh', `${vh}px`);
-        }
-        window.addEventListener('resize', setFullHeight);
-        setFullHeight();
-        /* Продолжение логики раскладов и API */
-        function getCard(id) {
-            return cards.find(c => c.id === id);
-        }
-
-        function drawThreeCards() {
-            let result = [];
-            while(result.length < 3) {
-                let card = getRandomCard();
-                if(!result.find(c => c.id === card.id)) result.push(card);
+                card.addEventListener('click', () => selectAndFlyCard(card));
+                container.appendChild(card);
             }
-            return result;
         }
 
-        // --- ОБРАБОТЧИКИ СОБЫТИЙ ---
-        function onMenuClick(type) {
-            tg.HapticFeedback.impactOccurred('light');
-            // Переход к результату
-            alert("Расклад типа: " + type);
-        }
+        function selectAndFlyCard(cardElement) {
+            if (cardElement.classList.contains('chosen') || flippedCount >= targetCardsCount) return;
 
-        // Инициализация API
-        if(tg.MainButton) {
-            tg.MainButton.text = "СВЯЗАТЬСЯ";
-            tg.MainButton.onClick(() => {
-                tg.openLink('https://t.me/support');
-            });
-        }
+            cardElement.classList.add('chosen');
+            const currentPattern = layoutPatterns[currentAction] || layoutPatterns['tarot_day'];
+            const targetPos = currentPattern[flippedCount];
 
-        // Фиксация элементов
-        const overlay = document.createElement('div');
-        overlay.style.position = 'fixed';
-        overlay.style.top = '0';
-        overlay.style.left = '0';
-        overlay.style.width = '100%';
-        overlay.style.height = '100%';
-        overlay.style.pointerEvents = 'none';
-        document.body.appendChild(overlay);
-
-        // Расширенная логика работы с картами
-        const deck = [...cards];
-        function shuffleDeck() {
-            for (let i = deck.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [deck[i], deck[j]] = [deck[j], deck[i]];
+            const randomIndex = Math.floor(Math.random() * tarotDeck.length);
+            const chosenCard = tarotDeck[randomIndex];
+            
+            let orientation = "upright";
+            if (currentAction === 'tarot_yes_no' && Math.random() > 0.5) {
+                cardElement.classList.add('inverted');
+                orientation = "reversed";
             }
-            return deck;
-        }
 
-        // Обработка данных
-        function initApp() {
-            console.log("App Initialized");
-            shuffleDeck();
-        }
+            const imgElement = cardElement.querySelector('.card-img');
+            imgElement.src = chosenCard.img; 
 
-        // Вызов инициализации
-        initApp();
+            // Перемещаем карту на стол
+            const tableZone = document.getElementById('magic-table-zone');
+            cardElement.style.zIndex = 200 + flippedCount; 
+            
+            // Вычисляем позицию внутри стола
+            cardElement.style.transform = `translateX(${targetPos.x}px) translateY(${targetPos.y}px) rotate(${targetPos.rotate}deg) scale(1)`;
+            tableZone.appendChild(cardElement);
 
-        // Специфические функции раскладов
-        function tarotOracleSpread() {
-            const spread = [];
-            for(let i=0; i<3; i++) spread.push(deck.pop());
-            return spread;
-        }
+            if (targetPos.label) {
+                const label = document.createElement('div');
+                label.style.cssText = "position: absolute; bottom: -16px; left: 0; width: 100%; text-align: center; font-size: 8px; color: #fff2b2; text-transform: uppercase; pointer-events: none; opacity: 0; transition: opacity 0.4s ease;";
+                label.innerText = targetPos.label;
+                cardElement.appendChild(label);
+                setTimeout(() => label.style.opacity = "1", 500);
+            }
 
-        // Дополнительные обработчики
-        window.addEventListener('load', () => {
-            console.log("Resources Loaded");
-        });
-
-        // Безопасность
-        Object.freeze(cards);
-
-        // Управление состоянием
-        let gameState = {
-            activeSpread: null,
-            cardsShown: 0
-        };
-
-        // Завершение логики блока
-        console.log("Logic Part 4 Complete");
-        /* БЛОК 5: Логика анимаций и состояний интерфейса */
-        function animateCard(element) {
-            element.style.transition = 'transform 0.5s ease';
-            element.style.transform = 'scale(1.1) rotate(5deg)';
             setTimeout(() => {
-                element.style.transform = 'scale(1) rotate(0deg)';
-            }, 500);
+                cardElement.classList.add('flipped');
+                createSparkles(cardElement); 
+            }, 300);
+
+            selectedCards.push({ id: chosenCard.id, name: chosenCard.name, orientation });
+            flippedCount++;
+
+            if (flippedCount === targetCardsCount) {
+                document.getElementById('status-text').innerText = "Предсказание готово!";
+                setTimeout(() => {
+                    const payload = { action: currentAction, lang: "ru", cards: selectedCards };
+                    try { tg.sendData(JSON.stringify(payload)); } catch(e) { console.log(payload); }
+                }, 2000);
+            } else {
+                document.getElementById('status-text').innerText = `Выбрано: ${flippedCount} из ${targetCardsCount}`;
+            }
         }
 
-        // Управление отображением расклада
-        function renderSpread(cardsArray) {
-            const container = document.getElementById('menu-stage');
-            const spreadDiv = document.createElement('div');
-            spreadDiv.className = 'spread-result';
-            
-            cardsArray.forEach(card => {
-                const cardEl = document.createElement('div');
-                cardEl.className = 'card-item';
-                cardEl.innerHTML = `<img src="${card.img}" alt="${card.name}"><span>${card.name}</span>`;
-                cardEl.onclick = () => showDetailedCard(card);
-                spreadDiv.appendChild(cardEl);
-            });
-            container.appendChild(spreadDiv);
+        function createSparkles(card) {
+            for (let i = 0; i < 8; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.style.cssText = `
+                    position: absolute; width: 3px; height: 3px; background: #ffd700;
+                    border-radius: 50%; top: 50%; left: 50%; pointer-events: none;
+                    box-shadow: 0 0 5px #ffbb00; transition: all 0.6s ease-out; z-index: 250;
+                `;
+                card.appendChild(sparkle);
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 20 + Math.random() * 30;
+                setTimeout(() => {
+                    sparkle.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
+                    sparkle.style.opacity = '0';
+                }, 20);
+                setTimeout(() => sparkle.remove(), 650);
+            }
         }
 
-        // Детальное отображение карты
-        function showDetailedCard(card) {
-            document.getElementById('modal-img').src = card.img;
-            document.getElementById('modal-title').innerText = card.name;
-            document.getElementById('modal-desc').innerText = card.desc;
-            document.getElementById('card-modal').style.display = 'flex';
+        // КОСМИЧЕСКИЙ ЗАДНИЙ ФОН СО ЗВЕЗДАМИ
+        const canvas = document.getElementById('space-bg');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            stars = [];
+            for (let i = 0; i < 45; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 1.4,
+                    speedY: Math.random() * 0.15 + 0.05,
+                    phase: Math.random() * Math.PI
+                });
+            }
         }
 
-        // Настройка параметров WebApp
-        function configureWebApp() {
-            tg.setBackgroundColor('#030306');
-            tg.setHeaderColor('#030306');
-        }
-        configureWebApp();
-
-        // Обработка ошибок загрузки изображений
-        function setupImageHandlers() {
-            const allImgs = document.querySelectorAll('img');
-            allImgs.forEach(img => {
-                img.onerror = function() {
-                    this.src = 'assets/placeholder.png';
-                };
-            });
-        }
-        setupImageHandlers();
-
-        // Система логирования событий
-        const logger = {
-            log: (msg) => console.log(`[Oracle]: ${msg}`),
-            error: (msg) => console.error(`[Oracle Error]: ${msg}`)
-        };
-
-        // Сохранение истории гаданий (Локально)
-        function saveToHistory(card) {
-            let history = JSON.parse(localStorage.getItem('tarotHistory') || '[]');
-            history.push({ ...card, date: new Date().toISOString() });
-            localStorage.setItem('tarotHistory', JSON.stringify(history));
-            logger.log("History updated");
+        function drawSpace() {
+            ctx.fillStyle = '#030208';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            for (let s of stars) {
+                s.y += s.speedY;
+                if (s.y > canvas.height) s.y = 0;
+                let alpha = 0.3 + Math.sin(s.phase) * 0.4;
+                ctx.fillStyle = `rgba(255, 242, 178, ${alpha})`;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                ctx.fill();
+                s.phase += 0.02;
+            }
+            requestAnimationFrame(drawSpace);
         }
 
-        // Адаптивное управление размерами элементов
-        function resizeElements() {
-            const vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--vh', `${vh}px`);
-        }
-        window.addEventListener('resize', resizeElements);
-
-        // Обработка кнопок навигации Telegram
-        tg.onEvent('backButtonClicked', () => {
-            closeCardModal();
-            tg.BackButton.hide();
-        });
-
-        // Блокировка контекстного меню
-        window.addEventListener('contextmenu', (e) => e.preventDefault());
-
-        // Дополнительные служебные функции
-        function clearSpread() {
-            const spread = document.querySelector('.spread-result');
-            if (spread) spread.remove();
-        }
-
-        // Инициализация кэширования
-        const cache = new Map();
-        function preloadImages() {
-            cards.forEach(c => {
-                const img = new Image();
-                img.src = c.img;
-                cache.set(c.id, img);
-            });
-        }
-        preloadImages();
-        
-        // Завершение БЛОКА 5
-        console.log("Interface and Asset Management Loaded");
-        /* БЛОК 6: Дополнительные стили для элементов раскладов и анимаций */
-.spread-result {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 30px;
-    width: 100%;
-}
-
-.card-item {
-    width: 120px;
-    text-align: center;
-    cursor: pointer;
-    animation: fadeIn 0.8s ease;
-}
-
-.card-item img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    border: 1px solid #ffd700;
-    transition: transform 0.3s;
-}
-
-.card-item img:hover {
-    transform: translateY(-10px);
-}
-
-.card-item span {
-    display: block;
-    margin-top: 8px;
-    font-size: 12px;
-    color: #ffd700;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Стили для мобильных экранов */
-@media (max-height: 600px) {
-    .card-img { width: 150px; height: 260px; }
-    .grid-menu { gap: 10px; }
-}
-
-.loader {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #ffd700;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    animation: spin 2s linear infinite;
-    margin: 20px auto;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Дополнительные стили для типов раскладов */
-.spread-title {
-    font-size: 18px;
-    color: #ffd700;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.history-item {
-    padding: 10px;
-    border-bottom: 1px solid #333;
-    display: flex;
-    justify-content: space-between;
-}
-
-.btn-back {
-    margin-top: 20px;
-    background: transparent;
-    border: 1px solid #ffd700;
-    color: #ffd700;
-    padding: 10px 20px;
-    border-radius: 20px;
-    cursor: pointer;
-}
-
-/* Стили для кнопок управления */
-.nav-buttons {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    margin-top: auto;
-    padding-bottom: 20px;
-}
-
-/* Завершение стилей блока 6 */
-        /* БЛОК 7: Расширенные функции API и обработка данных пользователя */
-
-// Получение данных пользователя из WebApp
-function getUserProfile() {
-    if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-        return tg.initDataUnsafe.user;
-    }
-    return { first_name: "Гость" };
-}
-
-// Приветствие пользователя
-function greetUser() {
-    const user = getUserProfile();
-    const welcome = document.createElement('div');
-    welcome.style.textAlign = 'center';
-    welcome.style.marginBottom = '20px';
-    welcome.innerText = `Привет, ${user.first_name}! Готова к предсказанию?`;
-    document.querySelector('.main-container').prepend(welcome);
-}
-
-// Отправка данных о раскладе в бота (через WebApp Cloud Storage)
-async function sendResultToBot(result) {
-    if (tg.CloudStorage) {
-        try {
-            await tg.CloudStorage.setItem('last_spread', JSON.stringify(result));
-            logger.log("Результат сохранен в облаке");
-        } catch (e) {
-            logger.error("Ошибка сохранения в облако");
-        }
-    }
-}
-
-// Функция для выбора темы (смена цветов)
-function setAppTheme(theme) {
-    const body = document.body;
-    if (theme === 'dark') {
-        body.style.background = '#030306';
-        body.style.color = '#f4f4f6';
-    } else {
-        body.style.background = '#ffffff';
-        body.style.color = '#000000';
-    }
-}
-
-// Проверка ориентации устройства
-function checkOrientation() {
-    if (window.innerHeight < window.innerWidth) {
-        console.warn("Пожалуйста, переверните устройство в портретный режим");
-    }
-}
-window.addEventListener('orientationchange', checkOrientation);
-
-// Управление вибрацией (haptic) в зависимости от действий
-function triggerHaptic(type) {
-    if (tg.HapticFeedback) {
-        tg.HapticFeedback.impactOccurred(type); // 'light', 'medium', 'heavy'
-    }
-}
-
-// Обработка нажатий на кнопки в модальных окнах
-document.querySelectorAll('.btn-mystic').forEach(btn => {
-    btn.addEventListener('pointerdown', (e) => {
-        triggerHaptic('light');
-    });
-});
-
-// Служебная функция для генерации случайного числа в диапазоне
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-// Функция для сброса всех состояний
-function resetAll() {
-    clearSpread();
-    closeCardModal();
-    console.log("Состояние приложения сброшено");
-}
-
-// Инициализация при старте
-window.addEventListener('DOMContentLoaded', () => {
-    greetUser();
-    checkOrientation();
-    console.log("Блок 7 инициализирован");
-});
-        /* БЛОК 8: Финальная инициализация и завершение структуры */
-
-// Функция полной очистки ресурсов перед закрытием
-function cleanup() {
-    localStorage.removeItem('last_spread');
-    cache.clear();
-    console.log("Ресурсы очищены");
-}
-
-// Слушатель события закрытия WebApp
-tg.onEvent('mainButtonClicked', () => {
-    tg.close();
-});
-
-// Дополнительный обработчик для предотвращения случайного ухода со страницы
-window.addEventListener('beforeunload', (e) => {
-    cleanup();
-});
-
-// Функция для обновления интерфейса при изменении темы Telegram
-tg.onEvent('themeChanged', () => {
-    const theme = tg.themeParams.bg_color;
-    document.body.style.backgroundColor = theme;
-});
-
-// Финальный лог системы
-console.log("Astro Tarot Oracle: Система полностью загружена и готова к работе.");
-
-// Проверка наличия всех необходимых элементов
-window.onload = () => {
-    if (!document.getElementById('card-modal')) {
-        console.error("Критическая ошибка: Элемент модального окна не найден!");
-    }
-};
-
-// Функция для принудительного обновления экрана (на случай зависания)
-function forceRefresh() {
-    window.location.reload();
-}
-
-// Завершение всех скриптов
-/* Код готов к сборке. 
-    Убедитесь, что все 8 блоков скопированы последовательно.
-    Все 78 ссылок на карты сохранены в массиве 'cards'.
-    Логика инициализации Telegram WebApp защищена.
-*/
-</script>
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        drawSpace();
+    </script>
 </body>
 </html>
