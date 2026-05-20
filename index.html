@@ -205,6 +205,26 @@
         }
 
         /* Центральный мистический элемент в колесе */
+       <div class="zodiac-wheel-wrap">
+            <div class="zodiac-symbols-container" id="zodiac-container"></div>
+        </div>
+
+        <script>
+            const zodiacs = ['♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓'];
+            const container = document.getElementById('zodiac-container');
+            zodiacs.forEach((symbol, i) => {
+                const icon = document.createElement('div');
+                icon.className = 'zodiac-icon';
+                icon.innerText = symbol;
+                icon.style.transform = `rotate(${i * 30}deg) translateX(110px)`;
+                container.appendChild(icon);
+            });
+        </script>
+
+        <button class="btn-gold-launch" onclick="enterToApp()" style="display: block; margin: 30px auto; cursor: pointer;">
+            <span class="btn-text">ЗАПУСТИТЬ АСТРО ТАРО ОРАКУЛ</span>
+        </button>
+
        
         /* СТАРТОВЫЙ ИНТЕРАКТИВНЫЙ ВЕЕР ИЗ 3 КАРТ */
         .start-fan {
@@ -607,6 +627,7 @@
                 <div class="zodiac-wheel-wrap">
     <div class="zodiac-symbols-container" id="zodiac-container"></div>
 </div>
+
 <script>
     const zodiacs = ['♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓'];
     const container = document.getElementById('zodiac-container');
@@ -618,16 +639,9 @@
         container.appendChild(icon);
     });
 </script>
-            </div>
-            
-            <div class="start-fan">
-                <div class="fan-card-trigger card-left" onclick="sparkleClick(event)"></div>
-                <div class="fan-card-trigger card-center" onclick="sparkleClick(event)"></div>
-                <div class="fan-card-trigger card-right" onclick="sparkleClick(event)"></div>
-            </div>
-            
-            <button class="btn-gold-launch" onclick="enterToApp()" style="display: block; margin: 20px auto; cursor: pointer;">
-    <span class="btn-text">ЗАПУСТИТЬ АСТРО ТАРО ОРАКУЛ</span>
+
+<button class="btn-gold-launch" onclick="enterToApp()" style="display: block; margin: 30px auto; cursor: pointer;">
+    ЗАПУСТИТЬ АСТРО ТАРО ОРАКУЛ
 </button>
         </div>
 
