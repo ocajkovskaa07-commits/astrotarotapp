@@ -30,7 +30,7 @@
         .stage { display: none; width: 100%; flex-direction: column; align-items: center; }
         #start-screen { display: flex; }
 
-        /* ФОРМА ВВОДА ДАННЫХ ПЕРЕД РАСКЛАДОМ */
+        /* ВВОД ДАННЫХ */
         .input-container {
             display: none; width: 100%; max-width: 360px; 
             flex-direction: column; align-items: center; padding: 20px; position: relative;
@@ -78,7 +78,7 @@
         .menu-item .title { font-size: 12px; font-weight: 600; color: #f4f4f6; letter-spacing: 1px; }
         .menu-item .desc { font-size: 9px; color: #8a8ab0; margin-top: 4px; font-family: sans-serif; }
 
-        /* ИГРОВОЙ СТОЛ ИЗ ИСХОДНОЙ ВЕРСИИ */
+        /* ИГРОВОЙ СТОЛ */
         #status-text {
             font-size: 12px; color: #fff2b2; letter-spacing: 1px; text-align: center;
             margin-bottom: 25px; min-height: 18px; font-family: sans-serif;
@@ -89,7 +89,6 @@
             margin-bottom: 20px; display: flex; align-items: center; justify-content: center;
         }
 
-        /* ОРИГИНАЛЬНЫЕ СЕТКИ СЛОТОВ */
         .slots-wrapper { width: 100%; height: 100%; position: relative; }
         .slots-row { display: flex; justify-content: center; align-items: center; gap: 15px; width: 100%; height: 100%; }
         
@@ -123,13 +122,12 @@
             font-size: 9px; color: #8a8ab0; font-family: sans-serif; pointer-events: none;
         }
 
-        /* ИСХОДНЫЙ КОНТЕЙНЕР ДЛЯ ВЕЕРА */
         .deck-container {
             position: relative; width: 100%; max-width: 400px; height: 160px;
             margin-top: 20px; overflow: visible; display: flex; justify-content: center;
         }
 
-        /* СТИЛИ ИСХОДНЫХ ОТОБРАЖАЕМЫХ КАРТ */
+        /* КАРТЫ С КРАСИВОЙ АНИМАЦИЕЙ ПЕРЕВОРОТА */
         .interactive-card {
             position: absolute; width: 72px; height: 124px; perspective: 1000px;
             transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), z-index 0.1s ease;
@@ -155,7 +153,7 @@
             display: flex; align-items: center; justify-content: center;
         }
         .card-back::after {
-            content: "✨"; font-size: 20px; color: #4a3b7d;
+            content: "👁️"; font-size: 20px; color: #4a3b7d;
             opacity: 0.6; filter: drop-shadow(0 0 5px rgba(255,215,0,0.2));
         }
 
@@ -165,6 +163,23 @@
             justify-content: center; padding: 0;
         }
         .card-img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; display: block; }
+
+        /* МОДАЛЬНОЕ ОКНО ДЛЯ ПОЛНОЭКРАННОГО ПРОСМОТРА КАРТЫ */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 2, 8, 0.95); z-index: 10000;
+            display: none; flex-direction: column; align-items: center;
+            justify-content: center; padding: 20px; backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .modal-card-box {
+            width: 200px; height: 340px; border-radius: 12px;
+            box-shadow: 0 0 30px rgba(255,242,178,0.2); margin-bottom: 20px;
+            border: 2px solid #fff2b2; overflow: hidden; background: #000;
+        }
+        .modal-card-box img { width: 100%; height: 100%; object-fit: cover; }
+        .modal-title { font-size: 18px; color: #fff2b2; text-align: center; margin-bottom: 10px; letter-spacing: 2px; }
+        .modal-desc { font-size: 13px; color: #8a8ab0; text-align: center; max-width: 300px; font-family: sans-serif; line-height: 1.5; }
 
         .oracle-sphere {
             width: 140px; height: 140px; background: radial-gradient(circle at 30% 30%, #2b1f54 0%, #0a0618 70%, #020105 100%);
@@ -199,37 +214,37 @@
 
         <div id="menu-stage" class="stage">
             <div class="menu-grid">
-                <div class="menu-item" onclick="startLayout('tarot_day', 1)">
+                <div class="menu-item" onclick="openInputFlow('tarot_day', 1)">
                     <div class="icon">☀️</div>
                     <div class="title">Карта Дня</div>
                     <div class="desc">Главный Фокус Дня</div>
                 </div>
-                <div class="menu-item" onclick="startLayout('tarot_yes_no', 1)">
+                <div class="menu-item" onclick="openInputFlow('tarot_yes_no', 1)">
                     <div class="icon">⚖️</div>
                     <div class="title">Да / Нет</div>
                     <div class="desc">Четкий ответ Оракула</div>
                 </div>
-                <div class="menu-item" onclick="startLayout('business_oracle_combo', 3)">
+                <div class="menu-item" onclick="openInputFlow('business_oracle_combo', 3)">
                     <div class="icon">💼</div>
                     <div class="title">Бизнес Оракул</div>
                     <div class="desc">Стратегия и Финансы (3 карты)</div>
                 </div>
-                <div class="menu-item" onclick="startLayout('tarot_timeline', 3)">
+                <div class="menu-item" onclick="openInputFlow('tarot_timeline', 3)">
                     <div class="icon">⏳</div>
                     <div class="title">Три Времени</div>
                     <div class="desc">Прошлое, Настоящее, Будущее</div>
                 </div>
-                <div class="menu-item" onclick="startLayout('tarot_question_3_cards', 3)">
+                <div class="menu-item" onclick="openInputFlow('tarot_question_3_cards', 3)">
                     <div class="icon">❓</div>
                     <div class="title">Разбор Ситуации</div>
                     <div class="desc">Суть, Преграда, Решение</div>
                 </div>
-                <div class="menu-item" onclick="startLayout('tarot_love_2_hearts', 4)">
+                <div class="menu-item" onclick="openInputFlow('tarot_love_2_hearts', 4)">
                     <div class="icon">💖</div>
                     <div class="title">Два Сердца</div>
                     <div class="desc">Анализ отношений и связи</div>
                 </div>
-                <div class="menu-item" onclick="startLayout('celtic_cross', 10)" style="grid-column: span 2;">
+                <div class="menu-item" onclick="openInputFlow('celtic_cross', 10)" style="grid-column: span 2;">
                     <div class="icon">🔱</div>
                     <div class="title">Кельтский Крест</div>
                     <div class="desc">Глубокий разбор Судьбы и любых вопросов (10 карт)</div>
@@ -237,16 +252,15 @@
             </div>
         </div>
 
-        <div id="input-stage" class="input-container">
-            <button class="btn-back" onclick="cancelInputStage()">◀ Назад</button>
-            <div id="input-prompt-text" class="input-label">Напишите свой вопрос</div>
+        <div id="input-flow-container" class="input-container">
+            <button class="btn-back" onclick="cancelInputFlow()">◀ Назад</button>
+            <div id="input-flow-title" class="input-label">Напишите свой вопрос</div>
             
-            <input type="text" id="user-question" class="input-field" placeholder="О чем вы хотите спросить оракула?">
+            <input type="text" id="user-question-input" class="input-field" placeholder="О чем вы хотите спросить оракула?">
+            <input type="text" id="user-name-input" class="input-field" placeholder="Ваше имя..." style="display: none;">
+            <input type="text" id="user-birth-input" class="input-field" placeholder="Дата рождения (ДД.ММ.ГГГГ)" style="display: none;">
             
-            <input type="text" id="name-one" class="input-field" placeholder="Ваше имя" style="display: none;">
-            <input type="text" id="name-two" class="input-field" placeholder="Имя партнера" style="display: none;">
-            
-            <button class="btn-mystic" onclick="confirmInputAndProceed()">Продолжить</button>
+            <button class="btn-mystic" onclick="submitInputFlow()">Продолжить</button>
         </div>
 
         <div id="game-stage" class="stage">
@@ -256,9 +270,16 @@
             <div class="magic-table" id="magic-table-zone"></div>
             
             <div id="cards-container" class="deck-container"></div>
-            
-            <button id="send-webhook-btn" class="btn-mystic" style="display: none; margin-top: 35px; z-index: 9999;" onclick="sendDataToWebhook()">Продолжить</button>
         </div>
+    </div>
+
+    <div id="card-modal" class="modal-overlay" onclick="closeCardModal()">
+        <div class="modal-card-box">
+            <img id="modal-img" src="" alt="Full Card">
+        </div>
+        <div id="modal-title" class="modal-title">Название карты</div>
+        <div id="modal-desc" class="modal-desc">Описание карты...</div>
+        <button class="btn-mystic" style="margin-top: 25px;" onclick="closeCardModal()">Закрыть</button>
     </div>
 
     <script>
@@ -271,13 +292,14 @@
         let flippedCount = 0;
         let selectedCards = [];
 
-        // ОРИГИНАЛЬНАЯ БАЗА ДАННЫХ ИЗ ПЕРВОГО ФАЙЛА С РАБОЧИМИ КАРТИНКАМИ IMGBB И ОПИСАНИЯМИ
+        // ПОЛНЫЙ МАССИВ ИЗ 78 КАРТ С КРАСИВЫМИ КАРТИНКАМИ И ОПИСАНИЯМИ
         const tarotDeck = [
+            // Старшие Арканы (0-21)
             { id: 1, name: "Дурак (0)", img: "https://i.ibb.co/b5GDPJTr/0603170325589-00-678029bbc55011a335aa0623a5fbd863.jpg", desc: "Начало нового пути, свобода, открытость миру или слепое доверие судьбе." },
             { id: 2, name: "Маг (I)", img: "https://i.ibb.co/BHxXyt0n/0603170325589-02-1affc857cacbf5a0ff6ead63d66211ea.jpg", desc: "Сила воли, мастерство, способность материализовать свои мысли и цели." },
             { id: 3, name: "Верховная Жрица (II)", img: "https://i.ibb.co/S4GW4gvH/0603170325589-03-0ddacb930338683e6aae222a529e79f1.jpg", desc: "Интуиция, скрытые тайны, подсознание, пассивное ожидание знаков." },
             { id: 4, name: "Императрица (III)", img: "https://i.ibb.co/9HrmxY5S/0603170325589-04-19dd16bc6fda522034e722acc866cd03.jpg", desc: "Плодородие, изобилие, творчество, материнская забота и рост сил." },
-            { id: 5, name: "И模ператор (IV)", img: "https://i.ibb.co/fVsMDQrK/0603170325589-05-c574474b6f14b2bd02d87815f06c59cd.jpg", desc: "Власть, структура, стабильность, закон, контроль и покровительство." },
+            { id: 5, name: "Император (IV)", img: "https://i.ibb.co/fVsMDQrK/0603170325589-05-c574474b6f14b2bd02d87815f06c59cd.jpg", desc: "Власть, структура, стабильность, закон, контроль и покровительство." },
             { id: 6, name: "Иерофант (V)", img: "https://i.ibb.co/S4dqdNjZ/0603170325589-06-37da9a540c0b9bc51355f2e2c19943b9.jpg", desc: "Традиции, обучение, духовный наставник, правила общества и мудрость." },
             { id: 7, name: "Влюбленные (VI)", img: "https://i.ibb.co/6R6w7fXL/0603170325589-07-28d8b4c5b369ba0f4f9d14620f3e60df.jpg", desc: "Выбор сердца, союзы, гармония в отношениях или важная жизненная развилка." },
             { id: 8, name: "Колесница (VII)", img: "https://i.ibb.co/v4rNqg92/0603170325589-08-30588665ae21e42bca1c1cb807fc936c.jpg", desc: "Прорыв, триумф, целеустремленность, контроль над обстоятельствами и движение вперед." },
@@ -294,8 +316,71 @@
             { id: 19, name: "Луна (XVIII)", img: "https://i.ibb.co/v6XzMhLw/0603170325589-19-a038d17ba3f86e927f8dc40d6c5bb5d2.jpg", desc: "Тайны, иллюзии, страхи, вещие сны, развитая интуиция или скрытый обман." },
             { id: 20, name: "Солнце (XIX)", img: "https://i.ibb.co/wZpXqF0F/0603170325589-20-80d0d8dae76cfaee3ea66e34346caec6.jpg", desc: "Ясность, счастье, огромный успех, жизненная энергия, почет и рождение детей." },
             { id: 21, name: "Суд (XX)", img: "https://i.ibb.co/GfpVwS0n/0603170325589-21-4f1da9ef3c09bca7ef27918c5e0e0a5c.jpg", desc: "Пробуждение, важное решение, освобождение от прошлого, призвание и итоги." },
-            { id: 22, name: "Мир (XXI)", img: "https://i.ibb.co/G41K6M3z/0603170325589-22-3112fc6e09e44ffc28fc849fe4f1a2fa.jpg", desc: "Полная гармония, триумфальное завершение пути, расширение границ и покой." }
-            // При необходимости ты сможешь расширить Младшие арканы сюда же
+            { id: 22, name: "Мир (XXI)", img: "https://i.ibb.co/G41K6M3z/0603170325589-22-3112fc6e09e44ffc28fc849fe4f1a2fa.jpg", desc: "Полная гармония, триумфальное завершение пути, расширение границ и покой." },
+
+            // Жезлы (Wands)
+            { id: 23, name: "Туз Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands01.jpg", desc: "Вспышка страсти, мощный творческий импульс, новая идея и инициатива." },
+            { id: 24, name: "Двойка Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands02.jpg", desc: "Планирование, выбор направления, удержание завоеванных позиций и амбиции." },
+            { id: 25, name: "Тройка Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands03.jpg", desc: "Уверенность в успехе, расширение горизонтов, первые плоды сотрудничества." },
+            { id: 26, name: "Четверка Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands04.jpg", desc: "Празднование, семейная гармония, стабильный дом, радость успеха и отдых." },
+            { id: 27, name: "Пятерка Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands05.jpg", desc: "Соперничество, конкуренция, проверка сил, столкновение интересов или мнений." },
+            { id: 28, name: "Шестерка Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands06.jpg", desc: "Триумф, победа, общественное признание, лидерство и гордость за достижения." },
+            { id: 29, name: "Семерка Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands07.jpg", desc: "Защита своих позиций, стойкость перед трудностями, решительный отпор врагам." },
+            { id: 30, name: "Восьмерка Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands08.jpg", desc: "Стремительные события, инсайты, новости, быстро летящие к цели процессы." },
+            { id: 31, name: "Девятка Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands09.jpg", desc: "Осторожность, готовность к обороне, накопленный опыт, защита границ." },
+            { id: 32, name: "Десятка Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands10.jpg", desc: "Тяжелая ноша, переутомление, избыток обязанностей, доведение дела до конца." },
+            { id: 33, name: "Паж Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands11.jpg", desc: "Вдохновляющее известие, молодой энтузиазм, жажда приключений и открытий." },
+            { id: 34, name: "Рыцарь Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands12.jpg", desc: "Импульсивность, страсть, скорый переезд, напор, решительное и смелое движение." },
+            { id: 35, name: "Королева Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands13.jpg", desc: "Харизма, уверенность, независимость, щедрость, лидерские качества и магнетизм." },
+            { id: 36, name: "Король Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands14.jpg", desc: "Огненная сила, авторитет, предпринимательский дух, защита и управление." },
+
+            // Кубки (Cups)
+            { id: 37, name: "Туз Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups01.jpg", desc: "Поток любви, эмоциональное обновление, искренние чувства, вдохновение." },
+            { id: 38, name: "Двойка Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups02.jpg", desc: "Взаимность, союз сердец, дружба, гармоничное партнерство и примирение." },
+            { id: 39, name: "Тройка Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups03.jpg", desc: "Праздник, разделенная радость, поддержка друзей, девичник, изобилие чувств." },
+            { id: 40, name: "Четверка Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups04.jpg", desc: "Пресыщение, апатия, хандра, игнорирование новых возможностей судьбы." },
+            { id: 41, name: "Пятерка Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups05.jpg", desc: "Печаль о потерянном, разочарование, эмоциональный кризис, скорбь." },
+            { id: 42, name: "Шестерка Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups06.jpg", desc: "Ностальгия, воспоминания детства, старые друзья, искренность и подарки из прошлого." },
+            { id: 43, name: "Семерка Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups07.jpg", desc: "Иллюзии, мечты, соблазны, трудности выбора среди фантастических вариантов." },
+            { id: 44, name: "Восьмерка Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups08.jpg", desc: "Осознанный уход, поиск высшего смысла, прощание со старым ради духовного пути." },
+            { id: 45, name: "Девятка Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups09.jpg", desc: "Карта желаний, сытость, исполнение задуманного, комфорт и удовольствие." },
+            { id: 46, name: "Десятка Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups10.jpg", desc: "Семейное счастье, абсолютная гармония в доме, благословение и душевный покой." },
+            { id: 47, name: "Паж Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups11.jpg", desc: "Приятное предложение, зарождение чувств, романтическая весть или творческий порыв." },
+            { id: 48, name: "Рыцарь Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups12.jpg", desc: "Прибытие любимого, признание в чувствах, приглашение на свидание, идеализм." },
+            { id: 49, name: "Королева Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups13.jpg", desc: "Эмпатия, нежность, любящая женщина, развитая интуиция, забота и понимание." },
+            { id: 50, name: "Король Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups14.jpg", desc: "Мудрость чувств, эмоциональная зрелость, целитель, понимающий наставник или покровитель." },
+
+            // Мечи (Swords)
+            { id: 51, name: "Туз Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords01.jpg", desc: "Ясность ума, озарение, победа логики, триумф справедливости, отсечение лишнего." },
+            { id: 52, name: "Двойка Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords02.jpg", desc: "Временное перемирие, закрытость от эмоций, внутренний тупик, сомнения." },
+            { id: 53, name: "Тройка Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords03.jpg", desc: "Разбитое сердце, душевная боль, разочарование в любви или горькая правда." },
+            { id: 54, name: "Четверка Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords04.jpg", desc: "Отдых, восстановление сил, уединение, медитация и ментальная пауза." },
+            { id: 55, name: "Пятерка Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords05.jpg", desc: "Пиррова победа, подлость, жестокий конфликт, унижение или предательство." },
+            { id: 56, name: "Шестерка Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords06.jpg", desc: "Движение к новым берегам, выход из кризиса, путешествие, ментальное успокоение." },
+            { id: 57, name: "Семерка Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords07.jpg", desc: "Хитрость, уловки, обман, тайный уход от ответственности, стратегическое лавирование." },
+            { id: 58, name: "Восьмерка Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords08.jpg", desc: "Плен иллюзий, внутренние ограничения, страх действовать, мнимая ловушка." },
+            { id: 59, name: "Девятка Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords09.jpg", desc: "Бессонница, панические атаки, муки совести, преувеличенные ночные страхи." },
+            { id: 60, name: "Десятка Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords10.jpg", desc: "Полный крах, окончательное завершение трудного этапа, рассвет после темной ночи." },
+            { id: 61, name: "Паж Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords11.jpg", desc: "Сбор информации, критика, шпионаж, интеллектуальная бдительность, споры." },
+            { id: 62, name: "Рыцарь Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords12.jpg", desc: "Стремительная атака, яростный спор, резкие слова, напор ума и холодный расчет." },
+            { id: 63, name: "Королева Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords13.jpg", desc: "Острый ум, независимость, объективность, интеллект над эмоциями, проницательность." },
+            { id: 64, name: "Король Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords14.jpg", desc: "Закон, стратегия, экспертное суждение, аналитический подход, жесткая воля." },
+
+            // Пентакли (Pentacles)
+            { id: 65, name: "Туз Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles01.jpg", desc: "Материальный дар судьбы, богатство, крепкое здоровье, новые финансовые шансы." },
+            { id: 66, name: "Двойка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles02.jpg", desc: "Гибкость, балансирование ресурсами, суета, легкое отношение к деньгам и переменам." },
+            { id: 67, name: "Тройка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles03.jpg", desc: "Мастерство, профессиональный рост, успешная командная работа, признание таланта." },
+            { id: 68, name: "Четверка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles04.jpg", desc: "Скупость, удержание стабильности, страх потерь, консерватизм и жесткие рамки." },
+            { id: 69, name: "Пятерка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles05.jpg", desc: "Временный финансовый кризис, чувство покинутости, духовное испытание бедностью." },
+            { id: 70, name: "Шестерка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles06.jpg", desc: "Благотворительность, помощь, получение гранта, баланс между брать и отдавать." },
+            { id: 71, name: "Семерка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/pentacles07.jpg", desc: "Ожидание результатов труда, терпение, переоценка вложений, долгий рост урожая." },
+            { id: 72, name: "Восьмерка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles08.jpg", desc: "Усердная работа, оттачивание навыков, рутинный, но очень прибыльный труд." },
+            { id: 73, name: "Девятка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles09.jpg", desc: "Финансовая независимость, роскошь, безопасный уединенный сад, благополучие." },
+            { id: 74, name: "Десятка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles10.jpg", desc: "Богатство рода, семейный бизнес, прочные традиции, наследство и стабильный дом." },
+            { id: 75, name: "Паж Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles11.jpg", desc: "Хорошие финансовые новости, учеба, практичное предложение, начало дела." },
+            { id: 76, name: "Рыцарь Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles12.jpg", desc: "Надежность, методичное движение к богатству, упорство, прагматизм." },
+            { id: 77, name: "Королева Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles13.jpg", desc: "Изобилие, хозяйственность, гостеприимство, мудрое управление финансами." },
+            { id: 78, name: "Король Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles14.jpg", desc: "Финансовый магнат, стабильный успех, практичность, надежное покровительство." }
         ];
 
         let userQuestionData = '';
@@ -331,16 +416,7 @@
             const webhookBtn = document.getElementById('send-webhook-btn');
             if(webhookBtn) webhookBtn.style.display = 'none';
             
-            // Если услуга не требует карт (гороскопы/натал) или это Карта дня / Кельтский крест (где не нужен ввод вопроса)
-            if (actionName.includes('horoscope') || actionName === 'natal_card' || actionName === 'compatibility') {
-                document.getElementById('menu-stage').style.display = 'none';
-                document.getElementById('input-flow-container').style.display = 'flex';
-                document.getElementById('input-flow-title').innerText = "Введите ваши данные";
-                document.getElementById('user-question-input').style.display = 'none';
-                document.getElementById('user-name-input').style.display = 'block';
-                document.getElementById('user-birth-input').style.display = 'block';
-            } 
-            else if (actionName === 'tarot_yes_no' || actionName === 'tarot_question_3_cards') {
+            if (actionName === 'tarot_yes_no' || actionName === 'tarot_question_3_cards') {
                 document.getElementById('menu-stage').style.display = 'none';
                 document.getElementById('input-flow-container').style.display = 'flex';
                 document.getElementById('input-flow-title').innerText = actionName === 'tarot_yes_no' ? "Вопрос для Да/Нет" : "Суть вашей ситуации";
@@ -359,7 +435,6 @@
                 document.getElementById('user-birth-input').style.display = 'none';
             }
             else {
-                // Для Карты Дня, Кельтского креста и т.д., если ввод не обязателен — сразу к картам
                 userQuestionData = '';
                 userNamesData = { name1: '', name2: '' };
                 document.getElementById('menu-stage').style.display = 'none';
@@ -381,15 +456,6 @@
             }
             
             document.getElementById('input-flow-container').style.display = 'none';
-            
-            // Если это чисто астрологическая услуга без карт, сразу отправляем вебхук
-            if (targetCardsCount === 0) {
-                sendDataToWebhook();
-                alert("Данные успешно отправлены вашему оракулу!");
-                backToMenu();
-                return;
-            }
-            
             proceedToCards();
         }
 
@@ -422,15 +488,14 @@
             const container = document.getElementById('cards-container');
             container.innerHTML = '';
 
-            // Перемешиваем копию колоды Старших Арканов
             let localDeck = [...tarotDeck];
             for (let i = localDeck.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [localDeck[i], localDeck[j]] = [localDeck[j], localDeck[i]];
             }
 
-            const visibleCount = Math.min(localDeck.length, 22); 
-            const stepAngle = 6; 
+            const visibleCount = Math.min(localDeck.length, 25); 
+            const stepAngle = 5; 
             const startAngle = -((visibleCount - 1) * stepAngle) / 2;
 
             for (let i = 0; i < visibleCount; i++) {
@@ -440,10 +505,10 @@
                 card.dataset.id = cardData.id;
 
                 const angle = startAngle + (i * stepAngle);
-                const x = angle * 4.5; 
-                const y = Math.abs(angle) * 1.0; 
+                const x = angle * 5.0; 
+                const y = Math.abs(angle) * 1.2; 
 
-                card.style.left = `calc(50% - 35px + ${x}px)`;
+                card.style.left = `calc(50% - 36px + ${x}px)`;
                 card.style.top = `${y}px`;
                 card.style.transform = `rotate(${angle}deg)`;
                 card.style.zIndex = 10 + i;
@@ -452,7 +517,7 @@
                     <div class="card-inner">
                         <div class="card-back"></div>
                         <div class="card-front">
-                            <img class="card-img" src="${cardData.img}" alt="card">
+                            <img class="card-img" src="${cardData.img}" alt="card" onerror="this.src='https://i.ibb.co/b5GDPJTr/0603170325589-00-678029bbc55011a335aa0623a5fbd863.jpg'">
                         </div>
                     </div>
                 `;
@@ -500,7 +565,6 @@
 
                 cardElement.style.zIndex = 500 + flippedCount;
                 
-                // Эффект полета и разворота на позицию
                 if (currentAction === 'celtic_cross' && flippedCount === 2) {
                     cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1) rotate(90deg)`;
                 } else {
@@ -510,14 +574,13 @@
                 setTimeout(() => {
                     cardElement.classList.remove('flying');
                     
-                    // Запускаем 3D переворот рубашки во флип
                     if (isInverted) {
                         cardElement.classList.add('inverted');
                     } else {
                         cardElement.classList.add('flipped');
                     }
 
-                    // Навешиваем клик на открытую карту, чтобы развернуть во весь экран
+                    // НАВЕШИВАЕМ КЛИК ДЛЯ ПОЛНОЭКРАННОГО ОТКРЫТИЯ КАРТИНКИ
                     cardElement.removeAttribute('onclick');
                     cardElement.addEventListener('click', function(e) {
                         e.stopPropagation();
@@ -528,7 +591,6 @@
                 }, 650);
             }
 
-            // Создаем кнопку продолжить, если она еще не создана динамически
             let webhookBtn = document.getElementById('send-webhook-btn');
             if (!webhookBtn) {
                 webhookBtn = document.createElement('button');
@@ -553,7 +615,7 @@
             }
         }
 
-        // ОТКРЫТИЕ ПОЛНОЭКРАННОЙ КАРТЫ С ОПИСАНИЕМ (МОДАЛКА)
+        // ОТКРЫТИЕ МОДАЛЬНОГО ОКНА ДЛЯ ПРОСМОТРА КАРТЫ ВО ВЕСЬ ЭКРАН
         function openCardModal(cardData, isInverted) {
             const modal = document.getElementById('card-modal');
             const modalImg = document.getElementById('modal-img');
@@ -563,8 +625,6 @@
             if(!modal || !modalImg) return;
 
             modalImg.src = cardData.img;
-            
-            // Если карта перевернутая — визуально переворачиваем её и в модалке
             modalImg.style.transform = isInverted ? 'rotate(180deg)' : 'rotate(0deg)';
             modalTitle.innerText = isInverted ? `${cardData.name} (Перевернутая)` : cardData.name;
             modalDesc.innerText = cardData.desc || "Описание окутано тайной...";
@@ -579,7 +639,6 @@
             if(modal) modal.style.display = 'none';
         }
 
-        // ОТПРАВКА ДАННЫХ И ЗАКРЫТИЕ МИНИ-АППА
         function sendDataToWebhook() {
             const payload = { 
                 action: currentAction, 
