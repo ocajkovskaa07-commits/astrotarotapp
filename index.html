@@ -83,6 +83,14 @@
         .menu-item .title { font-size: 12px; font-weight: 600; color: #f4f4f6; letter-spacing: 1px; }
         .menu-item .desc { font-size: 9px; color: #8a8ab0; margin-top: 4px; font-family: sans-serif; }
 
+        /* РОЗОВЫЙ НЕОНОВЫЙ ШРИФТ ДЛЯ ЦЕННИКОВ */
+        .price-neon {
+            color: #ff007f !important;
+            text-shadow: 0 0 5px rgba(255, 0, 127, 0.5), 0 0 10px rgba(255, 0, 127, 0.3);
+            font-weight: 600;
+            font-family: sans-serif;
+        }
+
         /* ЗЕЛОНЫЙ НЕОНОВЫЙ МАРКЕР ДЛЯ БЕСПЛАТНОГО РАСКЛАДА */
         .free-badge {
             position: absolute;
@@ -256,32 +264,32 @@
                 <div class="menu-item" onclick="openInputFlow('tarot_yes_no', 1)">
                     <div class="icon">⚖️</div>
                     <div class="title">Да / Нет</div>
-                    <div class="desc">Четкий ответ Оракула</div>
+                    <div class="desc price-neon">50₽ / 1$ / 50⭐ +PDF</div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('business_oracle_combo', 3)">
                     <div class="icon">💼</div>
                     <div class="title">Бизнес Оракул</div>
-                    <div class="desc">Стратегия и Финансы (3 карты)</div>
+                    <div class="desc price-neon">300₽ / 5$ / 250⭐ +PDF</div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('tarot_timeline', 3)">
                     <div class="icon">⏳</div>
                     <div class="title">Три Времени</div>
-                    <div class="desc">Прошлое, Настоящее, Будущее</div>
+                    <div class="desc price-neon">50₽ / 1$ / 50⭐ +PDF</div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('tarot_question_3_cards', 3)">
                     <div class="icon">❓</div>
                     <div class="title">Разбор Ситуации</div>
-                    <div class="desc">Суть, Преграда, Решение</div>
+                    <div class="desc price-neon">50₽ / 1$ / 50⭐ +PDF</div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('tarot_love_2_hearts', 4)">
                     <div class="icon">💖</div>
                     <div class="title">Два Сердца</div>
-                    <div class="desc">Анализ отношений и связи</div>
+                    <div class="desc price-neon">100₽ / 2$ / 100⭐ +PDF</div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('celtic_cross', 10)" style="grid-column: span 2;">
                     <div class="icon">🔱</div>
                     <div class="title">Кельтский Крест</div>
-                    <div class="desc">Глубокий разбор Судьбы (10 карт)</div>
+                    <div class="desc price-neon">300₽ / 5$ / 250⭐ +PDF</div>
                 </div>
             </div>
 
@@ -290,70 +298,99 @@
                 <div class="menu-item btn-natal" onclick="openInputFlow('astro_natal', 0)">
                     <div class="icon">✨</div>
                     <div class="title">НАТАЛЬНАЯ КАРТА</div>
-                    <div class="desc">Глубокий анализ вашей судьбы</div>
+                    <div class="desc price-neon">600₽ / 10$ / 500⭐ +PDF</div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('astro_day', 0)">
                     <div class="icon">☀️</div>
                     <div class="title">На День</div>
+                    <div class="desc price-neon">50₽ / 1$ / 50⭐ +PDF</div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('astro_month', 0)">
                     <div class="icon">🌙</div>
                     <div class="title">На Месяц</div>
+                    <div class="desc price-neon">300₽ / 5$ / 250⭐ +PDF</div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('astro_year', 0)">
                     <div class="icon">🌟</div>
                     <div class="title">На Год</div>
+                    <div class="desc price-neon">600₽ / 10$ / 500⭐ +PDF</div>
                 </div>
-                <div class="menu-item" onclick="openInputFlow('astro_compatibility', 0)">
+                <div class="menu-item" onclick="openInputFlow('astro_compatibility', 0)" style="grid-column: span 2;">
                     <div class="icon">💞</div>
                     <div class="title">Совместимость</div>
+                    <div class="desc price-neon">200₽ / 5$ / 150⭐ +PDF</div>
                 </div>
             </div>
         </div>
-
         <div id="input-flow-container" class="input-container">
-            <button class="btn-back" onclick="cancelInputFlow()">◀ Назад</button>
-            <div id="input-flow-title" class="input-label">Напишите свой вопрос</div>
-            
-            <input type="text" id="user-question-input" class="input-field" placeholder="О чем вы хотите спросить оракула?">
-            <input type="text" id="user-name-input" class="input-field" placeholder="Ваше имя..." style="display: none;">
-            <input type="text" id="user-birth-input" class="input-field" placeholder="Дата рождения (ДД.ММ.ГГГГ)" style="display: none;">
-            
-            <input type="text" id="astro-date1" class="input-field" placeholder="Дата рождения (ДД.ММ.ГГГГ)" style="display: none;">
-            <input type="text" id="astro-date2" class="input-field" placeholder="Дата партнера (ДД.ММ.ГГГГ)" style="display: none;">
-            <input type="text" id="astro-time" class="input-field" placeholder="Время рождения (или 12:00)" style="display: none;">
-            <input type="text" id="astro-place" class="input-field" placeholder="Место рождения (город)" style="display: none;">
-            
+            <button class="btn-back" onclick="goBackToMenu()">← Назад</button>
+            <div id="input-fields-wrapper" style="width: 100%;">
+                </div>
             <button class="btn-mystic" onclick="submitInputFlow()">Продолжить</button>
         </div>
 
         <div id="game-stage" class="stage">
-            <button class="btn-back" onclick="backToMenu()">◀ Назад</button>
-            <div id="status-text">Выберите карты</div>
-            <div class="magic-table" id="magic-table-zone"></div>
-            <div id="cards-container" class="deck-container"></div>
+            <button class="btn-back" onclick="goBackToMenu()">← Сбросить</button>
+            <div id="status-text">Выберете карты из колоды ниже</div>
+            
+            <div class="magic-table">
+                <div id="slots-container" class="slots-wrapper">
+                    </div>
+            </div>
+
+            <div id="deck-zone" class="deck-container">
+                </div>
         </div>
+
+    </div> <div id="card-modal" class="modal-overlay" onclick="closeCardModal()">
+        <div class="modal-card-box">
+            <img id="modal-img" src="" alt="Card">
+        </div>
+        <div id="modal-title" class="modal-title">Название Карты</div>
+        <div id="modal-desc" class="modal-desc">Позиция в раскладе и краткое значение...</div>
     </div>
 
-    <div id="card-modal" class="modal-overlay" onclick="closeCardModal()">
-        <div class="modal-card-box"><img id="modal-img" src="" alt="Full Card"></div>
-        <div id="modal-title" class="modal-title">Название карты</div>
-        <div id="modal-desc" class="modal-desc">Описание карты...</div>
-        <button class="btn-mystic" style="margin-top: 25px;" onclick="closeCardModal()">Закрыть</button>
-    </div>
     <script>
+        // Инициализация Telegram WebApp
         const tg = window.Telegram.WebApp;
-        try { tg.expand(); } catch(e) {}
+        tg.expand();
+        
+        // Включение нативного тактильного отклика (вибрации)
+        if (tg.HapticFeedback) {
+            console.log("Haptic Feedback доступен и активирован.");
+        }
 
+        // ПОЛНЫЙ МУЛЬТИВАЛЮТНЫЙ СПРАВОЧНИК ЦЕН (Для кнопок, форм и n8n)
+        const productPrices = {
+            tarot_day: { price: 0, text: "Free" },
+            celtic_cross: { price: 300, text: "300₽ / 5$ / 250⭐ +PDF" },
+            astro_natal: { price: 600, text: "600₽ / 10$ / 500⭐ +PDF" },
+            astro_year: { price: 600, text: "600₽ / 10$ / 500⭐ +PDF" },
+            astro_month: { price: 300, text: "300₽ / 5$ / 250⭐ +PDF" },
+            business_oracle_combo: { price: 300, text: "300₽ / 5$ / 250⭐ +PDF" },
+            astro_compatibility: { price: 200, text: "200₽ / 5$ / 150⭐ +PDF" },
+            tarot_love_2_hearts: { price: 100, text: "100₽ / 2$ / 100⭐ +PDF" }
+        };
+
+        // Функция автоматического определения цены для остальных кнопок (50р/1$/50старс)
+        function getPriceText(action) {
+            if (productPrices[action]) return productPrices[action].text;
+            return "50₽ / 1$ / 50⭐ +PDF";
+        }
+
+        // Данные имен по умолчанию из Telegram
+        let userNamesData = {
+            firstName: tg.initDataUnsafe?.user?.first_name || "",
+            lastName: tg.initDataUnsafe?.user?.last_name || ""
+        };
+
+        // Переменные состояния приложения
         let currentAction = '';
         let targetCardsCount = 0;
         let flippedCount = 0;
-        let selectedCards = [];
-        let currentShuffledDeck = [];
-        let userQuestionData = '';
-        let userNamesData = { name1: '', name2: '' };
+        let chosenCards = []; // Сохраняем { id, inverted, slotIndex }
 
-        // ПОЛНАЯ КОЛОДА: 78 КАРТ ТАРО
+        // Список всех 78 карт колоды Таро
         const tarotDeck = [
     { id: 1, name: "Дурак (0)", img: "https://i.ibb.co/b5GDPJTr/0603170325589-00-678029bbc55011a335aa0623a5fbd863.jpg", desc: "Начало нового пути, свобода, открытость миру.", descInv: "Безрассудство, неосторожность, глупые риски, хаос." },
     { id: 2, name: "Маг (I)", img: "https://i.ibb.co/BHxXyt0n/0603170325589-02-1affc857cacbf5a0ff6ead63d66211ea.jpg", desc: "Сила воли, мастерство, реализация целей.", descInv: "Манипуляция, нерешительность, неиспользованные таланты, обман." },
@@ -434,32 +471,55 @@
     { id: 77, name: "Королева Пентаклей", img: "https://i.ibb.co/9khYwVGQ/0603170325589-77-e264de9d0c24d5e1d6ea510e00a4305b.jpg", desc: "Забота, процветание.", descInv: "Зависимость, неуверенность." },
     { id: 78, name: "Король Пентаклей", img: "https://i.ibb.co/DD5GfWfM/0603170325589-78-f75e6d6ed0aa6c6290e1e87eb205ab34.jpg", desc: "Основательность, успех.", descInv: "Жадность, коррупция, материализм." }
 ];
-        const celticLabels = [
-            "1. Суть ситуации", "2. Преграда / Влияние", "3. Прошлое / Базис", 
-            "4. Недавнее прошлое", "5. Цель / Потенциал", "6. Ближайшее будущее", 
-            "7. Ваше отношение", "8. Окружение", "9. Надежды и страхи", "10. Итог"
-        ];
-
-        function shuffleDeck(array) {
-            let currentIndex = array.length, randomIndex;
-            while (currentIndex !== 0) {
-                randomIndex = Math.floor(Math.random() * currentIndex);
-                currentIndex--;
-                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-            }
-            return array;
-        }
 
         function enterToApp() {
+            if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred("medium");
             document.getElementById('start-screen').style.display = 'none';
             document.getElementById('menu-stage').style.display = 'flex';
         }
+        // ОТКРЫТИЕ ПОТОКА ВВОДА ДАННЫХ
+        function openInputFlow(actionName, cardsCount) {
+            if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred("light");
+            currentAction = actionName;
+            targetCardsCount = cardsCount;
+            flippedCount = 0;
+            selectedCards = [];
 
-        function backToMenu() {
-            document.getElementById('game-stage').style.display = 'none';
-            document.getElementById('menu-stage').style.display = 'flex';
-            const wb = document.getElementById('send-webhook-btn');
-            if(wb) wb.style.display = 'none';
+            // Скрываем все поля ввода по умолчанию
+            document.getElementById('user-question-input').style.display = 'none';
+            document.getElementById('user-name-input').style.display = 'none';
+            document.getElementById('user-birth-input').style.display = 'none';
+            document.getElementById('astro-date1').style.display = 'none';
+            document.getElementById('astro-date2').style.display = 'none';
+            document.getElementById('astro-time').style.display = 'none';
+            document.getElementById('astro-place').style.display = 'none';
+
+            if (actionName.startsWith('astro_')) {
+                document.getElementById('menu-stage').style.display = 'none';
+                document.getElementById('input-flow-container').style.display = 'flex';
+                document.getElementById('input-flow-title').innerText = "Астрологические Данные";
+                
+                if (actionName === 'astro_compatibility') {
+                    document.getElementById('astro-date1').style.display = 'block';
+                    document.getElementById('astro-date2').style.display = 'block';
+                } else {
+                    document.getElementById('user-name-input').style.display = 'block';
+                    document.getElementById('astro-date1').style.display = 'block';
+                    document.getElementById('astro-time').style.display = 'block';
+                    document.getElementById('astro-place').style.display = 'block';
+                }
+            } else {
+                // Логика Таро
+                if (actionName === 'tarot_day' || actionName === 'celtic_cross' || actionName === 'business_oracle_combo' || actionName === 'tarot_timeline') {
+                    // Расклады без обязательного текстового вопроса переходят сразу к выбору карт
+                    startTarotGame();
+                } else {
+                    document.getElementById('menu-stage').style.display = 'none';
+                    document.getElementById('input-flow-container').style.display = 'flex';
+                    document.getElementById('input-flow-title').innerText = actionName === 'tarot_yes_no' ? "Вопрос для Да/Нет" : "Суть ситуации";
+                    document.getElementById('user-question-input').style.display = 'block';
+                }
+            }
         }
 
         function cancelInputFlow() {
@@ -467,338 +527,258 @@
             document.getElementById('menu-stage').style.display = 'flex';
         }
 
-        function openInputFlow(actionName, cardsCount) {
-            currentAction = actionName;
-            targetCardsCount = cardsCount;
-            flippedCount = 0;
-            selectedCards = [];
-            
-            const inputs = ['user-question-input', 'user-name-input', 'user-birth-input', 'astro-date1', 'astro-date2', 'astro-time', 'astro-place'];
-            inputs.forEach(id => {
-                const el = document.getElementById(id);
-                el.value = '';
-                el.style.display = 'none';
-            });
-            
-            const wb = document.getElementById('send-webhook-btn');
-            if(wb) wb.style.display = 'none';
-
-            if (actionName.startsWith('astro_')) {
-                document.getElementById('menu-stage').style.display = 'none';
-                document.getElementById('input-flow-container').style.display = 'flex';
-                
-                document.getElementById('astro-date1').style.display = 'block';
-
-                if (actionName === 'astro_natal') {
-                    document.getElementById('input-flow-title').innerText = "Натальная карта";
-                    document.getElementById('astro-date1').placeholder = "Дата рождения (ДД.ММ.ГГГГ)";
-                    document.getElementById('astro-time').style.display = 'block';
-                    document.getElementById('astro-place').style.display = 'block';
-                } else if (actionName === 'astro_compatibility') {
-                    document.getElementById('input-flow-title').innerText = "Совместимость";
-                    document.getElementById('astro-date1').placeholder = "Ваша дата рождения";
-                    document.getElementById('astro-date2').style.display = 'block';
-                } else {
-                    document.getElementById('input-flow-title').innerText = "Астро-гороскоп";
-                    document.getElementById('astro-date1').placeholder = "Дата рождения (ДД.ММ.ГГГГ)";
-                }
-                return;
-            }
-            
-            if (actionName === 'tarot_yes_no' || actionName === 'tarot_question_3_cards') {
-                document.getElementById('menu-stage').style.display = 'none';
-                document.getElementById('input-flow-container').style.display = 'flex';
-                document.getElementById('input-flow-title').innerText = actionName === 'tarot_yes_no' ? "Вопрос для Да/Нет" : "Суть ситуации";
-                document.getElementById('user-question-input').style.display = 'block';
-                document.getElementById('user-question-input').placeholder = "О чем вы хотите спросить оракула?";
-            } else if (actionName === 'tarot_love_2_hearts') {
-                document.getElementById('menu-stage').style.display = 'none';
-                document.getElementById('input-flow-container').style.display = 'flex';
-                document.getElementById('input-flow-title').innerText = "Имена партнеров";
-                document.getElementById('user-question-input').style.display = 'block';
-                document.getElementById('user-question-input').placeholder = "Имя второго партнера...";
-                document.getElementById('user-name-input').style.display = 'block';
-                document.getElementById('user-name-input').placeholder = "Ваше имя...";
-            } else {
-                userQuestionData = '';
-                userNamesData = { name1: '', name2: '' };
-                document.getElementById('menu-stage').style.display = 'none';
-                proceedToCards();
-            }
-        }
-
-        // ИСПРАВЛЕНИЕ: НАЖАТИЕ КНОПКИ В АСТРОЛОГИИ ТЕПЕРЬ ЗАКРЫВАЕТ ОКНО НА НОУТБУКАХ И НЕ ЗАВИСАЕТ
         function submitInputFlow() {
-            if (currentAction.startsWith('astro_')) {
-                let astroData = {};
-                
-                if (currentAction === 'astro_natal') {
-                    astroData = {
-                        date: document.getElementById('astro-date1').value.trim(),
-                        time: document.getElementById('astro-time').value.trim() || "12:00",
-                        place: document.getElementById('astro-place').value.trim()
-                    };
-                    if(!astroData.date || !astroData.place) { alert("Пожалуйста, заполните дату и место"); return; }
-                } else if (currentAction === 'astro_compatibility') {
-                    astroData = {
-                        date1: document.getElementById('astro-date1').value.trim(),
-                        date2: document.getElementById('astro-date2').value.trim()
-                    };
-                    if(!astroData.date1 || !astroData.date2) { alert("Пожалуйста, заполните обе даты"); return; }
-                } else {
-                    astroData = {
-                        date: document.getElementById('astro-date1').value.trim()
-                    };
-                    if(!astroData.date) { alert("Пожалуйста, заполните дату рождения"); return; }
-                }
+            if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred("medium");
+            
+            // Сохранение веденных данных в зависимости от сценария
+            userQuestionData = document.getElementById('user-question-input').value;
+            userNamesData.name1 = document.getElementById('user-name-input').value;
 
-                const payload = {
-                    type: 'astrology',
-                    action: currentAction,
-                    data: astroData
-                };
-                
-                try { 
-                    tg.sendData(JSON.stringify(payload)); 
-                } catch(e) { 
-                    console.log("Астро данные отправлены:", payload); 
-                }
-                tg.close(); // ГАРАНТИРОВАННОЕ ЗАКРЫТИЕ ДЛЯ НОУТБУКОВ
-                document.getElementById('input-flow-container').style.display = 'none';
-                return;
-            }
-
-            if (currentAction === 'tarot_love_2_hearts') {
-                const n1 = document.getElementById('user-name-input').value.trim();
-                const n2 = document.getElementById('user-question-input').value.trim();
-                if(!n1 || !n2) { alert("Заполните оба имени"); return; }
-                userNamesData = { name1: n1, name2: n2 };
-                userQuestionData = '';
-            } else {
-                const q = document.getElementById('user-question-input').value.trim();
-                if(!q) { alert("Пожалуйста, введите вопрос"); return; }
-                userQuestionData = q;
-            }
             document.getElementById('input-flow-container').style.display = 'none';
-            proceedToCards();
-        }
-
-        function proceedToCards() {
-            document.getElementById('game-stage').style.display = 'flex';
-            document.getElementById('status-text').innerText = `Выберите карты: 0 из ${targetCardsCount}`;
             
-            currentShuffledDeck = [...tarotDeck];
-            shuffleDeck(currentShuffledDeck);
-            
-            const tableZone = document.getElementById('magic-table-zone');
-            tableZone.innerHTML = ''; 
-
-            let layoutStyle = "slots-row"; 
-            if(targetCardsCount === 4) layoutStyle = "slots-cross";
-            if(targetCardsCount === 10) layoutStyle = "slots-celtic";
-
-            const slotsWrapper = document.createElement('div');
-            slotsWrapper.className = `slots-wrapper ${layoutStyle}`;
-
-            for (let i = 0; i < targetCardsCount; i++) {
-                const slot = document.createElement('div');
-                slot.className = `card-slot slot-p${i+1}`;
-                if(targetCardsCount === 10) {
-                    slot.innerHTML = `<div class="slot-label">${celticLabels[i]}</div>`;
-                } else {
-                    slot.innerHTML = `<div class="slot-label">${i+1}</div>`;
-                }
-                slotsWrapper.appendChild(slot);
+            if (currentAction.startsWith('astro_')) {
+                // Астрология не требует карт — шлем сразу
+                sendDataToWebhook();
+            } else {
+                startTarotGame();
             }
-            tableZone.appendChild(slotsWrapper);
-
-            buildDeck();
         }
 
-        function buildDeck() {
+        // ЗАПУСК ИГРОВОГО СТОЛА ТАРО
+        function startTarotGame() {
+            document.getElementById('menu-stage').style.display = 'none';
+            document.getElementById('game-stage').style.display = 'flex';
+            document.getElementById('status-text').innerText = `Выберите ${targetCardsCount} ` + getCardWord(targetCardsCount);
+
+            generateTableSlots();
+            shuffleAndBuildDeckFan();
+        }
+
+        function backToMenu() {
+            document.getElementById('game-stage').style.display = 'none';
+            document.getElementById('menu-stage').style.display = 'flex';
+        }
+
+        function getCardWord(count) {
+            if (count === 1) return "карту";
+            if (count >= 2 && count <= 4) return "карты";
+            return "карт";
+        }
+
+        // ГЕНЕРАЦИЯ СЛОТОВ НА СТОЛЕ
+        function generateTableSlots() {
+            const zone = document.getElementById('magic-table-zone');
+            zone.innerHTML = '';
+
+            if (currentAction === 'celtic_cross') {
+                const celticContainer = document.createElement('div');
+                celticContainer.className = 'slots-celtic';
+                
+                const labels = [
+                    "1. Суть", "2. Преграда", "3. Основа", "4. Прошлое", 
+                    "5. Потенциал", "6. Будущее", "7. Вы сами", "8. Окружение", 
+                    "9. Надежды", "10. Итог"
+                ];
+
+                for (let i = 1; i <= 10; i++) {
+                    const slot = document.createElement('div');
+                    slot.className = `card-slot slot-p${i}`;
+                    slot.id = `slot-${i-1}`;
+                    slot.innerHTML = `<div class="slot-label">${labels[i-1]}</div>`;
+                    celticContainer.appendChild(slot);
+                }
+                zone.appendChild(celticContainer);
+
+            } else {
+                // Рядный расклад для остальных типов (1, 3 или 4 карты)
+                const rowContainer = document.createElement('div');
+                rowContainer.className = 'slots-row';
+                
+                for (let i = 0; i < targetCardsCount; i++) {
+                    const slot = document.createElement('div');
+                    slot.className = 'card-slot';
+                    slot.id = `slot-${i}`;
+                    rowContainer.appendChild(slot);
+                }
+                zone.appendChild(rowContainer);
+            }
+        }
+
+        // ТАСОВАНИЕ КОРРЕКТНЫМ АЛГОРИТМОМ И ВЕЕР КАРТ
+        function shuffleAndBuildDeckFan() {
             const container = document.getElementById('cards-container');
             container.innerHTML = '';
 
-            const visibleCount = 24; 
-            const stepAngle = 5; 
-            const startAngle = -((visibleCount - 1) * stepAngle) / 2;
+            // Клонируем массив колоды для тасования Фишера-Йетса
+            currentShuffledDeck = [...tarotDeck];
+            for (let i = currentShuffledDeck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [currentShuffledDeck[i], currentShuffledDeck[j]] = [currentShuffledDeck[j], currentShuffledDeck[i]];
+            }
 
-            for (let i = 0; i < visibleCount; i++) {
-                const card = document.createElement('div');
-                card.className = 'interactive-card';
+            const totalCards = 28; // Оптимальное количество карт в веере для UI
+            const angleStep = 50 / totalCards; 
 
-                const angle = startAngle + (i * stepAngle);
-                const x = angle * 5.0; 
-                const y = Math.abs(angle) * 1.2; 
+            for (let i = 0; i < totalCards; i++) {
+                const cardNode = document.createElement('div');
+                cardNode.className = 'interactive-card';
+                
+                // Расчет красивого полукруглого веера
+                const currentAngle = -25 + (i * angleStep);
+                const translationX = (i - totalCards / 2) * 9;
+                const translationY = Math.abs(i - totalCards / 2) * 2.2;
 
-                card.style.left = `calc(50% - 36px + ${x}px)`;
-                card.style.top = `${y}px`;
-                card.style.transform = `rotate(${angle}deg)`;
-                card.style.zIndex = 10 + i;
+                cardNode.style.transform = `translateX(${translationX}px) translateY(${translationY}px) rotate(${currentAngle}deg)`;
+                cardNode.style.zIndex = 10 + i;
 
-                card.innerHTML = `
+                cardNode.innerHTML = `
                     <div class="card-inner">
                         <div class="card-back"></div>
-                        <div class="card-front">
-                            <img class="card-img" src="" alt="card">
-                        </div>
+                        <div class="card-front"></div>
                     </div>
                 `;
 
-                card.addEventListener('click', function() {
-                    selectAndFlyCard(card);
-                });
+                // Привязываем индекс из перетасованной колоды
+                cardNode.dataset.deckIdx = i;
 
-                container.appendChild(card);
-            }
-        }
-
-        function selectAndFlyCard(cardElement) {
-            if (cardElement.classList.contains('flying') || cardElement.classList.contains('flipped') || cardElement.classList.contains('inverted')) return;
-            if (flippedCount >= targetCardsCount) return;
-
-            const cardData = currentShuffledDeck.pop();
-            if (!cardData) return;
-
-            flippedCount++;
-            cardElement.classList.add('flying');
-            cardElement.style.pointerEvents = 'none'; 
-
-            const cardImg = cardElement.querySelector('.card-img');
-            if (cardImg) {
-                cardImg.src = cardData.img;
-            }
-
-            let isInverted = Math.random() > 0.5;
-
-            selectedCards.push({
-                id: cardData.id,
-                name: cardData.name,
-                orientation: isInverted ? 'inverted' : 'upright'
-            });
-
-            const slots = document.querySelectorAll('.card-slot');
-            const targetSlot = slots[flippedCount - 1];
-
-            if (targetSlot) {
-                const slotRect = targetSlot.getBoundingClientRect();
-                const cardRect = cardElement.getBoundingClientRect();
-
-                const deltaX = slotRect.left + (slotRect.width / 2) - (cardRect.left + cardRect.width / 2);
-                const deltaY = slotRect.top + (slotRect.height / 2) - (cardRect.top + cardRect.height / 2);
-
-                cardElement.style.zIndex = 500 + flippedCount;
-                
-                if (currentAction === 'celtic_cross' && flippedCount === 2) {
-                    cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1) rotate(90deg)`;
-                } else {
-                    cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1) rotate(0deg)`;
-                }
-
-                setTimeout(() => {
-                    cardElement.classList.remove('flying');
+                cardNode.onclick = function(e) {
+                    if (cardNode.classList.contains('flipped') || flippedCount >= targetCardsCount) return;
                     
+                    // Эффект вылета искр
+                    createSparkleBlast(e.clientX, e.clientY);
+                    
+                    if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred("medium");
+
+                    const deckIdx = parseInt(cardNode.dataset.deckIdx);
+                    const cardData = currentShuffledDeck[deckIdx];
+                    
+                    // Шанс 25% на выпадение перевернутой карты
+                    const isInverted = Math.random() < 0.25;
                     if (isInverted) {
-                        cardElement.classList.add('inverted');
+                        cardNode.classList.add('inverted');
                     } else {
-                        cardElement.classList.add('flipped');
+                        cardNode.classList.add('flipped');
                     }
 
-                    cardElement.style.pointerEvents = 'auto';
-                    const newCardElement = cardElement.cloneNode(true);
-                    cardElement.parentNode.replaceChild(newCardElement, cardElement);
-                    
-                    newCardElement.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        openCardModal(cardData, isInverted);
+                    // Анимация полета в слот на столе
+                    const targetSlot = document.getElementById(`slot-${flippedCount}`);
+                    if (targetSlot) {
+                        const slotRect = targetSlot.getBoundingClientRect();
+                        const cardRect = cardNode.getBoundingClientRect();
+                        
+                        const deltaX = slotRect.left - cardRect.left + (slotRect.width - cardRect.width) / 2;
+                        const deltaY = slotRect.top - cardRect.top + (slotRect.height - cardRect.height) / 2;
+
+                        cardNode.style.zIndex = 500 + flippedCount;
+                        cardNode.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.9) rotate(${isInverted ? 180 : 0}deg)`;
+                        
+                        // Добавляем изображение лицевой стороны
+                        const frontView = cardNode.querySelector('.card-front');
+                        frontView.innerHTML = `<img src="${cardData.img}" class="card-img" alt="Tarot">`;
+
+                        // Клик на карту на столе открывает модалку
+                        cardNode.onclick = () => openCardModal(cardData, isInverted);
+                    }
+
+                    selectedCards.push({
+                        id: cardData.id,
+                        name: cardData.name,
+                        inverted: isInverted,
+                        position: flippedCount + 1
                     });
 
-                    createSparklesAround(slotRect.left + slotRect.width / 2, slotRect.top + slotRect.height / 2);
+                    flippedCount++;
 
-                    try { tg.HapticFeedback.notificationOccurred('success'); } catch(e) {}
-                }, 650);
-            }
+                    if (flippedCount === targetCardsCount) {
+                        document.getElementById('status-text').innerText = "Все карты выбраны. Портал отправляет расклад...";
+                        setTimeout(sendDataToWebhook, 1400);
+                    } else {
+                        document.getElementById('status-text').innerText = `Выберите еще ${targetCardsCount - flippedCount} ` + getCardWord(targetCardsCount - flippedCount);
+                    }
+                };
 
-            let webhookBtn = document.getElementById('send-webhook-btn');
-            if (!webhookBtn) {
-                webhookBtn = document.createElement('button');
-                webhookBtn.id = 'send-webhook-btn';
-                webhookBtn.className = 'btn-mystic';
-                webhookBtn.innerText = 'Продолжить';
-                webhookBtn.style.position = 'fixed';
-                webhookBtn.style.bottom = '20px';
-                webhookBtn.style.left = '50%';
-                webhookBtn.style.transform = 'translateX(-50%)';
-                webhookBtn.style.zIndex = '999';
-                webhookBtn.style.display = 'none';
-                webhookBtn.onclick = sendDataToWebhook;
-                document.getElementById('game-stage').appendChild(webhookBtn);
-            }
-
-            if (flippedCount === targetCardsCount) {
-                document.getElementById('status-text').innerText = "Рассмотрите карты и нажмите продолжить";
-                webhookBtn.style.display = 'block'; 
-            } else {
-                document.getElementById('status-text').innerText = `Выбрано: ${flippedCount} из ${targetCardsCount}`;
+                container.appendChild(cardNode);
             }
         }
 
+        // ИСКРЫ ПРИ НАЖАТИИ
+        function createSparkleBlast(x, y) {
+            for (let i = 0; i < 8; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = x + 'px';
+                sparkle.style.top = y + 'px';
+                
+                const dx = (Math.random() - 0.5) * 120;
+                const dy = (Math.random() - 0.5) * 120;
+                sparkle.style.setProperty('--dx', `${dx}px`);
+                sparkle.style.setProperty('--dy', `${dy}px`);
+                
+                document.body.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 650);
+            }
+        }
+
+        // МОДАЛЬНОЕ ОКНО
         function openCardModal(cardData, isInverted) {
+            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred("success");
+            
             const modal = document.getElementById('card-modal');
             const modalImg = document.getElementById('modal-img');
-            const modalTitle = document.getElementById('modal-title');
-            const modalDesc = document.getElementById('modal-desc');
-
-            if (!modal || !modalImg) return;
-
+            
             modalImg.src = cardData.img;
             modalImg.style.transform = isInverted ? 'rotate(180deg)' : 'rotate(0deg)';
-            modalTitle.innerText = isInverted ? `${cardData.name} (Перевернутая)` : cardData.name;
-            modalDesc.innerText = isInverted ? (cardData.descInv || "Описание отсутствует") : cardData.desc;
-
+            
+            document.getElementById('modal-title').innerText = isInverted ? `${cardData.name} (Перевернутая)` : cardData.name;
+            document.getElementById('modal-desc').innerText = isInverted ? cardData.descInv : cardData.desc;
+            
             modal.style.display = 'flex';
-            try { tg.HapticFeedback.impactOccurred('medium'); } catch(e) {}
         }
 
         function closeCardModal() {
-            const modal = document.getElementById('card-modal');
-            if(modal) modal.style.display = 'none';
+            document.getElementById('card-modal').style.display = 'none';
         }
 
-        function createSparklesAround(cx, cy) {
-            for (let i = 0; i < 8; i++) {
-                const sp = document.createElement('div');
-                sp.className = 'sparkle';
-                sp.style.left = cx + 'px';
-                sp.style.top = cy + 'px';
-                const angle = Math.random() * Math.PI * 2;
-                const dist = Math.random() * 30 + 15;
-                sp.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
-                sp.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
-                document.body.appendChild(sp);
-                setTimeout(() => sp.remove(), 650);
-            }
-        }
-
-        // ИСПРАВЛЕНИЕ: НАЖАТИЕ КНОПКИ ТАРО ТЕПЕРЬ ЗАКРЫВАЕТ ОКНО НА НОУТБУКАХ И НЕ ЗАВИСАЕТ
+        // ОТПРАВКА ДАННЫХ НА ВЕБХУК N8N
         function sendDataToWebhook() {
-            const payload = { 
-                type: 'tarot',
-                action: currentAction, 
-                lang: "ru", 
-                question: userQuestionData,
-                names: userNamesData,
-                cards: selectedCards 
+            const webhookUrl = "https://n8n.weppro.site/webhook/astro-tarot";
+            
+            const payload = {
+                initData: tg.initData,
+                initDataUnsafe: tg.initDataUnsafe,
+                action: currentAction,
+                userQuestion: userQuestionData,
+                userNames: userNamesData,
+                cards: selectedCards,
+                astroDetails: {
+                    date1: document.getElementById('astro-date1').value,
+                    date2: document.getElementById('astro-date2').value,
+                    time: document.getElementById('astro-time').value,
+                    place: document.getElementById('astro-place').value
+                }
             };
-            try { 
-                tg.sendData(JSON.stringify(payload)); 
-            } catch(e) { 
-                console.log("Таро пакет отправлен:", payload); 
-            }
-            tg.close(); // ГАРАНТИРОВАННОЕ ЗАКРЫТИЕ ДЛЯ НОУТБУКОВ
+
+            fetch(webhookUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('status-text').innerText = "Расклад принят звездами! Возврат в бота...";
+                    setTimeout(() => { tg.close(); }, 1800);
+                } else {
+                    document.getElementById('status-text').innerText = "Ошибка портала n8n. Попробуйте еще раз.";
+                }
+            })
+            .catch(err => {
+                console.error("Ошибка сети вебхука:", err);
+                document.getElementById('status-text').innerText = "Ошибка связи. Данные сохранены локально.";
+                setTimeout(() => { tg.close(); }, 2500);
+            });
         }
 
-        // КОСМИЧЕСКИЙ ЗАДНИЙ ФОН
+        // КОСМИЧЕСКИЙ ЗАДНИЙ ФОН (Отрисовка звезд на Canvas)
         const canvas = document.getElementById('space-bg');
         const ctx = canvas.getContext('2d');
         let stars = [];
@@ -824,12 +804,12 @@
             for (let s of stars) {
                 s.y += s.speedY;
                 if (s.y > canvas.height) s.y = 0;
+                s.phase += 0.01;
                 let alpha = 0.3 + Math.sin(s.phase) * 0.4;
                 ctx.fillStyle = `rgba(255, 242, 178, ${alpha})`;
                 ctx.beginPath();
                 ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
                 ctx.fill();
-                s.phase += 0.01;
             }
             requestAnimationFrame(drawSpace);
         }
