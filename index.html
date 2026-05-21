@@ -264,93 +264,38 @@
     <script>
         // Инициализация Telegram WebApp
         const tg = window.Telegram.WebApp;
-        tg.expand();
+        try { tg.expand(); } catch(e) {}
 
         let currentAction = '';
         let targetCardsCount = 0;
         let flippedCount = 0;
         let selectedCards = [];
 
-        // ОРИГИНАЛЬНАЯ БАЗА ДАННЫХ КАРТ ТАРО ИЗ ПЕРВОГО ФАЙЛА
+        // ОРИГИНАЛЬНАЯ БАЗА ДАННЫХ ИЗ ПЕРВОГО ФАЙЛА С РАБОЧИМИ КАРТИНКАМИ IMGBB И ОПИСАНИЯМИ
         const tarotDeck = [
-            { id: 0, name: "Дурак", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/0_fool.jpg" },
-            { id: 1, name: "Маг", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/1_magician.jpg" },
-            { id: 2, name: "Верховная Жрица", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/2_high_priestess.jpg" },
-            { id: 3, name: "Императрица", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/3_empress.jpg" },
-            { id: 4, name: "Император", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/4_emperor.jpg" },
-            { id: 5, name: "Иерофант", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/5_hierophant.jpg" },
-            { id: 6, name: "Влюбленные", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/6_lovers.jpg" },
-            { id: 7, name: "Колесница", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/7_chariot.jpg" },
-            { id: 8, name: "Сила", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/8_strength.jpg" },
-            { id: 9, name: "Отшельник", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/9_hermit.jpg" },
-            { id: 10, name: "Колесо Фортуны", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/10_wheel_of_fortune.jpg" },
-            { id: 11, name: "Справедливость", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/11_justice.jpg" },
-            { id: 12, name: "Повешенный", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/12_hanged_man.jpg" },
-            { id: 13, name: "Смерть", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/13_death.jpg" },
-            { id: 14, name: "Умеренность", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/14_temperance.jpg" },
-            { id: 15, name: "Дьявол", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/15_devil.jpg" },
-            { id: 16, name: "Башня", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/16_tower.jpg" },
-            { id: 17, name: "Звезда", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/17_star.jpg" },
-            { id: 18, name: "Луна", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/18_moon.jpg" },
-            { id: 19, name: "Солнце", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/19_sun.jpg" },
-            { id: 20, name: "Суд", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/20_judgement.jpg" },
-            { id: 21, name: "Мир", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/21_world.jpg" },
-            { id: 22, name: "Туз Жезлов", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/wands_01.jpg" },
-            { id: 23, name: "Двойка Жезлов", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/wands_02.jpg" },
-            { id: 24, name: "Тройка Жезлов", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/wands_03.jpg" },
-            { id: 25, name: "Четверка Жезлов", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/wands_04.jpg" },
-            { id: 26, name: "Пятерка Жезлов", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/wands_05.jpg" },
-            { id: 27, name: "Шестерка Жезлов", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/wands_06.jpg" },
-            { id: 28, name: "Семерка Жезлов", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/wands_07.jpg" },
-            { id: 29, name: "Восьмерка Жезлов", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/wands_08.jpg" },
-            { id: 30, name: "Девятка Жезлов", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/wands_09.jpg" },
-            { id: 31, name: "Десятка Жезлов", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/wands_10.jpg" },
-            { id: 32, name: "Паж Жезлов", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/wands_page.jpg" },
-            { id: 33, name: "Рыцарь Жезлов", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/wands_knight.jpg" },
-            { id: 34, name: "Королева Жезлов", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/wands_queen.jpg" },
-            { id: 35, name: "Король Жезлов", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/wands_king.jpg" },
-            { id: 36, name: "Туз Кубков", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/cups_01.jpg" },
-            { id: 37, name: "Двойка Кубков", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/cups_02.jpg" },
-            { id: 38, name: "Тройка Кубков", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/cups_03.jpg" },
-            { id: 39, name: "Четверка Кубков", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/cups_04.jpg" },
-            { id: 40, name: "Пятерка Кубков", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/cups_05.jpg" },
-            { id: 41, name: "Шестерка Кубков", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/cups_06.jpg" },
-            { id: 42, name: "Семерка Кубков", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/cups_07.jpg" },
-            { id: 43, name: "Восьмерка Кубков", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/cups_08.jpg" },
-            { id: 44, name: "Девятка Кубков", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/cups_09.jpg" },
-            { id: 45, name: "Десятка Кубков", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/cups_10.jpg" },
-            { id: 46, name: "Паж Кубков", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/cups_page.jpg" },
-            { id: 47, name: "Рыцарь Кубков", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/cups_knight.jpg" },
-            { id: 48, name: "Королева Кубков", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/cups_queen.jpg" },
-            { id: 49, name: "Король Кубков", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/cups_king.jpg" },
-            { id: 50, name: "Туз Мечей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/swords_01.jpg" },
-            { id: 51, name: "Двойка Мечей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/swords_02.jpg" },
-            { id: 52, name: "Тройка Мечей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/swords_03.jpg" },
-            { id: 53, name: "Четверка Мечей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/swords_04.jpg" },
-            { id: 54, name: "Пятерка Мечей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/swords_05.jpg" },
-            { id: 55, name: "Шестерка Мечей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/swords_06.jpg" },
-            { id: 56, name: "Семерка Мечей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/swords_07.jpg" },
-            { id: 57, name: "Восьмерка Мечей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/swords_08.jpg" },
-            { id: 58, name: "Девятка Мечей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/swords_09.jpg" },
-            { id: 59, name: "Десятка Мечей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/swords_10.jpg" },
-            { id: 60, name: "Паж Мечей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/swords_page.jpg" },
-            { id: 61, name: "Рыцарь Мечей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/swords_knight.jpg" },
-            { id: 62, name: "Королева Мечей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/swords_queen.jpg" },
-            { id: 63, name: "Король Мечей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/swords_king.jpg" },
-            { id: 64, name: "Туз Пентаклей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/pentacles_01.jpg" },
-            { id: 65, name: "Двойка Пентаклей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/pentacles_02.jpg" },
-            { id: 66, name: "Тройка Пентаклей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/pentacles_03.jpg" },
-            { id: 67, name: "Четверка Пентаклей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/pentacles_04.jpg" },
-            { id: 68, name: "Пятерка Пентаклей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/pentacles_05.jpg" },
-            { id: 69, name: "Шестерка Пентаклей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/pentacles_06.jpg" },
-            { id: 70, name: "Семерка Пентаклей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/pentacles_07.jpg" },
-            { id: 71, name: "Восьмерка Пентаклей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/pentacles_08.jpg" },
-            { id: 72, name: "Девятка Пентаклей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/pentacles_09.jpg" },
-            { id: 73, name: "Десятка Пентаклей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/pentacles_10.jpg" },
-            { id: 74, name: "Паж Пентаклей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/pentacles_page.jpg" },
-            { id: 75, name: "Рыцарь Пентаклей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/pentacles_knight.jpg" },
-            { id: 76, name: "Королева Пентаклей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/pentacles_queen.jpg" },
-            { id: 77, name: "Король Пентаклей", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/pentacles_king.jpg" }
+            { id: 1, name: "Дурак (0)", img: "https://i.ibb.co/b5GDPJTr/0603170325589-00-678029bbc55011a335aa0623a5fbd863.jpg", desc: "Начало нового пути, свобода, открытость миру или слепое доверие судьбе." },
+            { id: 2, name: "Маг (I)", img: "https://i.ibb.co/BHxXyt0n/0603170325589-02-1affc857cacbf5a0ff6ead63d66211ea.jpg", desc: "Сила воли, мастерство, способность материализовать свои мысли и цели." },
+            { id: 3, name: "Верховная Жрица (II)", img: "https://i.ibb.co/S4GW4gvH/0603170325589-03-0ddacb930338683e6aae222a529e79f1.jpg", desc: "Интуиция, скрытые тайны, подсознание, пассивное ожидание знаков." },
+            { id: 4, name: "Императрица (III)", img: "https://i.ibb.co/9HrmxY5S/0603170325589-04-19dd16bc6fda522034e722acc866cd03.jpg", desc: "Плодородие, изобилие, творчество, материнская забота и рост сил." },
+            { id: 5, name: "И模ператор (IV)", img: "https://i.ibb.co/fVsMDQrK/0603170325589-05-c574474b6f14b2bd02d87815f06c59cd.jpg", desc: "Власть, структура, стабильность, закон, контроль и покровительство." },
+            { id: 6, name: "Иерофант (V)", img: "https://i.ibb.co/S4dqdNjZ/0603170325589-06-37da9a540c0b9bc51355f2e2c19943b9.jpg", desc: "Традиции, обучение, духовный наставник, правила общества и мудрость." },
+            { id: 7, name: "Влюбленные (VI)", img: "https://i.ibb.co/6R6w7fXL/0603170325589-07-28d8b4c5b369ba0f4f9d14620f3e60df.jpg", desc: "Выбор сердца, союзы, гармония в отношениях или важная жизненная развилка." },
+            { id: 8, name: "Колесница (VII)", img: "https://i.ibb.co/v4rNqg92/0603170325589-08-30588665ae21e42bca1c1cb807fc936c.jpg", desc: "Прорыв, триумф, целеустремленность, контроль над обстоятельствами и движение вперед." },
+            { id: 9, name: "Сила (VIII)", img: "https://i.ibb.co/hx6p4h7F/0603170325589-09-d5ebae9b60ee741639f7278f2cbcfda7.jpg", desc: "Внутренняя стойкость, мягкое укрощение страстей, терпение и уверенность в себе." },
+            { id: 10, name: "Отшельник (IX)", img: "https://i.ibb.co/2069Bf9y/0603170325589-10-b960a5e842f1cf5b2d71842880c5bd44.jpg", desc: "Поиск истины, уединение, самопознание, внутренний свет и духовная зрелость." },
+            { id: 11, name: "Колесо Фортуны (X)", img: "https://i.ibb.co/N6L1bYVq/0603170325589-11-209fae48939eb9f87c2446a6f1d24497.jpg", desc: "Судьбоносные перемены, везение, новый цикл событий и неожиданные повороты." },
+            { id: 12, name: "Справедливость (XI)", img: "https://i.ibb.co/YBcwh0S1/0603170325589-12-88f615467e4162da097eb4fe2514995f.jpg", desc: "Объективность, кармический баланс, честность, юридические дела и триумф правды." },
+            { id: 13, name: "Повешенный (XII)", img: "https://i.ibb.co/p6V7K1yD/0603170325589-13-b54a736bd45c2f0fcf64b4c7be4ea1c7.jpg", desc: "Переосмысление, жертвенность ради высшего, пауза и взгляд под другим углом." },
+            { id: 14, name: "Смерть (XIII)", img: "https://i.ibb.co/mFpxrGf7/0603170325589-14-fa263bc616f05934421b44cb89fc7594.jpg", desc: "Глубокая трансформация, завершение старой главы и рождение чего-то нового." },
+            { id: 15, name: "Умеренность (XIV)", img: "https://i.ibb.co/jZyWw9W2/0603170325589-15-77edef0d5654cc4cb4fc612198083888.jpg", desc: "Баланс, исцеление, спокойствие, гармония души и постепенное нахождение выхода." },
+            { id: 16, name: "Дьявол (XV)", img: "https://i.ibb.co/VWVwDsc6/0603170325589-16-928d5415da8a096c5896a793c52bfec5.jpg", desc: "Искушения, материальные привязанности, зависимости, теневые стороны и страсть." },
+            { id: 17, name: "Башня (XVI)", img: "https://i.ibb.co/v6NfT8rL/0603170325589-17-76fe8da5f8a0340381676643260cc7d2.jpg", desc: "Внезапное крушение иллюзий, освобождение через очищающий хаос, резкие перемены." },
+            { id: 18, name: "Звезда (XVII)", img: "https://i.ibb.co/270vM4gX/0603170325589-18-5a022b7a9f9d784eb9231f2bc88ea68e.jpg", desc: "Надежда, вдохновение, вера в будущее, космическое покровительство и мечты." },
+            { id: 19, name: "Луна (XVIII)", img: "https://i.ibb.co/v6XzMhLw/0603170325589-19-a038d17ba3f86e927f8dc40d6c5bb5d2.jpg", desc: "Тайны, иллюзии, страхи, вещие сны, развитая интуиция или скрытый обман." },
+            { id: 20, name: "Солнце (XIX)", img: "https://i.ibb.co/wZpXqF0F/0603170325589-20-80d0d8dae76cfaee3ea66e34346caec6.jpg", desc: "Ясность, счастье, огромный успех, жизненная энергия, почет и рождение детей." },
+            { id: 21, name: "Суд (XX)", img: "https://i.ibb.co/GfpVwS0n/0603170325589-21-4f1da9ef3c09bca7ef27918c5e0e0a5c.jpg", desc: "Пробуждение, важное решение, освобождение от прошлого, призвание и итоги." },
+            { id: 22, name: "Мир (XXI)", img: "https://i.ibb.co/G41K6M3z/0603170325589-22-3112fc6e09e44ffc28fc849fe4f1a2fa.jpg", desc: "Полная гармония, триумфальное завершение пути, расширение границ и покой." }
+            // При необходимости ты сможешь расширить Младшие арканы сюда же
         ];
 
         let userQuestionData = '';
@@ -364,42 +309,57 @@
         function backToMenu() {
             document.getElementById('game-stage').style.display = 'none';
             document.getElementById('menu-stage').style.display = 'flex';
-            document.getElementById('send-webhook-btn').style.display = 'none';
+            const webhookBtn = document.getElementById('send-webhook-btn');
+            if(webhookBtn) webhookBtn.style.display = 'none';
         }
 
-        function cancelInputStage() {
-            document.getElementById('input-stage').style.display = 'none';
+        function cancelInputFlow() {
+            document.getElementById('input-flow-container').style.display = 'none';
             document.getElementById('menu-stage').style.display = 'flex';
         }
 
-        function startLayout(actionName, cardsCount) {
+        function openInputFlow(actionName, cardsCount) {
             currentAction = actionName;
             targetCardsCount = cardsCount;
             flippedCount = 0;
             selectedCards = [];
             
-            document.getElementById('user-question').value = '';
-            document.getElementById('name-one').value = '';
-            document.getElementById('name-two').value = '';
-            document.getElementById('send-webhook-btn').style.display = 'none';
+            document.getElementById('user-question-input').value = '';
+            document.getElementById('user-name-input').value = '';
+            document.getElementById('user-birth-input').value = '';
             
-            if (actionName === 'tarot_yes_no' || actionName === 'tarot_question_3_cards') {
+            const webhookBtn = document.getElementById('send-webhook-btn');
+            if(webhookBtn) webhookBtn.style.display = 'none';
+            
+            // Если услуга не требует карт (гороскопы/натал) или это Карта дня / Кельтский крест (где не нужен ввод вопроса)
+            if (actionName.includes('horoscope') || actionName === 'natal_card' || actionName === 'compatibility') {
                 document.getElementById('menu-stage').style.display = 'none';
-                document.getElementById('input-stage').style.display = 'flex';
-                document.getElementById('input-prompt-text').innerText = actionName === 'tarot_yes_no' ? "Задайте вопрос для ответа Да/Нет" : "Напишите суть вашей ситуации";
-                document.getElementById('user-question').style.display = 'block';
-                document.getElementById('name-one').style.display = 'none';
-                document.getElementById('name-two').style.display = 'none';
+                document.getElementById('input-flow-container').style.display = 'flex';
+                document.getElementById('input-flow-title').innerText = "Введите ваши данные";
+                document.getElementById('user-question-input').style.display = 'none';
+                document.getElementById('user-name-input').style.display = 'block';
+                document.getElementById('user-birth-input').style.display = 'block';
+            } 
+            else if (actionName === 'tarot_yes_no' || actionName === 'tarot_question_3_cards') {
+                document.getElementById('menu-stage').style.display = 'none';
+                document.getElementById('input-flow-container').style.display = 'flex';
+                document.getElementById('input-flow-title').innerText = actionName === 'tarot_yes_no' ? "Вопрос для Да/Нет" : "Суть вашей ситуации";
+                document.getElementById('user-question-input').style.display = 'block';
+                document.getElementById('user-name-input').style.display = 'none';
+                document.getElementById('user-birth-input').style.display = 'none';
             } 
             else if (actionName === 'tarot_love_2_hearts') {
                 document.getElementById('menu-stage').style.display = 'none';
-                document.getElementById('input-stage').style.display = 'flex';
-                document.getElementById('input-prompt-text').innerText = "Введите имена для анализа связи";
-                document.getElementById('user-question').style.display = 'none';
-                document.getElementById('name-one').style.display = 'block';
-                document.getElementById('name-two').style.display = 'block';
-            } 
+                document.getElementById('input-flow-container').style.display = 'flex';
+                document.getElementById('input-flow-title').innerText = "Имена партнеров";
+                document.getElementById('user-question-input').style.display = 'block';
+                document.getElementById('user-question-input').placeholder = "Введите имя второго партнера...";
+                document.getElementById('user-name-input').style.display = 'block';
+                document.getElementById('user-name-input').placeholder = "Ваше имя...";
+                document.getElementById('user-birth-input').style.display = 'none';
+            }
             else {
+                // Для Карты Дня, Кельтского креста и т.д., если ввод не обязателен — сразу к картам
                 userQuestionData = '';
                 userNamesData = { name1: '', name2: '' };
                 document.getElementById('menu-stage').style.display = 'none';
@@ -407,21 +367,29 @@
             }
         }
 
-        function confirmInputAndProceed() {
+        function submitInputFlow() {
             if (currentAction === 'tarot_love_2_hearts') {
-                const n1 = document.getElementById('name-one').value.trim();
-                const n2 = document.getElementById('name-two').value.trim();
-                if(!n1 || !n2) { alert("Пожалуйста, введите оба имени"); return; }
+                const n1 = document.getElementById('user-name-input').value.trim();
+                const n2 = document.getElementById('user-question-input').value.trim();
+                if(!n1 || !n2) { alert("Пожалуйста, заполните оба имени"); return; }
                 userNamesData = { name1: n1, name2: n2 };
                 userQuestionData = '';
-            } else {
-                const q = document.getElementById('user-question').value.trim();
-                if(!q) { alert("Пожалуйста, сформулируйте вопрос"); return; }
+            } else if (document.getElementById('user-question-input').style.display === 'block') {
+                const q = document.getElementById('user-question-input').value.trim();
+                if(!q) { alert("Пожалуйста, введите ваш вопрос"); return; }
                 userQuestionData = q;
-                userNamesData = { name1: '', name2: '' };
             }
             
-            document.getElementById('input-stage').style.display = 'none';
+            document.getElementById('input-flow-container').style.display = 'none';
+            
+            // Если это чисто астрологическая услуга без карт, сразу отправляем вебхук
+            if (targetCardsCount === 0) {
+                sendDataToWebhook();
+                alert("Данные успешно отправлены вашему оракулу!");
+                backToMenu();
+                return;
+            }
+            
             proceedToCards();
         }
 
@@ -442,7 +410,7 @@
             for (let i = 0; i < targetCardsCount; i++) {
                 const slot = document.createElement('div');
                 slot.className = `card-slot slot-p${i+1}`;
-                slot.innerHTML = `<div class="slot-label">Позиция ${i+1}</div>`;
+                slot.innerHTML = `<div class="slot-label">${i+1}</div>`;
                 slotsWrapper.appendChild(slot);
             }
             tableZone.appendChild(slotsWrapper);
@@ -454,13 +422,14 @@
             const container = document.getElementById('cards-container');
             container.innerHTML = '';
 
+            // Перемешиваем копию колоды Старших Арканов
             let localDeck = [...tarotDeck];
             for (let i = localDeck.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [localDeck[i], localDeck[j]] = [localDeck[j], localDeck[i]];
             }
 
-            const visibleCount = 26; 
+            const visibleCount = Math.min(localDeck.length, 22); 
             const stepAngle = 6; 
             const startAngle = -((visibleCount - 1) * stepAngle) / 2;
 
@@ -471,10 +440,10 @@
                 card.dataset.id = cardData.id;
 
                 const angle = startAngle + (i * stepAngle);
-                const x = angle * 5; 
-                const y = Math.abs(angle) * 1.2; 
+                const x = angle * 4.5; 
+                const y = Math.abs(angle) * 1.0; 
 
-                card.style.left = `calc(50% - 36px + ${x}px)`;
+                card.style.left = `calc(50% - 35px + ${x}px)`;
                 card.style.top = `${y}px`;
                 card.style.transform = `rotate(${angle}deg)`;
                 card.style.zIndex = 10 + i;
@@ -496,9 +465,8 @@
             }
         }
 
-        // ВОЗВРАЩЕНА ОРИГИНАЛЬНАЯ ЛОГИКА ПЕРЕМЕЩЕНИЯ ИЗ ТВОЕГО ПЕРВОГО ФАЙЛА
         function selectAndFlyCard(cardElement) {
-            if (cardElement.classList.contains('flying') || cardElement.classList.contains('flipped')) return;
+            if (cardElement.classList.contains('flying') || cardElement.classList.contains('flipped') || cardElement.classList.contains('inverted')) return;
             if (flippedCount >= targetCardsCount) return;
 
             const cardId = parseInt(cardElement.dataset.id);
@@ -532,7 +500,7 @@
 
                 cardElement.style.zIndex = 500 + flippedCount;
                 
-                // Проверяем: если это Кельтский крест и вторая карта — разворачиваем её боком на 90 градусов
+                // Эффект полета и разворота на позицию
                 if (currentAction === 'celtic_cross' && flippedCount === 2) {
                     cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1) rotate(90deg)`;
                 } else {
@@ -542,22 +510,73 @@
                 setTimeout(() => {
                     cardElement.classList.remove('flying');
                     
+                    // Запускаем 3D переворот рубашки во флип
                     if (isInverted) {
                         cardElement.classList.add('inverted');
                     } else {
                         cardElement.classList.add('flipped');
                     }
 
+                    // Навешиваем клик на открытую карту, чтобы развернуть во весь экран
+                    cardElement.removeAttribute('onclick');
+                    cardElement.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        openCardModal(cardData, isInverted);
+                    });
+
                     try { tg.HapticFeedback.notificationOccurred('success'); } catch(e) {}
-                }, 600);
+                }, 650);
+            }
+
+            // Создаем кнопку продолжить, если она еще не создана динамически
+            let webhookBtn = document.getElementById('send-webhook-btn');
+            if (!webhookBtn) {
+                webhookBtn = document.createElement('button');
+                webhookBtn.id = 'send-webhook-btn';
+                webhookBtn.className = 'btn-mystic';
+                webhookBtn.innerText = 'Продолжить';
+                webhookBtn.style.position = 'fixed';
+                webhookBtn.style.bottom = '20px';
+                webhookBtn.style.left = '50%';
+                webhookBtn.style.transform = 'translateX(-50%)';
+                webhookBtn.style.zIndex = '999';
+                webhookBtn.style.display = 'none';
+                webhookBtn.onclick = sendDataToWebhook;
+                document.getElementById('game-stage').appendChild(webhookBtn);
             }
 
             if (flippedCount === targetCardsCount) {
-                document.getElementById('status-text').innerText = "Предсказание готово! Рассмотрите карты и нажмите кнопку ниже";
-                document.getElementById('send-webhook-btn').style.display = 'block'; 
+                document.getElementById('status-text').innerText = "Рассмотрите карты (кликните для увеличения) и нажмите продолжить";
+                webhookBtn.style.display = 'block'; 
             } else {
                 document.getElementById('status-text').innerText = `Выбрано: ${flippedCount} из ${targetCardsCount}`;
             }
+        }
+
+        // ОТКРЫТИЕ ПОЛНОЭКРАННОЙ КАРТЫ С ОПИСАНИЕМ (МОДАЛКА)
+        function openCardModal(cardData, isInverted) {
+            const modal = document.getElementById('card-modal');
+            const modalImg = document.getElementById('modal-img');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDesc = document.getElementById('modal-desc');
+
+            if(!modal || !modalImg) return;
+
+            modalImg.src = cardData.img;
+            
+            // Если карта перевернутая — визуально переворачиваем её и в модалке
+            modalImg.style.transform = isInverted ? 'rotate(180deg)' : 'rotate(0deg)';
+            modalTitle.innerText = isInverted ? `${cardData.name} (Перевернутая)` : cardData.name;
+            modalDesc.innerText = cardData.desc || "Описание окутано тайной...";
+
+            modal.style.display = 'flex';
+            
+            try { tg.HapticFeedback.impactOccurred('medium'); } catch(e) {}
+        }
+
+        function closeCardModal() {
+            const modal = document.getElementById('card-modal');
+            if(modal) modal.style.display = 'none';
         }
 
         // ОТПРАВКА ДАННЫХ И ЗАКРЫТИЕ МИНИ-АППА
