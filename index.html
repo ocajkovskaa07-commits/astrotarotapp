@@ -83,6 +83,17 @@
         .menu-item .title { font-size: 12px; font-weight: 600; color: #f4f4f6; letter-spacing: 1px; }
         .menu-item .desc { font-size: 9px; color: #8a8ab0; margin-top: 4px; font-family: sans-serif; }
 
+        /* РОЗОВЫЙ НЕОН ДЛЯ ЦЕННИКОВ */
+        .price-neon {
+            display: block;
+            margin-top: 6px;
+            color: #ff007f !important;
+            text-shadow: 0 0 5px rgba(255, 0, 127, 0.6), 0 0 10px rgba(255, 0, 127, 0.4);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            font-family: sans-serif;
+        }
+
         /* ЗЕЛОНЫЙ НЕОНОВЫЙ МАРКЕР ДЛЯ БЕСПЛАТНОГО РАСКЛАДА */
         .free-badge {
             position: absolute;
@@ -256,57 +267,60 @@
                 <div class="menu-item" onclick="openInputFlow('tarot_yes_no', 1)">
                     <div class="icon">⚖️</div>
                     <div class="title">Да / Нет</div>
-                    <div class="desc">Четкий ответ Оракула</div>
+                    <div class="desc">Четкий ответ Оракула<span class="price-neon">50р/1$/50⭐ +pdf</span></div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('business_oracle_combo', 3)">
                     <div class="icon">💼</div>
                     <div class="title">Бизнес Оракул</div>
-                    <div class="desc">Стратегия и Финансы (3 карты)</div>
+                    <div class="desc">Стратегия и Финансы (3 карты)<span class="price-neon">300р/5$/250⭐ +pdf</span></div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('tarot_timeline', 3)">
                     <div class="icon">⏳</div>
                     <div class="title">Три Времени</div>
-                    <div class="desc">Прошлое, Настоящее, Будущее</div>
+                    <div class="desc">Прошлое, Настоящее, Будущее<span class="price-neon">50р/1$/50⭐ +pdf</span></div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('tarot_question_3_cards', 3)">
                     <div class="icon">❓</div>
                     <div class="title">Разбор Ситуации</div>
-                    <div class="desc">Суть, Преграда, Решение</div>
+                    <div class="desc">Суть, Преграда, Решение<span class="price-neon">50р/1$/50⭐ +pdf</span></div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('tarot_love_2_hearts', 4)">
                     <div class="icon">💖</div>
                     <div class="title">Два Сердца</div>
-                    <div class="desc">Анализ отношений и связи</div>
+                    <div class="desc">Анализ отношений и связи<span class="price-neon">100р/2$/100⭐ +pdf</span></div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('celtic_cross', 10)" style="grid-column: span 2;">
                     <div class="icon">🔱</div>
                     <div class="title">Кельтский Крест</div>
-                    <div class="desc">Глубокий разбор Судьбы (10 карт)</div>
+                    <div class="desc">Глубокий разбор Судьбы (10 карт)<span class="price-neon">300р/5$/250⭐ +pdf</span></div>
                 </div>
             </div>
-
             <h2 class="astro-header">Астрология</h2>
             <div class="menu-grid">
                 <div class="menu-item btn-natal" onclick="openInputFlow('astro_natal', 0)">
                     <div class="icon">✨</div>
                     <div class="title">НАТАЛЬНАЯ КАРТА</div>
-                    <div class="desc">Глубокий анализ вашей судьбы</div>
+                    <div class="desc">Глубокий анализ вашей судьбы<span class="price-neon">600р/10$/500⭐ +pdf</span></div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('astro_day', 0)">
                     <div class="icon">☀️</div>
                     <div class="title">На День</div>
+                    <div class="desc"><span class="price-neon">50р/1$/50⭐ +pdf</span></div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('astro_month', 0)">
                     <div class="icon">🌙</div>
                     <div class="title">На Месяц</div>
+                    <div class="desc"><span class="price-neon">300р/5$/250⭐ +pdf</span></div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('astro_year', 0)">
                     <div class="icon">🌟</div>
                     <div class="title">На Год</div>
+                    <div class="desc"><span class="price-neon">600р/10$/500⭐ +pdf</span></div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('astro_compatibility', 0)">
                     <div class="icon">💞</div>
                     <div class="title">Совместимость</div>
+                    <div class="desc"><span class="price-neon">200р/5$/150⭐ +pdf</span></div>
                 </div>
             </div>
         </div>
@@ -353,7 +367,22 @@
         let userQuestionData = '';
         let userNamesData = { name1: '', name2: '' };
 
-        // ПОЛНАЯ КОЛОДА: 78 КАРТ ТАРО
+        const priceDict = {
+            tarot_day: { price: 0, text: "" },
+            tarot_yes_no: { price: 50, text: "50р/1$/50⭐" },
+            business_oracle_combo: { price: 300, text: "300р/5$/250⭐" },
+            tarot_timeline: { price: 50, text: "50р/1$/50⭐" },
+            tarot_question_3_cards: { price: 50, text: "50р/1$/50⭐" },
+            tarot_love_2_hearts: { price: 100, text: "100р/2$/100⭐" },
+            celtic_cross: { price: 300, text: "300р/5$/250⭐" },
+            astro_natal: { price: 600, text: "600р/10$/500⭐" },
+            astro_day: { price: 50, text: "50р/1$/50⭐" },
+            astro_month: { price: 300, text: "300р/5$/250⭐" },
+            astro_year: { price: 600, text: "600р/10$/500⭐" },
+            astro_compatibility: { price: 200, text: "200р/5$/150⭐" }
+        };
+
+        // ВАШ ИДЕАЛЬНЫЙ МАССИВ (БЕЗ ИЗМЕНЕНИЙ)
         const tarotDeck = [
     { id: 1, name: "Дурак (0)", img: "https://i.ibb.co/b5GDPJTr/0603170325589-00-678029bbc55011a335aa0623a5fbd863.jpg", desc: "Начало нового пути, свобода, открытость миру.", descInv: "Безрассудство, неосторожность, глупые риски, хаос." },
     { id: 2, name: "Маг (I)", img: "https://i.ibb.co/BHxXyt0n/0603170325589-02-1affc857cacbf5a0ff6ead63d66211ea.jpg", desc: "Сила воли, мастерство, реализация целей.", descInv: "Манипуляция, нерешительность, неиспользованные таланты, обман." },
@@ -483,6 +512,16 @@
             const wb = document.getElementById('send-webhook-btn');
             if(wb) wb.style.display = 'none';
 
+            // ИЗМЕНЕНИЕ КНОПКИ В ФОРМЕ ВВОДА
+            const inputBtn = document.querySelector('#input-flow-container .btn-mystic');
+            if(inputBtn) {
+                if(actionName === 'tarot_day') {
+                    inputBtn.innerText = "Получить бесплатно";
+                } else {
+                    inputBtn.innerText = "Оплатить " + priceDict[actionName].text;
+                }
+            }
+
             if (actionName.startsWith('astro_')) {
                 document.getElementById('menu-stage').style.display = 'none';
                 document.getElementById('input-flow-container').style.display = 'flex';
@@ -527,7 +566,6 @@
             }
         }
 
-        // ИСПРАВЛЕНИЕ: НАЖАТИЕ КНОПКИ В АСТРОЛОГИИ ТЕПЕРЬ ЗАКРЫВАЕТ ОКНО НА НОУТБУКАХ И НЕ ЗАВИСАЕТ
         function submitInputFlow() {
             if (currentAction.startsWith('astro_')) {
                 let astroData = {};
@@ -563,7 +601,7 @@
                 } catch(e) { 
                     console.log("Астро данные отправлены:", payload); 
                 }
-                tg.close(); // ГАРАНТИРОВАННОЕ ЗАКРЫТИЕ ДЛЯ НОУТБУКОВ
+                tg.close(); 
                 document.getElementById('input-flow-container').style.display = 'none';
                 return;
             }
@@ -724,7 +762,6 @@
                 webhookBtn = document.createElement('button');
                 webhookBtn.id = 'send-webhook-btn';
                 webhookBtn.className = 'btn-mystic';
-                webhookBtn.innerText = 'Продолжить';
                 webhookBtn.style.position = 'fixed';
                 webhookBtn.style.bottom = '20px';
                 webhookBtn.style.left = '50%';
@@ -736,7 +773,13 @@
             }
 
             if (flippedCount === targetCardsCount) {
-                document.getElementById('status-text').innerText = "Рассмотрите карты и нажмите продолжить";
+                document.getElementById('status-text').innerText = "Рассмотрите карты и нажмите для оплаты";
+                // ИЗМЕНЕНИЕ КНОПКИ НА ИГРОВОМ СТОЛЕ
+                if(currentAction === 'tarot_day') {
+                    webhookBtn.innerText = "Получить бесплатно";
+                } else {
+                    webhookBtn.innerText = "Оплатить " + priceDict[currentAction].text;
+                }
                 webhookBtn.style.display = 'block'; 
             } else {
                 document.getElementById('status-text').innerText = `Выбрано: ${flippedCount} из ${targetCardsCount}`;
@@ -780,7 +823,6 @@
             }
         }
 
-        // ИСПРАВЛЕНИЕ: НАЖАТИЕ КНОПКИ ТАРО ТЕПЕРЬ ЗАКРЫВАЕТ ОКНО НА НОУТБУКАХ И НЕ ЗАВИСАЕТ
         function sendDataToWebhook() {
             const payload = { 
                 type: 'tarot',
@@ -795,10 +837,9 @@
             } catch(e) { 
                 console.log("Таро пакет отправлен:", payload); 
             }
-            tg.close(); // ГАРАНТИРОВАННОЕ ЗАКРЫТИЕ ДЛЯ НОУТБУКОВ
+            tg.close(); 
         }
 
-        // КОСМИЧЕСКИЙ ЗАДНИЙ ФОН
         const canvas = document.getElementById('space-bg');
         const ctx = canvas.getContext('2d');
         let stars = [];
