@@ -367,11 +367,11 @@
             { id: 68, name: "Четверка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles04.jpg", desc: "Скупость, удержание стабильности, страх потерь, консерватизм и жесткие рамки." },
             { id: 69, name: "Пятерка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles05.jpg", desc: "Временный финансовый кризис, чувство покинутости, духовное испытание бедностью." },
             { id: 70, name: "Шестерка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles06.jpg", desc: "Благотворительность, помощь, получение гранта, баланс между брать и отдавать." },
-            { id: 71, name: "Семерка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles07.jpg", desc: "Ожидание результатов труда, терпение, переоценка вложений, долгий рост урожая." },
+            { id: 71, name: "Семерка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/pentacles07.jpg", desc: "Ожидание результатов труда, терпение, переоценка вложений, долгий рост урожая." },
             { id: 72, name: "Восьмерка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles08.jpg", desc: "Усердная работа, оттачивание навыков, рутинный, но очень прибыльный труд." },
             { id: 73, name: "Девятка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles09.jpg", desc: "Финансовая независимость, роскошь, безопасный уединенный сад, благополучие." },
             { id: 74, name: "Десятка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles10.jpg", desc: "Богатство рода, семейный бизнес, прочные традиции, наследство и стабильный дом." },
-            { id: 75, name: "Паж Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles11.jpg", desc: "Хорошие финансовые новости, учеба, практичное предложение, начало дела." },
+            { id: 75, name: "Паж Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles11.jpg", desc: "Хорошие финансовые новости, учеба, practical предложение, начало дела." },
             { id: 76, name: "Рыцарь Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles12.jpg", desc: "Надежность, методичное движение к богатству, упорство, прагматизм." },
             { id: 77, name: "Королева Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles13.jpg", desc: "Изобилие, хозяйственность, гостеприимство, мудрое управление финансами." },
             { id: 78, name: "Король Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles14.jpg", desc: "Финансовый магнат, стабильный успех, практичность, надежное покровительство." }
@@ -380,7 +380,7 @@
         let userQuestionData = '';
         let userNamesData = { name1: '', name2: '' };
 
-        // ИСПРАВЛЕННЫЙ АЛГОРИТМ ПЕРЕМЕШИВАНИЯ КОЛОДЫ
+        // ИСПРАВЛЕННЫЙ АЛГОРИТМ ПЕРЕМЕШИВАНИЯ КОЛОДЫ (Фишер-Йетс)
         function shuffleDeck(array) {
             let currentIndex = array.length, randomIndex;
             while (currentIndex !== 0) {
@@ -468,8 +468,11 @@
             document.getElementById('game-stage').style.display = 'flex';
             document.getElementById('status-text').innerText = `Выберите карты: 0 из ${targetCardsCount}`;
             
-            // ВАЖНО: Создаем независимый глубокий клон колоды и честно его перемешиваем
-            currentShuffledDeck = shuffleDeck([...tarotDeck]);
+            // ВАЖНО: Делаем полную чистую копию всех 78 карт колоды
+            currentShuffledDeck = [...tarotDeck];
+            
+            // Тщательно перемешиваем всю колоду из 78 карт случайным образом перед раскладом
+            shuffleDeck(currentShuffledDeck);
             
             const tableZone = document.getElementById('magic-table-zone');
             tableZone.innerHTML = ''; 
@@ -492,21 +495,19 @@
             buildDeck();
         }
 
-        // ПОЛНОСТЬЮ ОБНОВЛЕННАЯ ФУНКЦИЯ СБОРКИ ВЕЕРА — БЕЗ ДУБЛИКАТОВ
         function buildDeck() {
             const container = document.getElementById('cards-container');
             container.innerHTML = '';
 
-            const visibleCount = Math.min(currentShuffledDeck.length, 25); 
+            // Показываем в веере до 24 карт рубашками вверх для выбора
+            const visibleCount = Math.min(currentShuffledDeck.length, 24); 
             const stepAngle = 5; 
             const startAngle = -((visibleCount - 1) * stepAngle) / 2;
 
             for (let i = 0; i < visibleCount; i++) {
-                const cardData = currentShuffledDeck[i];
                 const card = document.createElement('div');
                 card.className = 'interactive-card';
-                card.dataset.id = cardData.id;
-                card.dataset.index = i; // Жестко привязываем к порядковому номеру веера
+                card.dataset.index = i; // Привязываем индекс к позиции в перемешанном массиве
 
                 const angle = startAngle + (i * stepAngle);
                 const x = angle * 5.0; 
@@ -521,7 +522,7 @@
                     <div class="card-inner">
                         <div class="card-back"></div>
                         <div class="card-front">
-                            <img class="card-img" src="${cardData.img}" alt="card" onerror="this.src='https://i.ibb.co/b5GDPJTr/0603170325589-00-678029bbc55011a335aa0623a5fbd863.jpg'">
+                            <img class="card-img" src="" alt="card">
                         </div>
                     </div>
                 `;
@@ -538,13 +539,25 @@
             if (cardElement.classList.contains('flying') || cardElement.classList.contains('flipped') || cardElement.classList.contains('inverted')) return;
             if (flippedCount >= targetCardsCount) return;
 
-            // Извлекаем карту СТРОГО по индексу кликнутого элемента веера
+            // Получаем индекс именно той карты веера, по которой кликнули
             const cardIndex = parseInt(cardElement.dataset.index);
-            const cardData = currentShuffledDeck[cardIndex];
+            
+            // ВАЖНО: Вырезаем карту из перемешанного массива с помощью .splice()
+            // Карта физически удаляется из колоды, что гарантирует 100% отсутствие дубликатов!
+            const cardData = currentShuffledDeck.splice(cardIndex, 1)[0];
             if (!cardData) return;
 
             flippedCount++;
             cardElement.classList.add('flying');
+
+            // Подставляем её изображение в элемент верстки в момент клика
+            const cardImg = cardElement.querySelector('.card-img');
+            if (cardImg) {
+                cardImg.src = cardData.img;
+                cardImg.onerror = function() {
+                    this.src = 'https://i.ibb.co/b5GDPJTr/0603170325589-00-678029bbc55011a335aa0623a5fbd863.jpg';
+                };
+            }
 
             let isInverted = false;
             if (currentAction === 'tarot_yes_no') {
@@ -594,6 +607,14 @@
                     try { tg.HapticFeedback.notificationOccurred('success'); } catch(e) {}
                 }, 650);
             }
+
+            // Перестраиваем веер оставшихся карт с небольшим сдвигом во времени,
+            // чтобы обновились дата-индексы у оставшихся карт и не было накладок
+            setTimeout(() => {
+                if (flippedCount < targetCardsCount) {
+                    buildDeck();
+                }
+            }, 200);
 
             let webhookBtn = document.getElementById('send-webhook-btn');
             if (!webhookBtn) {
