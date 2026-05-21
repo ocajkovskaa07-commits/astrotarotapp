@@ -127,7 +127,6 @@
             margin-top: 20px; overflow: visible; display: flex; justify-content: center;
         }
 
-        /* КАРТЫ С КРАСИВОЙ АНИМАЦИЕЙ ПЕРЕВОРОТА */
         .interactive-card {
             position: absolute; width: 72px; height: 124px; perspective: 1000px;
             transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), z-index 0.1s ease;
@@ -152,10 +151,7 @@
             border: 2px solid #3d306b; box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
             display: flex; align-items: center; justify-content: center;
         }
-        .card-back::after {
-            content: "👁️"; font-size: 20px; color: #4a3b7d;
-            opacity: 0.6; filter: drop-shadow(0 0 5px rgba(255,215,0,0.2));
-        }
+        .card-back::after { content: "👁️"; font-size: 20px; color: #4a3b7d; opacity: 0.6; }
 
         .card-front {
             background: #000; border: 1.5px solid #fff2b2;
@@ -164,7 +160,6 @@
         }
         .card-img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; display: block; }
 
-        /* МОДАЛЬНОЕ ОКНО ДЛЯ ПОЛНОЭКРАННОГО ПРОСМОТРА КАРТЫ */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(3, 2, 8, 0.95); z-index: 10000;
@@ -184,12 +179,8 @@
         .oracle-sphere {
             width: 140px; height: 140px; background: radial-gradient(circle at 30% 30%, #2b1f54 0%, #0a0618 70%, #020105 100%);
             border-radius: 50%; margin: 40px 0; position: relative;
-            box-shadow: 0 0 30px rgba(74, 59, 125, 0.4), inset -10px -10px 25px rgba(0,0,0,0.7), inset 10px 10px 20px rgba(255,255,255,0.1);
+            box-shadow: 0 0 30px rgba(74, 59, 125, 0.4), inset -10px -10px 25px rgba(0,0,0,0.7);
             display: flex; align-items: center; justify-content: center;
-        }
-        .oracle-sphere::before {
-            content: ""; position: absolute; top: 12px; left: 22px; width: 25px; height: 15px;
-            background: rgba(255,255,255,0.15); border-radius: 50%; transform: rotate(-30deg); filter: blur(1px);
         }
         .oracle-glow {
             position: absolute; width: 100%; height: 100%; border-radius: 50%;
@@ -198,7 +189,6 @@
         }
         @keyframes pulseGlow { 0%, 100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.15); } }
 
-        /* ИСКРЫ */
         .sparkle {
             position: absolute; width: 4px; height: 4px; background: #fff2b2;
             border-radius: 50%; pointer-events: none; z-index: 9999;
@@ -258,7 +248,7 @@
                 <div class="menu-item" onclick="openInputFlow('celtic_cross', 10)" style="grid-column: span 2;">
                     <div class="icon">🔱</div>
                     <div class="title">Кельтский Крест</div>
-                    <div class="desc">Глубокий разбор Судьбы и любых вопросов (10 карт)</div>
+                    <div class="desc">Глубокий разбор Судьбы (10 карт)</div>
                 </div>
             </div>
         </div>
@@ -277,24 +267,19 @@
         <div id="game-stage" class="stage">
             <button class="btn-back" onclick="backToMenu()">◀ Назад</button>
             <div id="status-text">Выберите карты</div>
-            
             <div class="magic-table" id="magic-table-zone"></div>
-            
             <div id="cards-container" class="deck-container"></div>
         </div>
     </div>
 
     <div id="card-modal" class="modal-overlay" onclick="closeCardModal()">
-        <div class="modal-card-box">
-            <img id="modal-img" src="" alt="Full Card">
-        </div>
+        <div class="modal-card-box"><img id="modal-img" src="" alt="Full Card"></div>
         <div id="modal-title" class="modal-title">Название карты</div>
         <div id="modal-desc" class="modal-desc">Описание карты...</div>
         <button class="btn-mystic" style="margin-top: 25px;" onclick="closeCardModal()">Закрыть</button>
     </div>
 
     <script>
-        // Инициализация Telegram WebApp
         const tg = window.Telegram.WebApp;
         try { tg.expand(); } catch(e) {}
 
@@ -302,11 +287,9 @@
         let targetCardsCount = 0;
         let flippedCount = 0;
         let selectedCards = [];
-        let currentShuffledDeck = []; // Массив для перемешанной колоды текущего расклада
+        let currentShuffledDeck = [];
 
-        // ПОЛНЫЙ МАССИВ ИЗ 78 КАРТ
         const tarotDeck = [
-            // Старшие Арканы (0-21)
             { id: 1, name: "Дурак (0)", img: "https://i.ibb.co/b5GDPJTr/0603170325589-00-678029bbc55011a335aa0623a5fbd863.jpg", desc: "Начало нового пути, свобода, открытость миру или слепое доверие судьбе." },
             { id: 2, name: "Маг (I)", img: "https://i.ibb.co/BHxXyt0n/0603170325589-02-1affc857cacbf5a0ff6ead63d66211ea.jpg", desc: "Сила воли, мастерство, способность материализовать свои мысли и цели." },
             { id: 3, name: "Верховная Жрица (II)", img: "https://i.ibb.co/S4GW4gvH/0603170325589-03-0ddacb930338683e6aae222a529e79f1.jpg", desc: "Интуиция, скрытые тайны, подсознание, пассивное ожидание знаков." },
@@ -329,7 +312,6 @@
             { id: 20, name: "Солнце (XIX)", img: "https://i.ibb.co/wZpXqF0F/0603170325589-20-80d0d8dae76cfaee3ea66e34346caec6.jpg", desc: "Ясность, счастье, огромный успех, жизненная энергия, почет и рождение детей." },
             { id: 21, name: "Суд (XX)", img: "https://i.ibb.co/GfpVwS0n/0603170325589-21-4f1da9ef3c09bca7ef27918c5e0e0a5c.jpg", desc: "Пробуждение, важное решение, освобождение от прошлого, призвание и итоги." },
             { id: 22, name: "Мир (XXI)", img: "https://i.ibb.co/G41K6M3z/0603170325589-22-3112fc6e09e44ffc28fc849fe4f1a2fa.jpg", desc: "Полная гармония, триумфальное завершение пути, расширение границ и покой." },
-
             // Жезлы (Wands)
             { id: 23, name: "Туз Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands01.jpg", desc: "Вспышка страсти, мощный творческий импульс, новая идея и инициатива." },
             { id: 24, name: "Двойка Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands02.jpg", desc: "Планирование, выбор направления, удержание завоеванных позиций и амбиции." },
@@ -376,7 +358,7 @@
             { id: 61, name: "Паж Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords11.jpg", desc: "Сбор информации, критика, шпионаж, интеллектуальная бдительность, споры." },
             { id: 62, name: "Рыцарь Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords12.jpg", desc: "Стремительная атака, яростный спор, резкие слова, напор ума и холодный расчет." },
             { id: 63, name: "Королева Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords13.jpg", desc: "Острый ум, независимость, объективность, интеллект над эмоциями, проницательность." },
-            { id: 64, name: "Король Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords14.jpg", desc: "Закон, strategy, экспертное суждение, аналитический подход, жесткая воля." },
+            { id: 64, name: "Король Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords14.jpg", desc: "Закон, стратегия, экспертное суждение, аналитический подход, жесткая воля." },
 
             // Пентакли (Pentacles)
             { id: 65, name: "Туз Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles01.jpg", desc: "Материальный дар судьбы, богатство, крепкое здоровье, новые финансовые шансы." },
@@ -398,7 +380,7 @@
         let userQuestionData = '';
         let userNamesData = { name1: '', name2: '' };
 
-        // Алгоритм Фишера — Йетса для честного перемешивания карт
+        // ИСПРАВЛЕННЫЙ АЛГОРИТМ ПЕРЕМЕШИВАНИЯ КОЛОДЫ
         function shuffleDeck(array) {
             let currentIndex = array.length, randomIndex;
             while (currentIndex !== 0) {
@@ -486,7 +468,7 @@
             document.getElementById('game-stage').style.display = 'flex';
             document.getElementById('status-text').innerText = `Выберите карты: 0 из ${targetCardsCount}`;
             
-            // ПЕРЕМЕШИВАЕМ КЛОН КОЛОДЫ ПЕРЕД КАЖДЫМ НОВЫМ РАСКЛАДОМ
+            // ВАЖНО: Создаем независимый глубокий клон колоды и честно его перемешиваем
             currentShuffledDeck = shuffleDeck([...tarotDeck]);
             
             const tableZone = document.getElementById('magic-table-zone');
@@ -510,11 +492,11 @@
             buildDeck();
         }
 
+        // ПОЛНОСТЬЮ ОБНОВЛЕННАЯ ФУНКЦИЯ СБОРКИ ВЕЕРА — БЕЗ ДУБЛИКАТОВ
         function buildDeck() {
             const container = document.getElementById('cards-container');
             container.innerHTML = '';
 
-            // Показываем веер из первых 25 случайных карт нашей перемешанной колоды
             const visibleCount = Math.min(currentShuffledDeck.length, 25); 
             const stepAngle = 5; 
             const startAngle = -((visibleCount - 1) * stepAngle) / 2;
@@ -524,7 +506,7 @@
                 const card = document.createElement('div');
                 card.className = 'interactive-card';
                 card.dataset.id = cardData.id;
-                card.dataset.index = i; // Сохраняем точный индекс в перемешанной колоде
+                card.dataset.index = i; // Жестко привязываем к порядковому номеру веера
 
                 const angle = startAngle + (i * stepAngle);
                 const x = angle * 5.0; 
@@ -556,7 +538,7 @@
             if (cardElement.classList.contains('flying') || cardElement.classList.contains('flipped') || cardElement.classList.contains('inverted')) return;
             if (flippedCount >= targetCardsCount) return;
 
-            // Извлекаем карту строго по её индексу из веера перемешанной колоды
+            // Извлекаем карту СТРОГО по индексу кликнутого элемента веера
             const cardIndex = parseInt(cardElement.dataset.index);
             const cardData = currentShuffledDeck[cardIndex];
             if (!cardData) return;
@@ -568,7 +550,6 @@
             if (currentAction === 'tarot_yes_no') {
                 isInverted = Math.random() > 0.5;
             }
-            const orientation = isInverted ? 'inverted' : 'upright';
 
             selectedCards.push({
                 id: cardData.id,
@@ -603,13 +584,11 @@
                         cardElement.classList.add('flipped');
                     }
 
-                    // Навешиваем клик для вызова модального окна конкретной карты
                     cardElement.addEventListener('click', function(e) {
                         e.stopPropagation();
                         openCardModal(cardData, isInverted);
                     });
 
-                    // Создаем эффект магических искр
                     createSparklesAround(slotRect.left + slotRect.width / 2, slotRect.top + slotRect.height / 2);
 
                     try { tg.HapticFeedback.notificationOccurred('success'); } catch(e) {}
@@ -654,7 +633,6 @@
             modalDesc.innerText = cardData.desc || "Описание окутано тайной...";
 
             modal.style.display = 'flex';
-            
             try { tg.HapticFeedback.impactOccurred('medium'); } catch(e) {}
         }
 
