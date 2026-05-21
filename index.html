@@ -9,12 +9,12 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
-        * { box-sizing: border-box; user-select: none; -webkit-user-select: none; }
+        * { box-sizing: border-box; user-select: none; -webkit-user-select: none; margin: 0; padding: 0; }
         
         body {
             background: #030306; color: #f4f4f6; font-family: 'Cinzel', serif;
             display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
-            min-height: 100vh; margin: 0; padding: 15px; overflow-x: hidden; position: relative;
+            min-height: 100vh; overflow-x: hidden; position: relative; padding: 15px;
         }
         #space-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
 
@@ -78,7 +78,7 @@
         .menu-item .title { font-size: 12px; font-weight: 600; color: #f4f4f6; letter-spacing: 1px; }
         .menu-item .desc { font-size: 9px; color: #8a8ab0; margin-top: 4px; font-family: sans-serif; }
 
-        /* РОДНОЙ ИГРОВОЙ СТОЛ ИЗ ПЕРВОГО ФАЙЛА */
+        /* ИГРОВОЙ СТОЛ ИЗ ИСХОДНОЙ ВЕРСИИ */
         #status-text {
             font-size: 12px; color: #fff2b2; letter-spacing: 1px; text-align: center;
             margin-bottom: 25px; min-height: 18px; font-family: sans-serif;
@@ -89,7 +89,7 @@
             margin-bottom: 20px; display: flex; align-items: center; justify-content: center;
         }
 
-        /* СЕТКИ ДЛЯ СЛОТОВ ИЗ ТВОЕЙ ПЕРВОЙ ВЕРСИИ */
+        /* ОРИГИНАЛЬНЫЕ СЕТКИ СЛОТОВ */
         .slots-wrapper { width: 100%; height: 100%; position: relative; }
         .slots-row { display: flex; justify-content: center; align-items: center; gap: 15px; width: 100%; height: 100%; }
         
@@ -103,7 +103,7 @@
         .slots-celtic { width: 100%; height: 100%; position: relative; scale: 0.9; }
         .slots-celtic .card-slot { position: absolute; width: 55px; height: 95px; }
         .slots-celtic .slot-p1 { top: 50%; left: 35%; transform: translate(-50%, -50%); }
-        .slots-celtic .slot-p2 { top: 50%; left: 35%; transform: translate(-50%, -50%) rotate(90deg); z-index: 5; }
+        .slots-celtic .slot-p2 { top: 50%; left: 35%; transform: translate(-50%, -50%); z-index: 5; }
         .slots-celtic .slot-p3 { top: 15%; left: 35%; transform: translate(-50%, -50%); }
         .slots-celtic .slot-p4 { top: 85%; left: 35%; transform: translate(-50%, -50%); }
         .slots-celtic .slot-p5 { top: 50%; left: 10%; transform: translate(-50%, -50%); }
@@ -123,20 +123,21 @@
             font-size: 9px; color: #8a8ab0; font-family: sans-serif; pointer-events: none;
         }
 
-        /* ВЕЕР КАРТ ИЗ ПЕРВОГО ФАЙЛА */
+        /* ИСХОДНЫЙ КОНТЕЙНЕР ДЛЯ ВЕЕРА */
         .deck-container {
-            position: relative; width: 100%; max-width: 400px; height: 260px;
-            margin-top: 10px; overflow: visible;
+            position: relative; width: 100%; max-width: 400px; height: 160px;
+            margin-top: 20px; overflow: visible; display: flex; justify-content: center;
         }
 
+        /* СТИЛИ ИСХОДНЫХ ОТОБРАЖАЕМЫХ КАРТ */
         .interactive-card {
             position: absolute; width: 72px; height: 124px; perspective: 1000px;
-            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), z-index 0.1s ease;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), z-index 0.1s ease;
             cursor: pointer; -webkit-tap-highlight-color: transparent;
         }
         .card-inner {
             position: relative; width: 100%; height: 100%; text-align: center;
-            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
             transform-style: preserve-3d; border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
@@ -163,7 +164,7 @@
             transform: rotateY(180deg); display: flex; align-items: center;
             justify-content: center; padding: 0;
         }
-        .card-img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+        .card-img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; display: block; }
 
         .oracle-sphere {
             width: 140px; height: 140px; background: radial-gradient(circle at 30% 30%, #2b1f54 0%, #0a0618 70%, #020105 100%);
@@ -256,7 +257,7 @@
             
             <div id="cards-container" class="deck-container"></div>
             
-            <button id="send-webhook-btn" class="btn-mystic" style="display: none; margin-top: 30px;" onclick="sendDataToWebhook()">Продолжить</button>
+            <button id="send-webhook-btn" class="btn-mystic" style="display: none; margin-top: 35px; z-index: 9999;" onclick="sendDataToWebhook()">Продолжить</button>
         </div>
     </div>
 
@@ -270,7 +271,7 @@
         let flippedCount = 0;
         let selectedCards = [];
 
-        // ПОЛНАЯ БАЗА ДАННЫХ КАРТ ИЗ ТВОЕГО ФАЙЛА (78 карт)
+        // ОРИГИНАЛЬНАЯ БАЗА ДАННЫХ КАРТ ТАРО ИЗ ПЕРВОГО ФАЙЛА
         const tarotDeck = [
             { id: 0, name: "Дурак", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/0_fool.jpg" },
             { id: 1, name: "Маг", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/1_magician.jpg" },
@@ -371,7 +372,6 @@
             document.getElementById('menu-stage').style.display = 'flex';
         }
 
-        // КЛИК НА РАСКЛАД И ПРОВЕРКА ЭКРАНА ВВОДА
         function startLayout(actionName, cardsCount) {
             currentAction = actionName;
             targetCardsCount = cardsCount;
@@ -407,7 +407,6 @@
             }
         }
 
-        // НАЖАТИЕ ПРОДОЛЖИТЬ НА ЭКРАНЕ ВВОДА
         function confirmInputAndProceed() {
             if (currentAction === 'tarot_love_2_hearts') {
                 const n1 = document.getElementById('name-one').value.trim();
@@ -426,7 +425,6 @@
             proceedToCards();
         }
 
-        // ОТКРЫТИЕ СТОЛА (ИЗ ТВОЕГО ПЕРВОГО ИСХОДНИКА)
         function proceedToCards() {
             document.getElementById('game-stage').style.display = 'flex';
             document.getElementById('status-text').innerText = `Выберите карты: 0 из ${targetCardsCount}`;
@@ -452,7 +450,6 @@
             buildDeck();
         }
 
-        // ПОСТРОЕНИЕ ТВОЕГО РОДНОГО КРАСИВОГО ВЕЕРА КАРТ
         function buildDeck() {
             const container = document.getElementById('cards-container');
             container.innerHTML = '';
@@ -474,7 +471,6 @@
                 card.dataset.id = cardData.id;
 
                 const angle = startAngle + (i * stepAngle);
-                const rad = angle * Math.PI / 180;
                 const x = angle * 5; 
                 const y = Math.abs(angle) * 1.2; 
 
@@ -500,7 +496,7 @@
             }
         }
 
-        // ИСХОДНЫЙ ПОЛЕТ КАРТЫ С КОРРЕКТНЫМ ОТОБРАЖЕНИЕМ КАРТИНКИ
+        // ВОЗВРАЩЕНА ОРИГИНАЛЬНАЯ ЛОГИКА ПЕРЕМЕЩЕНИЯ ИЗ ТВОЕГО ПЕРВОГО ФАЙЛА
         function selectAndFlyCard(cardElement) {
             if (cardElement.classList.contains('flying') || cardElement.classList.contains('flipped')) return;
             if (flippedCount >= targetCardsCount) return;
@@ -535,7 +531,13 @@
                 const deltaY = slotRect.top + (slotRect.height / 2) - (cardRect.top + cardRect.height / 2);
 
                 cardElement.style.zIndex = 500 + flippedCount;
-                cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1) rotate(0deg)`;
+                
+                // Проверяем: если это Кельтский крест и вторая карта — разворачиваем её боком на 90 градусов
+                if (currentAction === 'celtic_cross' && flippedCount === 2) {
+                    cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1) rotate(90deg)`;
+                } else {
+                    cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1) rotate(0deg)`;
+                }
 
                 setTimeout(() => {
                     cardElement.classList.remove('flying');
@@ -550,16 +552,15 @@
                 }, 600);
             }
 
-            // ЕСЛИ ВСЕ КАРТЫ ВЫБРАНЫ — ПОКАЗЫВАЕМ КНОПКУ ПРОДОЛЖИТЬ
             if (flippedCount === targetCardsCount) {
                 document.getElementById('status-text').innerText = "Предсказание готово! Рассмотрите карты и нажмите кнопку ниже";
-                document.getElementById('send-webhook-btn').style.display = 'block'; // Кнопка плавно появляется
+                document.getElementById('send-webhook-btn').style.display = 'block'; 
             } else {
                 document.getElementById('status-text').innerText = `Выбрано: ${flippedCount} из ${targetCardsCount}`;
             }
         }
 
-        // ОТПРАВКА ДАННЫХ ПРИ НАЖАТИИ НА КНОПКУ "ПРОДОЛЖИТЬ"
+        // ОТПРАВКА ДАННЫХ И ЗАКРЫТИЕ МИНИ-АППА
         function sendDataToWebhook() {
             const payload = { 
                 action: currentAction, 
@@ -571,7 +572,7 @@
             try { 
                 tg.sendData(JSON.stringify(payload)); 
             } catch(e) { 
-                console.log("Пакет отправлен:", payload); 
+                console.log("Пакет отправлен в Telegram:", payload); 
             }
         }
 
