@@ -30,7 +30,7 @@
         .stage { display: none; width: 100%; flex-direction: column; align-items: center; }
         #start-screen { display: flex; }
 
-        /* ФОРМА ВВОДА ДАННЫХ ПЕРЕД ВЕЕРОМ */
+        /* ФОРМА ВВОДА ДАННЫХ ПЕРЕД РАСКЛАДОМ */
         .input-container {
             display: none; width: 100%; max-width: 360px; 
             flex-direction: column; align-items: center; padding: 20px; position: relative;
@@ -78,7 +78,7 @@
         .menu-item .title { font-size: 12px; font-weight: 600; color: #f4f4f6; letter-spacing: 1px; }
         .menu-item .desc { font-size: 9px; color: #8a8ab0; margin-top: 4px; font-family: sans-serif; }
 
-        /* ИГРОВОЙ СТОЛ И КАРТЫ */
+        /* РОДНОЙ ИГРОВОЙ СТОЛ ИЗ ПЕРВОГО ФАЙЛА */
         #status-text {
             font-size: 12px; color: #fff2b2; letter-spacing: 1px; text-align: center;
             margin-bottom: 25px; min-height: 18px; font-family: sans-serif;
@@ -89,7 +89,46 @@
             margin-bottom: 20px; display: flex; align-items: center; justify-content: center;
         }
 
-        /* ИНТЕРАКТИВНАЯ КАРТА */
+        /* СЕТКИ ДЛЯ СЛОТОВ ИЗ ТВОЕЙ ПЕРВОЙ ВЕРСИИ */
+        .slots-wrapper { width: 100%; height: 100%; position: relative; }
+        .slots-row { display: flex; justify-content: center; align-items: center; gap: 15px; width: 100%; height: 100%; }
+        
+        .slots-cross { width: 100%; height: 100%; position: relative; }
+        .slots-cross .card-slot { position: absolute; }
+        .slots-cross .slot-p1 { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .slots-cross .slot-p2 { top: 15%; left: 50%; transform: translate(-50%, -50%); }
+        .slots-cross .slot-p3 { top: 50%; left: 15%; transform: translate(-50%, -50%); }
+        .slots-cross .slot-p4 { top: 50%; left: 85%; transform: translate(-50%, -50%); }
+
+        .slots-celtic { width: 100%; height: 100%; position: relative; scale: 0.9; }
+        .slots-celtic .card-slot { position: absolute; width: 55px; height: 95px; }
+        .slots-celtic .slot-p1 { top: 50%; left: 35%; transform: translate(-50%, -50%); }
+        .slots-celtic .slot-p2 { top: 50%; left: 35%; transform: translate(-50%, -50%) rotate(90deg); z-index: 5; }
+        .slots-celtic .slot-p3 { top: 15%; left: 35%; transform: translate(-50%, -50%); }
+        .slots-celtic .slot-p4 { top: 85%; left: 35%; transform: translate(-50%, -50%); }
+        .slots-celtic .slot-p5 { top: 50%; left: 10%; transform: translate(-50%, -50%); }
+        .slots-celtic .slot-p6 { top: 50%; left: 60%; transform: translate(-50%, -50%); }
+        .slots-celtic .slot-p7 { top: 85%; left: 88%; transform: translate(-50%, -50%); }
+        .slots-celtic .slot-p8 { top: 62%; left: 88%; transform: translate(-50%, -50%); }
+        .slots-celtic .slot-p9 { top: 38%; left: 88%; transform: translate(-50%, -50%); }
+        .slots-celtic .slot-p10 { top: 15%; left: 88%; transform: translate(-50%, -50%); }
+
+        .card-slot {
+            width: 72px; height: 124px; border: 1px dashed rgba(255,242,178,0.2);
+            border-radius: 8px; display: flex; flex-direction: column; align-items: center;
+            justify-content: center; position: relative; background: rgba(255,255,255,0.01);
+        }
+        .slot-label {
+            position: absolute; bottom: -20px; width: 120px; text-align: center;
+            font-size: 9px; color: #8a8ab0; font-family: sans-serif; pointer-events: none;
+        }
+
+        /* ВЕЕР КАРТ ИЗ ПЕРВОГО ФАЙЛА */
+        .deck-container {
+            position: relative; width: 100%; max-width: 400px; height: 260px;
+            margin-top: 10px; overflow: visible;
+        }
+
         .interactive-card {
             position: absolute; width: 72px; height: 124px; perspective: 1000px;
             transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), z-index 0.1s ease;
@@ -215,7 +254,9 @@
             
             <div class="magic-table" id="magic-table-zone"></div>
             
-            <div id="cards-container"></div>
+            <div id="cards-container" class="deck-container"></div>
+            
+            <button id="send-webhook-btn" class="btn-mystic" style="display: none; margin-top: 30px;" onclick="sendDataToWebhook()">Продолжить</button>
         </div>
     </div>
 
@@ -229,7 +270,7 @@
         let flippedCount = 0;
         let selectedCards = [];
 
-        // БАЗА ДАННЫХ КАРТ ТАРО (78 карт)
+        // ПОЛНАЯ БАЗА ДАННЫХ КАРТ ИЗ ТВОЕГО ФАЙЛА (78 карт)
         const tarotDeck = [
             { id: 0, name: "Дурак", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/0_fool.jpg" },
             { id: 1, name: "Маг", img: "https://raw.githubusercontent.com/orakul-astro/oracle-img/main/1_magician.jpg" },
@@ -322,6 +363,7 @@
         function backToMenu() {
             document.getElementById('game-stage').style.display = 'none';
             document.getElementById('menu-stage').style.display = 'flex';
+            document.getElementById('send-webhook-btn').style.display = 'none';
         }
 
         function cancelInputStage() {
@@ -329,7 +371,7 @@
             document.getElementById('menu-stage').style.display = 'flex';
         }
 
-        // КЛИК НА РАСКЛАД — ПРОВЕРКА НЕОБХОДИМОСТИ ВВОДА ДАННЫХ
+        // КЛИК НА РАСКЛАД И ПРОВЕРКА ЭКРАНА ВВОДА
         function startLayout(actionName, cardsCount) {
             currentAction = actionName;
             targetCardsCount = cardsCount;
@@ -339,6 +381,7 @@
             document.getElementById('user-question').value = '';
             document.getElementById('name-one').value = '';
             document.getElementById('name-two').value = '';
+            document.getElementById('send-webhook-btn').style.display = 'none';
             
             if (actionName === 'tarot_yes_no' || actionName === 'tarot_question_3_cards') {
                 document.getElementById('menu-stage').style.display = 'none';
@@ -364,7 +407,7 @@
             }
         }
 
-        // НАЖАТИЕ "ПРОДОЛЖИТЬ" НА ФОРМЕ ВВОДА
+        // НАЖАТИЕ ПРОДОЛЖИТЬ НА ЭКРАНЕ ВВОДА
         function confirmInputAndProceed() {
             if (currentAction === 'tarot_love_2_hearts') {
                 const n1 = document.getElementById('name-one').value.trim();
@@ -383,7 +426,7 @@
             proceedToCards();
         }
 
-        // ПЕРЕХОД К СТОЛУ И ВЕЕРУ
+        // ОТКРЫТИЕ СТОЛА (ИЗ ТВОЕГО ПЕРВОГО ИСХОДНИКА)
         function proceedToCards() {
             document.getElementById('game-stage').style.display = 'flex';
             document.getElementById('status-text').innerText = `Выберите карты: 0 из ${targetCardsCount}`;
@@ -391,7 +434,6 @@
             const tableZone = document.getElementById('magic-table-zone');
             tableZone.innerHTML = ''; 
 
-            // Стилизация слотов на столе в зависимости от типа расклада
             let layoutStyle = "slots-row"; 
             if(targetCardsCount === 4) layoutStyle = "slots-cross";
             if(targetCardsCount === 10) layoutStyle = "slots-celtic";
@@ -399,12 +441,10 @@
             const slotsWrapper = document.createElement('div');
             slotsWrapper.className = `slots-wrapper ${layoutStyle}`;
 
-            const labels = getLabelsForLayout(currentAction, targetCardsCount);
-
             for (let i = 0; i < targetCardsCount; i++) {
                 const slot = document.createElement('div');
                 slot.className = `card-slot slot-p${i+1}`;
-                slot.innerHTML = `<div class="slot-label">${labels[i] || ('Карта ' + (i+1))}</div>`;
+                slot.innerHTML = `<div class="slot-label">Позиция ${i+1}</div>`;
                 slotsWrapper.appendChild(slot);
             }
             tableZone.appendChild(slotsWrapper);
@@ -412,31 +452,19 @@
             buildDeck();
         }
 
-        function getLabelsForLayout(action, count) {
-            if (action === 'tarot_day') return ["Фокус Дня"];
-            if (action === 'tarot_yes_no') return ["Вердикт"];
-            if (action === 'business_oracle_combo') return ["Текущие дела", "Перспективы", "Совет Оракула"];
-            if (action === 'tarot_timeline') return ["Прошлое", "Настоящее", "Будущее"];
-            if (action === 'tarot_question_3_cards') return ["Суть проблемы", "Преграда", "Решение"];
-            if (action === 'tarot_love_2_hearts') return ["Ваши чувства", "Чувства партнера", "Что разъединяет", "Итог отношений"];
-            if (action === 'celtic_cross') return ["1. Суть", "2. Импульс", "3. Цель", "4. База", "5. Прошлое", "6. Будущее", "7. Вы", "8. Окружение", "9. Надежды", "10. Итог"];
-            return [];
-        }
-
-        // СБОРКА ВЕЕРА КАРТ ИЗ ВСЕХ ОСТАВШИХСЯ В НАБОРЕ КАРТ
+        // ПОСТРОЕНИЕ ТВОЕГО РОДНОГО КРАСИВОГО ВЕЕРА КАРТ
         function buildDeck() {
             const container = document.getElementById('cards-container');
             container.innerHTML = '';
 
             let localDeck = [...tarotDeck];
-            // Перемешиваем деку
             for (let i = localDeck.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [localDeck[i], localDeck[j]] = [localDeck[j], localDeck[i]];
             }
 
-            const visibleCount = Math.min(26, localDeck.length);
-            const stepAngle = 10; 
+            const visibleCount = 26; 
+            const stepAngle = 6; 
             const startAngle = -((visibleCount - 1) * stepAngle) / 2;
 
             for (let i = 0; i < visibleCount; i++) {
@@ -446,10 +474,9 @@
                 card.dataset.id = cardData.id;
 
                 const angle = startAngle + (i * stepAngle);
-                const radius = 170;
-                const rad = (angle - 90) * Math.PI / 180;
-                const x = Math.cos(rad) * radius;
-                const y = (Math.sin(rad) * radius) + 210;
+                const rad = angle * Math.PI / 180;
+                const x = angle * 5; 
+                const y = Math.abs(angle) * 1.2; 
 
                 card.style.left = `calc(50% - 36px + ${x}px)`;
                 card.style.top = `${y}px`;
@@ -473,7 +500,7 @@
             }
         }
 
-        // АНИМАЦИЯ ПОЛЕТА КАРТЫ И МГНОВЕННОЕ ОТКРЫТИЕ НАЗВАНИЯ НА СТОЛЕ
+        // ИСХОДНЫЙ ПОЛЕТ КАРТЫ С КОРРЕКТНЫМ ОТОБРАЖЕНИЕМ КАРТИНКИ
         function selectAndFlyCard(cardElement) {
             if (cardElement.classList.contains('flying') || cardElement.classList.contains('flipped')) return;
             if (flippedCount >= targetCardsCount) return;
@@ -485,8 +512,6 @@
             flippedCount++;
             cardElement.classList.add('flying');
 
-            // КРИТИЧЕСКИЙ ЛОГИЧЕСКИЙ БЛОК ОРИЕНТАЦИИ КАРТ
-            // Разрешаем перевернутые строго в раскладе "Да/Нет" (50/50). В остальных — только прямые!
             let isInverted = false;
             if (currentAction === 'tarot_yes_no') {
                 isInverted = Math.random() > 0.5;
@@ -510,7 +535,7 @@
                 const deltaY = slotRect.top + (slotRect.height / 2) - (cardRect.top + cardRect.height / 2);
 
                 cardElement.style.zIndex = 500 + flippedCount;
-                cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1.05) rotate(0deg)`;
+                cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1) rotate(0deg)`;
 
                 setTimeout(() => {
                     cardElement.classList.remove('flying');
@@ -521,42 +546,36 @@
                         cardElement.classList.add('flipped');
                     }
 
-                    // ПОДСТАВЛЯЕМ ЗОЛОТОЕ НАЗВАНИЕ КАРТЫ С СИНХРОННЫМ СВЕЧЕНИЕМ
-                    const slotLabel = targetSlot.querySelector('.slot-label');
-                    if (slotLabel) {
-                        const finalLabelName = isInverted ? `${cardData.name} 🔄` : cardData.name;
-                        slotLabel.innerText = finalLabelName;
-                        slotLabel.style.color = '#fff2b2';
-                        slotLabel.style.textShadow = '0 0 10px rgba(255, 242, 178, 0.7)';
-                    }
-
                     try { tg.HapticFeedback.notificationOccurred('success'); } catch(e) {}
                 }, 600);
             }
 
-            // ПРОВЕРКА ЗАВЕРШЕНИЯ ВЫБОРА КАРТ И ОТПРАВКА ДАННЫХ В РОДНОЙ МЕССЕНДЖЕР И В n8n
+            // ЕСЛИ ВСЕ КАРТЫ ВЫБРАНЫ — ПОКАЗЫВАЕМ КНОПКУ ПРОДОЛЖИТЬ
             if (flippedCount === targetCardsCount) {
-                document.getElementById('status-text').innerText = "Предсказание готово!";
-                setTimeout(() => {
-                    const payload = { 
-                        action: currentAction, 
-                        lang: "ru", 
-                        question: userQuestionData,
-                        names: userNamesData,
-                        cards: selectedCards 
-                    };
-                    try { 
-                        tg.sendData(JSON.stringify(payload)); 
-                    } catch(e) { 
-                        console.log("Локальный вывод пакета в n8n:", payload); 
-                    }
-                }, 1800);
+                document.getElementById('status-text').innerText = "Предсказание готово! Рассмотрите карты и нажмите кнопку ниже";
+                document.getElementById('send-webhook-btn').style.display = 'block'; // Кнопка плавно появляется
             } else {
                 document.getElementById('status-text').innerText = `Выбрано: ${flippedCount} из ${targetCardsCount}`;
             }
         }
 
-        // КОСМИЧЕСКИЙ ЗАДНИЙ ФОН СО ЗВЕЗДАМИ
+        // ОТПРАВКА ДАННЫХ ПРИ НАЖАТИИ НА КНОПКУ "ПРОДОЛЖИТЬ"
+        function sendDataToWebhook() {
+            const payload = { 
+                action: currentAction, 
+                lang: "ru", 
+                question: userQuestionData,
+                names: userNamesData,
+                cards: selectedCards 
+            };
+            try { 
+                tg.sendData(JSON.stringify(payload)); 
+            } catch(e) { 
+                console.log("Пакет отправлен:", payload); 
+            }
+        }
+
+        // КОСМИЧЕСКИЙ ЗАДНИЙ ФОН
         const canvas = document.getElementById('space-bg');
         const ctx = canvas.getContext('2d');
         let stars = [];
