@@ -48,16 +48,18 @@
             margin-bottom: 25px; text-align: center; text-transform: uppercase;
         }
 
-        /* КНОПКИ */
+        /* КНОПКИ С ЗОЛОТЫМ ОБОДКОМ */
         .btn-mystic {
             background: linear-gradient(135deg, #1b133a 0%, #0c081d 100%);
-            color: #fff2b2; border: 1px solid #4a3b7d; padding: 15px 35px;
+            color: #fff2b2; 
+            border: 1.5px solid #d4af37; /* Элегантный золотой ободок */
+            padding: 15px 35px;
             font-family: 'Cinzel', serif; font-size: 14px; font-weight: 600; letter-spacing: 2px;
             border-radius: 30px; cursor: pointer; transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(12, 8, 29, 0.6), inset 0 0 10px rgba(138, 138, 176, 0.1);
+            box-shadow: 0 4px 20px rgba(12, 8, 29, 0.6), 0 0 12px rgba(212, 175, 55, 0.4);
             margin-top: 20px; text-transform: uppercase;
         }
-        .btn-mystic:active { transform: scale(0.97); border-color: #fff2b2; box-shadow: 0 0 15px rgba(255,242,178,0.2); }
+        .btn-mystic:active { transform: scale(0.97); border-color: #fff2b2; box-shadow: 0 0 20px rgba(255,242,178,0.4); }
 
         .btn-back {
             position: absolute; top: 10px; left: 10px; background: transparent; border: none;
@@ -65,23 +67,45 @@
             cursor: pointer; padding: 5px 10px; text-transform: uppercase; z-index: 10;
         }
 
-        /* МЕНЮ РАСКЛАДОВ */
+        /* МЕНЮ РАСКЛАДОВ С ЗОЛОТЫМИ ОБОДКАМИ */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 400px; padding: 10px; }
         .menu-item {
-            background: rgba(15, 11, 38, 0.5); border: 1px solid rgba(74, 59, 125, 0.4);
+            position: relative;
+            background: rgba(15, 11, 38, 0.5); 
+            border: 1.5px solid #d4af37; /* Элегантный золотой ободок */
             border-radius: 12px; padding: 20px 10px; display: flex; flex-direction: column;
             align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease;
             text-align: center; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4), 0 0 10px rgba(212, 175, 55, 0.25);
         }
-        .menu-item:active { background: rgba(35, 25, 78, 0.7); border-color: #fff2b2; }
+        .menu-item:active { background: rgba(35, 25, 78, 0.7); border-color: #fff2b2; box-shadow: 0 0 15px rgba(255,242,178,0.4); }
         .menu-item .icon { font-size: 24px; margin-bottom: 8px; filter: drop-shadow(0 0 5px rgba(255,215,0,0.3)); }
         .menu-item .title { font-size: 12px; font-weight: 600; color: #f4f4f6; letter-spacing: 1px; }
         .menu-item .desc { font-size: 9px; color: #8a8ab0; margin-top: 4px; font-family: sans-serif; }
 
+        /* ЗЕЛОНЫЙ НЕОНОВЫЙ МАРКЕР ДЛЯ БЕСПЛАТНОГО РАСКЛАДА */
+        .free-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #030306;
+            color: #00ff66;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 20px;
+            border: 1px solid #00ff66;
+            text-shadow: 0 0 6px #00ff66;
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.6);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-family: sans-serif;
+        }
+
         /* АСТРОЛОГИЯ СПЕЦ. СТИЛИ */
         .astro-header { margin-top: 30px; font-size: 16px; color: #fff2b2; letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 8px rgba(255,242,178,0.3); }
-        .btn-natal { grid-column: span 2; background: linear-gradient(135deg, #2c1b4d 0%, #150d2b 100%); border: 2px solid #fff2b2; box-shadow: 0 0 15px rgba(255,242,178,0.2); }
-        .btn-natal .title { font-size: 14px; font-weight: 700; }
+        .btn-natal { grid-column: span 2; background: linear-gradient(135deg, #2c1b4d 0%, #150d2b 100%); border: 2.5px solid #fff2b2; box-shadow: 0 0 20px rgba(255,242,178,0.4); }
+        .btn-natal .title { font-size: 14px; font-weight: 700; letter-spacing: 2px; }
 
         /* ИГРОВОЙ СТОЛ */
         #status-text {
@@ -132,6 +156,7 @@
             margin-top: 20px; overflow: visible; display: flex; justify-content: center;
         }
 
+        /* ВЕЕР КАРТ С ЗОЛОТЫМИ ОБОДКАМИ */
         .interactive-card {
             position: absolute; width: 72px; height: 124px; perspective: 1000px;
             transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1), z-index 0.1s ease;
@@ -141,7 +166,7 @@
             position: relative; width: 100%; height: 100%; text-align: center;
             transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
             transform-style: preserve-3d; border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
         }
         .interactive-card.flipped .card-inner { transform: rotateY(180deg); }
         .interactive-card.inverted .card-inner { transform: rotateY(180deg) rotate(180deg); }
@@ -153,13 +178,15 @@
         
         .card-back {
             background: #0d0a1b linear-gradient(135deg, #130f2b 0%, #070512 100%);
-            border: 2px solid #3d306b; box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+            border: 2px solid #d4af37; /* Золотой ободок рубашки */
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 0 10px rgba(212, 175, 55, 0.3);
             display: flex; align-items: center; justify-content: center;
         }
         .card-back::after { content: "✨"; font-size: 20px; color: #fff2b2; opacity: 0.8; }
 
         .card-front {
-            background: #000; border: 1.5px solid #fff2b2;
+            background: #000; border: 2px solid #fff2b2; /* Золотой ободок лицевой стороны */
+            box-shadow: 0 0 10px rgba(255,242,178,0.2);
             transform: rotateY(180deg); display: flex; align-items: center;
             justify-content: center; padding: 0;
         }
@@ -221,6 +248,7 @@
         <div id="menu-stage" class="stage">
             <div class="menu-grid">
                 <div class="menu-item" onclick="openInputFlow('tarot_day', 1)">
+                    <span class="free-badge">Free</span>
                     <div class="icon">☀️</div>
                     <div class="title">Карта Дня</div>
                     <div class="desc">Главный Фокус Дня</div>
@@ -325,13 +353,13 @@
         let userQuestionData = '';
         let userNamesData = { name1: '', name2: '' };
 
-        // ПОЛНАЯ КОЛОДА: СТРОГО 78 КАРТ ТАРО
+        // ПОЛНАЯ КОЛОДА: 78 КАРТ ТАРО
         const tarotDeck = [
     { id: 1, name: "Дурак (0)", img: "https://i.ibb.co/b5GDPJTr/0603170325589-00-678029bbc55011a335aa0623a5fbd863.jpg", desc: "Начало нового пути, свобода, открытость миру.", descInv: "Безрассудство, неосторожность, глупые риски, хаос." },
     { id: 2, name: "Маг (I)", img: "https://i.ibb.co/BHxXyt0n/0603170325589-02-1affc857cacbf5a0ff6ead63d66211ea.jpg", desc: "Сила воли, мастерство, реализация целей.", descInv: "Манипуляция, нерешительность, неиспользованные таланты, обман." },
     { id: 3, name: "Верховная Жрица (II)", img: "https://i.ibb.co/S4GW4gvH/0603170325589-03-0ddacb930338683e6aae222a529e79f1.jpg", desc: "Интуиция, тайны, подсознание.", descInv: "Скрытность, поверхностность, игнорирование интуиции, секреты." },
     { id: 4, name: "Императрица (III)", img: "https://i.ibb.co/9HrmxY5S/0603170325589-04-19dd16bc6fda522034e722acc866cd03.jpg", desc: "Плодородие, изобилие, творчество.", descInv: "Зависимость, творческий блок, пустота, чрезмерная опека." },
-    { id: 5, name: "Император (IV)", img: "https://i.ibb.co/fVsMDQrK/0603170325589-05-c574474b6f14b2bd02d87815f06c59cd.jpg", desc: "Власть, структура, стабильность.", descInv: "Тирания, жёсткость, отсутствие дисциплины, слабость." },
+    { id: 5, name: "Император (IV)", img: "https://i.ibb.co/fVsMDQrK/0603170325589-05-c574474b6f14b2bd02d87815f06c59cd.jpg", desc: "Власть, структура, стабильность.", descInv: "Тирания, жёсткость, отсутствие discipline, слабость." },
     { id: 6, name: "Иерофант (V)", img: "https://i.ibb.co/S4dqdNjZ/0603170325589-06-37da9a540c0b9bc51355f2e2c19943b9.jpg", desc: "Традиции, обучение, мудрость.", descInv: "Догматизм, бунт, ложные учителя, негибкость." },
     { id: 7, name: "Влюбленные (VI)", img: "https://i.ibb.co/PGQ8h3Bc/0603170325589-07-a7c10a5faaf2a2a4de0075d5ea71ad3b.jpg", desc: "Выбор сердца, гармония, союзы.", descInv: "Разрыв, дисгармония, неправильный выбор, конфликт." },
     { id: 8, name: "Колесница (VII)", img: "https://i.ibb.co/dw3BLxZX/0603170325589-08-1e89a2cb614d15fd1e231269ea2cc30c.jpg", desc: "Прорыв, триумф, целеустремленность.", descInv: "Поражение, потеря контроля, агрессия, направление не туда." },
@@ -346,7 +374,7 @@
     { id: 17, name: "Башня (XVI)", img: "https://i.ibb.co/m5R31CxZ/0603170325589-17-895483f2f33dc90c502f9bd405d9f630.jpg", desc: "Крушение иллюзий, перемены.", descInv: "Катастрофа, сопротивление неизбежному, потеря." },
     { id: 18, name: "Звезда (XVII)", img: "https://i.ibb.co/6JbbLd0z/0603170325589-18-1b8a346488fdf4ff9a6933d4db7d7d37.jpg", desc: "Надежда, вдохновение, вера.", descInv: "Отчаяние, потеря веры, неверие в себя." },
     { id: 19, name: "Луна (XVIII)", img: "https://i.ibb.co/QF6qDbRW/0603170325589-19-1ed7a0f351a0622323a409be4746c589.jpg", desc: "Тайны, интуиция, иллюзии.", descInv: "Обман, confusion, выход из тумана." },
-    { id: 20, name: "Солнце (XIX)", img: "https://i.ibb.co/ch5HYH0M/0603170325589-20-16346c2a033548179ec5e6c58fe2dfb3.jpg", desc: "Ясность, счастье, успех.", descInv: "Временные трудности, выгорание, эго." },
+    { id: 20, name: "Солнце (XIX)", img: "https://i.ibb.co/ch5HYH0M/0603170325589-20-16346c2a033548179ec5e6c58fe2dfb3.jpg", desc: "Ясность, счастье, success.", descInv: "Временные трудности, выгорание, эго." },
     { id: 21, name: "Суд (XX)", img: "https://i.ibb.co/4RRQYBb1/0603170325589-21-800272d9e2f4266c7867ede1e8a40f9b.jpg", desc: "Пробуждение, итоги, освобождение.", descInv: "Самообман, отказ от призыва, застревание в прошлом." },
     { id: 22, name: "Мир (XXI)", img: "https://i.ibb.co/QvkfR1Yq/0603170325589-22-8b820d52bca7cf5a56ab79116aab4787.jpg", desc: "Гармония, завершение пути.", descInv: "Незавершённость, задержки, отсутствие closure." },
     { id: 23, name: "Туз Жезлов", img: "https://i.ibb.co/rfbv8Ysk/0603170325589-23-94a7f432f845bc523eb67fbbc37a9be1.jpg", desc: "Новый импульс, энергия.", descInv: "Задержки, отсутствие мотивации, творческий кризис." },
@@ -445,7 +473,6 @@
             flippedCount = 0;
             selectedCards = [];
             
-            // Сбрасываем и скрываем все поля ввода
             const inputs = ['user-question-input', 'user-name-input', 'user-birth-input', 'astro-date1', 'astro-date2', 'astro-time', 'astro-place'];
             inputs.forEach(id => {
                 const el = document.getElementById(id);
@@ -456,7 +483,6 @@
             const wb = document.getElementById('send-webhook-btn');
             if(wb) wb.style.display = 'none';
 
-            // ЛОГИКА ДЛЯ АСТРОЛОГИИ
             if (actionName.startsWith('astro_')) {
                 document.getElementById('menu-stage').style.display = 'none';
                 document.getElementById('input-flow-container').style.display = 'flex';
@@ -479,7 +505,6 @@
                 return;
             }
             
-            // ЛОГИКА ДЛЯ ТАРО
             if (actionName === 'tarot_yes_no' || actionName === 'tarot_question_3_cards') {
                 document.getElementById('menu-stage').style.display = 'none';
                 document.getElementById('input-flow-container').style.display = 'flex';
@@ -502,8 +527,8 @@
             }
         }
 
+        // ИСПРАВЛЕНИЕ: НАЖАТИЕ КНОПКИ В АСТРОЛОГИИ ТЕПЕРЬ ЗАКРЫВАЕТ ОКНО НА НОУТБУКАХ И НЕ ЗАВИСАЕТ
         function submitInputFlow() {
-            // ОТПРАВКА ДАННЫХ ДЛЯ АСТРОЛОГИИ
             if (currentAction.startsWith('astro_')) {
                 let astroData = {};
                 
@@ -533,12 +558,16 @@
                     data: astroData
                 };
                 
-                try { tg.sendData(JSON.stringify(payload)); } catch(e) { console.log("Астро данные отправлены:", payload); }
+                try { 
+                    tg.sendData(JSON.stringify(payload)); 
+                } catch(e) { 
+                    console.log("Астро данные отправлены:", payload); 
+                }
+                tg.close(); // ГАРАНТИРОВАННОЕ ЗАКРЫТИЕ ДЛЯ НОУТБУКОВ
                 document.getElementById('input-flow-container').style.display = 'none';
                 return;
             }
 
-            // ОТПРАВКА ДАННЫХ ДЛЯ ТАРО
             if (currentAction === 'tarot_love_2_hearts') {
                 const n1 = document.getElementById('user-name-input').value.trim();
                 const n2 = document.getElementById('user-question-input').value.trim();
@@ -751,6 +780,7 @@
             }
         }
 
+        // ИСПРАВЛЕНИЕ: НАЖАТИЕ КНОПКИ ТАРО ТЕПЕРЬ ЗАКРЫВАЕТ ОКНО НА НОУТБУКАХ И НЕ ЗАВИСАЕТ
         function sendDataToWebhook() {
             const payload = { 
                 type: 'tarot',
@@ -765,6 +795,7 @@
             } catch(e) { 
                 console.log("Таро пакет отправлен:", payload); 
             }
+            tg.close(); // ГАРАНТИРОВАННОЕ ЗАКРЫТИЕ ДЛЯ НОУТБУКОВ
         }
 
         // КОСМИЧЕСКИЙ ЗАДНИЙ ФОН
