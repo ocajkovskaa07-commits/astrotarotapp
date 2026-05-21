@@ -78,6 +78,11 @@
         .menu-item .title { font-size: 12px; font-weight: 600; color: #f4f4f6; letter-spacing: 1px; }
         .menu-item .desc { font-size: 9px; color: #8a8ab0; margin-top: 4px; font-family: sans-serif; }
 
+        /* АСТРОЛОГИЯ СПЕЦ. СТИЛИ */
+        .astro-header { margin-top: 30px; font-size: 16px; color: #fff2b2; letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 8px rgba(255,242,178,0.3); }
+        .btn-natal { grid-column: span 2; background: linear-gradient(135deg, #2c1b4d 0%, #150d2b 100%); border: 2px solid #fff2b2; box-shadow: 0 0 15px rgba(255,242,178,0.2); }
+        .btn-natal .title { font-size: 14px; font-weight: 700; }
+
         /* ИГРОВОЙ СТОЛ */
         #status-text {
             font-size: 12px; color: #fff2b2; letter-spacing: 1px; text-align: center;
@@ -251,6 +256,31 @@
                     <div class="desc">Глубокий разбор Судьбы (10 карт)</div>
                 </div>
             </div>
+
+            <h2 class="astro-header">Астрология</h2>
+            <div class="menu-grid">
+                <div class="menu-item btn-natal" onclick="openInputFlow('astro_natal', 0)">
+                    <div class="icon">✨</div>
+                    <div class="title">НАТАЛЬНАЯ КАРТА</div>
+                    <div class="desc">Глубокий анализ вашей судьбы</div>
+                </div>
+                <div class="menu-item" onclick="openInputFlow('astro_day', 0)">
+                    <div class="icon">☀️</div>
+                    <div class="title">На День</div>
+                </div>
+                <div class="menu-item" onclick="openInputFlow('astro_month', 0)">
+                    <div class="icon">🌙</div>
+                    <div class="title">На Месяц</div>
+                </div>
+                <div class="menu-item" onclick="openInputFlow('astro_year', 0)">
+                    <div class="icon">🌟</div>
+                    <div class="title">На Год</div>
+                </div>
+                <div class="menu-item" onclick="openInputFlow('astro_compatibility', 0)">
+                    <div class="icon">💞</div>
+                    <div class="title">Совместимость</div>
+                </div>
+            </div>
         </div>
 
         <div id="input-flow-container" class="input-container">
@@ -260,6 +290,11 @@
             <input type="text" id="user-question-input" class="input-field" placeholder="О чем вы хотите спросить оракула?">
             <input type="text" id="user-name-input" class="input-field" placeholder="Ваше имя..." style="display: none;">
             <input type="text" id="user-birth-input" class="input-field" placeholder="Дата рождения (ДД.ММ.ГГГГ)" style="display: none;">
+            
+            <input type="text" id="astro-date1" class="input-field" placeholder="Дата рождения (ДД.ММ.ГГГГ)" style="display: none;">
+            <input type="text" id="astro-date2" class="input-field" placeholder="Дата партнера (ДД.ММ.ГГГГ)" style="display: none;">
+            <input type="text" id="astro-time" class="input-field" placeholder="Время рождения (или 12:00)" style="display: none;">
+            <input type="text" id="astro-place" class="input-field" placeholder="Место рождения (город)" style="display: none;">
             
             <button class="btn-mystic" onclick="submitInputFlow()">Продолжить</button>
         </div>
@@ -278,7 +313,6 @@
         <div id="modal-desc" class="modal-desc">Описание карты...</div>
         <button class="btn-mystic" style="margin-top: 25px;" onclick="closeCardModal()">Закрыть</button>
     </div>
-
     <script>
         const tg = window.Telegram.WebApp;
         try { tg.expand(); } catch(e) {}
@@ -378,7 +412,6 @@
             "7. Ваше отношение", "8. Окружение", "9. Надежды и страхи", "10. Итог"
         ];
 
-        // Алгоритм Фишера — Йетса для глубокого перемешивания колоды
         function shuffleDeck(array) {
             let currentIndex = array.length, randomIndex;
             while (currentIndex !== 0) {
@@ -412,21 +445,47 @@
             flippedCount = 0;
             selectedCards = [];
             
-            document.getElementById('user-question-input').value = '';
-            document.getElementById('user-name-input').value = '';
-            document.getElementById('user-birth-input').value = '';
+            // Сбрасываем и скрываем все поля ввода
+            const inputs = ['user-question-input', 'user-name-input', 'user-birth-input', 'astro-date1', 'astro-date2', 'astro-time', 'astro-place'];
+            inputs.forEach(id => {
+                const el = document.getElementById(id);
+                el.value = '';
+                el.style.display = 'none';
+            });
             
             const wb = document.getElementById('send-webhook-btn');
             if(wb) wb.style.display = 'none';
+
+            // ЛОГИКА ДЛЯ АСТРОЛОГИИ
+            if (actionName.startsWith('astro_')) {
+                document.getElementById('menu-stage').style.display = 'none';
+                document.getElementById('input-flow-container').style.display = 'flex';
+                
+                document.getElementById('astro-date1').style.display = 'block';
+
+                if (actionName === 'astro_natal') {
+                    document.getElementById('input-flow-title').innerText = "Натальная карта";
+                    document.getElementById('astro-date1').placeholder = "Дата рождения (ДД.ММ.ГГГГ)";
+                    document.getElementById('astro-time').style.display = 'block';
+                    document.getElementById('astro-place').style.display = 'block';
+                } else if (actionName === 'astro_compatibility') {
+                    document.getElementById('input-flow-title').innerText = "Совместимость";
+                    document.getElementById('astro-date1').placeholder = "Ваша дата рождения";
+                    document.getElementById('astro-date2').style.display = 'block';
+                } else {
+                    document.getElementById('input-flow-title').innerText = "Астро-гороскоп";
+                    document.getElementById('astro-date1').placeholder = "Дата рождения (ДД.ММ.ГГГГ)";
+                }
+                return;
+            }
             
+            // ЛОГИКА ДЛЯ ТАРО
             if (actionName === 'tarot_yes_no' || actionName === 'tarot_question_3_cards') {
                 document.getElementById('menu-stage').style.display = 'none';
                 document.getElementById('input-flow-container').style.display = 'flex';
                 document.getElementById('input-flow-title').innerText = actionName === 'tarot_yes_no' ? "Вопрос для Да/Нет" : "Суть ситуации";
                 document.getElementById('user-question-input').style.display = 'block';
                 document.getElementById('user-question-input').placeholder = "О чем вы хотите спросить оракула?";
-                document.getElementById('user-name-input').style.display = 'none';
-                document.getElementById('user-birth-input').style.display = 'none';
             } else if (actionName === 'tarot_love_2_hearts') {
                 document.getElementById('menu-stage').style.display = 'none';
                 document.getElementById('input-flow-container').style.display = 'flex';
@@ -435,7 +494,6 @@
                 document.getElementById('user-question-input').placeholder = "Имя второго партнера...";
                 document.getElementById('user-name-input').style.display = 'block';
                 document.getElementById('user-name-input').placeholder = "Ваше имя...";
-                document.getElementById('user-birth-input').style.display = 'none';
             } else {
                 userQuestionData = '';
                 userNamesData = { name1: '', name2: '' };
@@ -445,6 +503,42 @@
         }
 
         function submitInputFlow() {
+            // ОТПРАВКА ДАННЫХ ДЛЯ АСТРОЛОГИИ
+            if (currentAction.startsWith('astro_')) {
+                let astroData = {};
+                
+                if (currentAction === 'astro_natal') {
+                    astroData = {
+                        date: document.getElementById('astro-date1').value.trim(),
+                        time: document.getElementById('astro-time').value.trim() || "12:00",
+                        place: document.getElementById('astro-place').value.trim()
+                    };
+                    if(!astroData.date || !astroData.place) { alert("Пожалуйста, заполните дату и место"); return; }
+                } else if (currentAction === 'astro_compatibility') {
+                    astroData = {
+                        date1: document.getElementById('astro-date1').value.trim(),
+                        date2: document.getElementById('astro-date2').value.trim()
+                    };
+                    if(!astroData.date1 || !astroData.date2) { alert("Пожалуйста, заполните обе даты"); return; }
+                } else {
+                    astroData = {
+                        date: document.getElementById('astro-date1').value.trim()
+                    };
+                    if(!astroData.date) { alert("Пожалуйста, заполните дату рождения"); return; }
+                }
+
+                const payload = {
+                    type: 'astrology',
+                    action: currentAction,
+                    data: astroData
+                };
+                
+                try { tg.sendData(JSON.stringify(payload)); } catch(e) { console.log("Астро данные отправлены:", payload); }
+                document.getElementById('input-flow-container').style.display = 'none';
+                return;
+            }
+
+            // ОТПРАВКА ДАННЫХ ДЛЯ ТАРО
             if (currentAction === 'tarot_love_2_hearts') {
                 const n1 = document.getElementById('user-name-input').value.trim();
                 const n2 = document.getElementById('user-question-input').value.trim();
@@ -464,7 +558,6 @@
             document.getElementById('game-stage').style.display = 'flex';
             document.getElementById('status-text').innerText = `Выберите карты: 0 из ${targetCardsCount}`;
             
-            // Создаем чистую копию колоды из 78 карт и перемешиваем
             currentShuffledDeck = [...tarotDeck];
             shuffleDeck(currentShuffledDeck);
             
@@ -535,7 +628,6 @@
             if (cardElement.classList.contains('flying') || cardElement.classList.contains('flipped') || cardElement.classList.contains('inverted')) return;
             if (flippedCount >= targetCardsCount) return;
 
-            // Извлекаем уникальную карту из перемешанной колоды
             const cardData = currentShuffledDeck.pop();
             if (!cardData) return;
 
@@ -623,26 +715,21 @@
         }
 
         function openCardModal(cardData, isInverted) {
-    const modal = document.getElementById('card-modal');
-    const modalImg = document.getElementById('modal-img');
-    const modalTitle = document.getElementById('modal-title');
-    const modalDesc = document.getElementById('modal-desc');
+            const modal = document.getElementById('card-modal');
+            const modalImg = document.getElementById('modal-img');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDesc = document.getElementById('modal-desc');
 
-    if (!modal || !modalImg) return;
+            if (!modal || !modalImg) return;
 
-    modalImg.src = cardData.img;
-    // Поворачиваем картинку на 180 градусов, если карта перевернута
-    modalImg.style.transform = isInverted ? 'rotate(180deg)' : 'rotate(0deg)';
-    
-    // Если карта перевернута, добавляем пометку в заголовок
-    modalTitle.innerText = isInverted ? `${cardData.name} (Перевернутая)` : cardData.name;
+            modalImg.src = cardData.img;
+            modalImg.style.transform = isInverted ? 'rotate(180deg)' : 'rotate(0deg)';
+            modalTitle.innerText = isInverted ? `${cardData.name} (Перевернутая)` : cardData.name;
+            modalDesc.innerText = isInverted ? (cardData.descInv || "Описание отсутствует") : cardData.desc;
 
-    // Используем descInv, если карта перевернута, иначе используем обычный desc
-    modalDesc.innerText = isInverted ? (cardData.descInv || "Описание отсутствует") : cardData.desc;
-
-    modal.style.display = 'flex';
-    try { tg.HapticFeedback.impactOccurred('medium'); } catch(e) {}
-}
+            modal.style.display = 'flex';
+            try { tg.HapticFeedback.impactOccurred('medium'); } catch(e) {}
+        }
 
         function closeCardModal() {
             const modal = document.getElementById('card-modal');
@@ -666,6 +753,7 @@
 
         function sendDataToWebhook() {
             const payload = { 
+                type: 'tarot',
                 action: currentAction, 
                 lang: "ru", 
                 question: userQuestionData,
@@ -675,7 +763,7 @@
             try { 
                 tg.sendData(JSON.stringify(payload)); 
             } catch(e) { 
-                console.log("Пакет отправлен в Telegram:", payload); 
+                console.log("Таро пакет отправлен:", payload); 
             }
         }
 
