@@ -99,7 +99,7 @@
         .slots-cross .slot-p3 { top: 50%; left: 15%; transform: translate(-50%, -50%); }
         .slots-cross .slot-p4 { top: 50%; left: 85%; transform: translate(-50%, -50%); }
 
-        .slots-celtic { width: 100%; height: 100%; position: relative; scale: 0.9; }
+        .slots-celtic { width: 100%; height: 100%; position: relative; transform: scale(0.9); }
         .slots-celtic .card-slot { position: absolute; width: 55px; height: 95px; }
         .slots-celtic .slot-p1 { top: 50%; left: 35%; transform: translate(-50%, -50%); }
         .slots-celtic .slot-p2 { top: 50%; left: 35%; transform: translate(-50%, -50%); z-index: 5; }
@@ -288,8 +288,12 @@
         let flippedCount = 0;
         let selectedCards = [];
         let currentShuffledDeck = [];
+        let userQuestionData = '';
+        let userNamesData = { name1: '', name2: '' };
 
+        // ЗДЕСЬ НАХОДЯТСЯ ВСЕ 78 КАРТ ТАРО БЕЗ ИСКЛЮЧЕНИЙ
         const tarotDeck = [
+            // СТАРШИЕ АРКАНЫ (22 карты)
             { id: 1, name: "Дурак (0)", img: "https://i.ibb.co/b5GDPJTr/0603170325589-00-678029bbc55011a335aa0623a5fbd863.jpg", desc: "Начало нового пути, свобода, открытость миру или слепое доверие судьбе." },
             { id: 2, name: "Маг (I)", img: "https://i.ibb.co/BHxXyt0n/0603170325589-02-1affc857cacbf5a0ff6ead63d66211ea.jpg", desc: "Сила воли, мастерство, способность материализовать свои мысли и цели." },
             { id: 3, name: "Верховная Жрица (II)", img: "https://i.ibb.co/S4GW4gvH/0603170325589-03-0ddacb930338683e6aae222a529e79f1.jpg", desc: "Интуиция, скрытые тайны, подсознание, пассивное ожидание знаков." },
@@ -313,7 +317,7 @@
             { id: 21, name: "Суд (XX)", img: "https://i.ibb.co/GfpVwS0n/0603170325589-21-4f1da9ef3c09bca7ef27918c5e0e0a5c.jpg", desc: "Пробуждение, важное решение, освобождение от прошлого, призвание и итоги." },
             { id: 22, name: "Мир (XXI)", img: "https://i.ibb.co/G41K6M3z/0603170325589-22-3112fc6e09e44ffc28fc849fe4f1a2fa.jpg", desc: "Полная гармония, триумфальное завершение пути, расширение границ и покой." },
 
-            // Жезлы (Wands)
+            // ЖЕЗЛЫ (14 карт)
             { id: 23, name: "Туз Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands01.jpg", desc: "Вспышка страсти, мощный творческий импульс, новая идея и инициатива." },
             { id: 24, name: "Двойка Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands02.jpg", desc: "Планирование, выбор направления, удержание завоеванных позиций и амбиции." },
             { id: 25, name: "Тройка Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands03.jpg", desc: "Уверенность в успехе, расширение горизонтов, первые плоды сотрудничества." },
@@ -325,12 +329,12 @@
             { id: 31, name: "Девятка Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands09.jpg", desc: "Осторожность, готовность к обороне, накопленный опыт, защита границ." },
             { id: 32, name: "Десятка Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands10.jpg", desc: "Тяжелая ноша, переутомление, избыток обязанностей, доведение дела до конца." },
             { id: 33, name: "Паж Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands11.jpg", desc: "Вдохновляющее известие, молодой энтузиазм, жажда приключений и открытий." },
-            { id: 43, name: "Рыцарь Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands12.jpg", desc: "Импульсивность, страсть, скорый переезд, напор, решительное и смелое движение." },
+            { id: 34, name: "Рыцарь Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands12.jpg", desc: "Импульсивность, страсть, скорый переезд, напор, решительное и смелое движение." },
             { id: 35, name: "Королева Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands13.jpg", desc: "Харизма, уверенность, независимость, щедрость, лидерские качества и магнетизм." },
             { id: 36, name: "Король Жезлов", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/wands14.jpg", desc: "Огненная сила, авторитет, предпринимательский дух, защита и управление." },
 
-            // Кубки (Cups)
-            { id: 37, name: "Туз Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups01.jpg", desc: "Поток любви, emotional обновление, искренние чувства, вдохновение." },
+            // КУБКИ (14 карт)
+            { id: 37, name: "Туз Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups01.jpg", desc: "Поток любви, эмоциональное обновление, искренние чувства, вдохновение." },
             { id: 38, name: "Двойка Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups02.jpg", desc: "Взаимность, союз сердец, дружба, гармоничное партнерство и примирение." },
             { id: 39, name: "Тройка Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups03.jpg", desc: "Праздник, разделенная радость, поддержка друзей, девичник, изобилие чувств." },
             { id: 40, name: "Четверка Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups04.jpg", desc: "Пресыщение, апатия, хандра, игнорирование новых возможностей судьбы." },
@@ -343,9 +347,9 @@
             { id: 47, name: "Паж Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups11.jpg", desc: "Приятное предложение, зарождение чувств, романтическая весть или творческий порыв." },
             { id: 48, name: "Рыцарь Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups12.jpg", desc: "Прибытие любимого, признание в чувствах, приглашение на свидание, идеализм." },
             { id: 49, name: "Королева Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups13.jpg", desc: "Эмпатия, нежность, любящая женщина, развитая интуиция, забота и понимание." },
-            { id: 50, name: "Король Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups14.jpg", desc: "Мудрость чувств, эмоциональная зрелость, целитель, понимающий наставник или покровитель." },
+            { id: 50, name: "Король Кубков", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/cups14.jpg", desc: "Мудрость чувств, emotional зрелость, целитель, понимающий наставник или покровитель." },
 
-            // Мечи (Swords)
+            // МЕЧИ (14 карт)
             { id: 51, name: "Туз Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords01.jpg", desc: "Ясность ума, озарение, победа логики, триумф справедливости, отсечение лишнего." },
             { id: 52, name: "Двойка Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords02.jpg", desc: "Временное перемирие, закрытость от эмоций, внутренний тупик, сомнения." },
             { id: 53, name: "Тройка Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords03.jpg", desc: "Разбитое сердце, душевная боль, разочарование в любви или горькая правда." },
@@ -361,8 +365,8 @@
             { id: 63, name: "Королева Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords13.jpg", desc: "Острый ум, независимость, объективность, интеллект над эмоциями, проницательность." },
             { id: 64, name: "Король Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords14.jpg", desc: "Закон, стратегия, экспертное суждение, аналитический подход, жесткая воля." },
 
-            // Пентакли (Pentacles)
-            { id: 65, name: "Туз Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles01.jpg", desc: "Материальный дар судьбы, богатство, крепкое здоровье, новые financial шансы." },
+            // ПЕНТАКЛИ (14 карт)
+            { id: 65, name: "Туз Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles01.jpg", desc: "Материальный дар судьбы, богатство, крепкое здоровье, новые финансовые шансы." },
             { id: 66, name: "Двойка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles02.jpg", desc: "Гибкость, балансирование ресурсами, суета, легкое отношение к деньгам и переменам." },
             { id: 67, name: "Тройка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles03.jpg", desc: "Мастерство, профессиональный рост, успешная командная работа, признание таланта." },
             { id: 68, name: "Четверка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles04.jpg", desc: "Скупость, удержание стабильности, страх потерь, консерватизм и жесткие рамки." },
@@ -378,9 +382,13 @@
             { id: 78, name: "Король Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles14.jpg", desc: "Финансовый магнат, стабильный успех, практичность, надежное покровительство." }
         ];
 
-        let userQuestionData = '';
-        let userNamesData = { name1: '', name2: '' };
+        const celticLabels = [
+            "1. Суть ситуации", "2. Преграда / Влияние", "3. Прошлое / Базис", 
+            "4. Недавнее прошлое", "5. Цель / Потенциал", "6. Ближайшее будущее", 
+            "7. Ваше отношение", "8. Окружение", "9. Надежды и страхи", "10. Итог"
+        ];
 
+        // Алгоритм Фишера — Йетса для честного и глубокого перемешивания колоды
         function shuffleDeck(array) {
             let currentIndex = array.length, randomIndex;
             while (currentIndex !== 0) {
@@ -399,8 +407,8 @@
         function backToMenu() {
             document.getElementById('game-stage').style.display = 'none';
             document.getElementById('menu-stage').style.display = 'flex';
-            const webhookBtn = document.getElementById('send-webhook-btn');
-            if(webhookBtn) webhookBtn.style.display = 'none';
+            const wb = document.getElementById('send-webhook-btn');
+            if(wb) wb.style.display = 'none';
         }
 
         function cancelInputFlow() {
@@ -418,28 +426,26 @@
             document.getElementById('user-name-input').value = '';
             document.getElementById('user-birth-input').value = '';
             
-            const webhookBtn = document.getElementById('send-webhook-btn');
-            if(webhookBtn) webhookBtn.style.display = 'none';
+            const wb = document.getElementById('send-webhook-btn');
+            if(wb) wb.style.display = 'none';
             
             if (actionName === 'tarot_yes_no' || actionName === 'tarot_question_3_cards') {
                 document.getElementById('menu-stage').style.display = 'none';
                 document.getElementById('input-flow-container').style.display = 'flex';
-                document.getElementById('input-flow-title').innerText = actionName === 'tarot_yes_no' ? "Вопрос для Да/Нет" : "Суть вашей ситуации";
+                document.getElementById('input-flow-title').innerText = actionName === 'tarot_yes_no' ? "Вопрос для Да/Нет" : "Суть ситуации";
                 document.getElementById('user-question-input').style.display = 'block';
                 document.getElementById('user-name-input').style.display = 'none';
                 document.getElementById('user-birth-input').style.display = 'none';
-            } 
-            else if (actionName === 'tarot_love_2_hearts') {
+            } else if (actionName === 'tarot_love_2_hearts') {
                 document.getElementById('menu-stage').style.display = 'none';
                 document.getElementById('input-flow-container').style.display = 'flex';
                 document.getElementById('input-flow-title').innerText = "Имена партнеров";
                 document.getElementById('user-question-input').style.display = 'block';
-                document.getElementById('user-question-input').placeholder = "Введите имя второго партнера...";
+                document.getElementById('user-question-input').placeholder = "Имя второго партнера...";
                 document.getElementById('user-name-input').style.display = 'block';
                 document.getElementById('user-name-input').placeholder = "Ваше имя...";
                 document.getElementById('user-birth-input').style.display = 'none';
-            }
-            else {
+            } else {
                 userQuestionData = '';
                 userNamesData = { name1: '', name2: '' };
                 document.getElementById('menu-stage').style.display = 'none';
@@ -451,15 +457,14 @@
             if (currentAction === 'tarot_love_2_hearts') {
                 const n1 = document.getElementById('user-name-input').value.trim();
                 const n2 = document.getElementById('user-question-input').value.trim();
-                if(!n1 || !n2) { alert("Пожалуйста, заполните оба имени"); return; }
+                if(!n1 || !n2) { alert("Заполните оба имени"); return; }
                 userNamesData = { name1: n1, name2: n2 };
                 userQuestionData = '';
-            } else if (document.getElementById('user-question-input').style.display === 'block') {
+            } else {
                 const q = document.getElementById('user-question-input').value.trim();
-                if(!q) { alert("Пожалуйста, введите ваш вопрос"); return; }
+                if(!q) { alert("Пожалуйста, введите вопрос"); return; }
                 userQuestionData = q;
             }
-            
             document.getElementById('input-flow-container').style.display = 'none';
             proceedToCards();
         }
@@ -468,6 +473,7 @@
             document.getElementById('game-stage').style.display = 'flex';
             document.getElementById('status-text').innerText = `Выберите карты: 0 из ${targetCardsCount}`;
             
+            // Запуск формулы: клонируем полную колоду (78 карт) и перемешиваем
             currentShuffledDeck = [...tarotDeck];
             shuffleDeck(currentShuffledDeck);
             
@@ -484,7 +490,11 @@
             for (let i = 0; i < targetCardsCount; i++) {
                 const slot = document.createElement('div');
                 slot.className = `card-slot slot-p${i+1}`;
-                slot.innerHTML = `<div class="slot-label">${i+1}</div>`;
+                if(targetCardsCount === 10) {
+                    slot.innerHTML = `<div class="slot-label">${celticLabels[i]}</div>`;
+                } else {
+                    slot.innerHTML = `<div class="slot-label">${i+1}</div>`;
+                }
                 slotsWrapper.appendChild(slot);
             }
             tableZone.appendChild(slotsWrapper);
@@ -534,7 +544,8 @@
             if (cardElement.classList.contains('flying') || cardElement.classList.contains('flipped') || cardElement.classList.contains('inverted')) return;
             if (flippedCount >= targetCardsCount) return;
 
-            const cardData = currentShuffledDeck[flippedCount];
+            // Извлекаем карту методом pop(), предотвращая её повторный выбор
+            const cardData = currentShuffledDeck.pop();
             if (!cardData) return;
 
             flippedCount++;
@@ -549,10 +560,7 @@
                 };
             }
 
-            let isInverted = false;
-            if (currentAction === 'tarot_yes_no') {
-                isInverted = Math.random() > 0.5;
-            }
+            let isInverted = Math.random() > 0.5;
 
             selectedCards.push({
                 id: cardData.id,
@@ -619,7 +627,7 @@
             }
 
             if (flippedCount === targetCardsCount) {
-                document.getElementById('status-text').innerText = "Рассмотрите карты (кликните для увеличения) и нажмите продолжить";
+                document.getElementById('status-text').innerText = "Рассмотрите карты и нажмите продолжить";
                 webhookBtn.style.display = 'block'; 
             } else {
                 document.getElementById('status-text').innerText = `Выбрано: ${flippedCount} из ${targetCardsCount}`;
@@ -637,14 +645,10 @@
             modalImg.src = cardData.img;
             modalImg.style.transform = isInverted ? 'rotate(180deg)' : 'rotate(0deg)';
             modalTitle.innerText = isInverted ? `${cardData.name} (Перевернутая)` : cardData.name;
-            modalDesc.innerText = cardData.desc || "Описание окутано тайной...";
+            modalDesc.innerText = cardData.desc || "Описание скрыто...";
 
             modal.style.display = 'flex';
             try { tg.HapticFeedback.impactOccurred('medium'); } catch(e) {}
-        }
-
-        function removeModalListeners() {
-             // вспомогательная функция
         }
 
         function closeCardModal() {
@@ -682,6 +686,7 @@
             }
         }
 
+        // КОСМИЧЕСКИЙ ЗАДНИЙ ФОН
         const canvas = document.getElementById('space-bg');
         const ctx = canvas.getContext('2d');
         let stars = [];
