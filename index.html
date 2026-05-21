@@ -197,6 +197,17 @@
             animation: pulseGlow 4s infinite ease-in-out; pointer-events: none;
         }
         @keyframes pulseGlow { 0%, 100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.15); } }
+
+        /* ИСКРЫ */
+        .sparkle {
+            position: absolute; width: 4px; height: 4px; background: #fff2b2;
+            border-radius: 50%; pointer-events: none; z-index: 9999;
+            box-shadow: 0 0 6px #fff2b2; animation: flySparkle 0.65s linear forwards;
+        }
+        @keyframes flySparkle {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -291,8 +302,9 @@
         let targetCardsCount = 0;
         let flippedCount = 0;
         let selectedCards = [];
+        let currentShuffledDeck = []; // Массив для перемешанной колоды текущего расклада
 
-        // ПОЛНЫЙ МАССИВ ИЗ 78 КАРТ С КРАСИВЫМИ КАРТИНКАМИ И ОПИСАНИЯМИ
+        // ПОЛНЫЙ МАССИВ ИЗ 78 КАРТ
         const tarotDeck = [
             // Старшие Арканы (0-21)
             { id: 1, name: "Дурак (0)", img: "https://i.ibb.co/b5GDPJTr/0603170325589-00-678029bbc55011a335aa0623a5fbd863.jpg", desc: "Начало нового пути, свобода, открытость миру или слепое доверие судьбе." },
@@ -364,7 +376,7 @@
             { id: 61, name: "Паж Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords11.jpg", desc: "Сбор информации, критика, шпионаж, интеллектуальная бдительность, споры." },
             { id: 62, name: "Рыцарь Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords12.jpg", desc: "Стремительная атака, яростный спор, резкие слова, напор ума и холодный расчет." },
             { id: 63, name: "Королева Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords13.jpg", desc: "Острый ум, независимость, объективность, интеллект над эмоциями, проницательность." },
-            { id: 64, name: "Король Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords14.jpg", desc: "Закон, стратегия, экспертное суждение, аналитический подход, жесткая воля." },
+            { id: 64, name: "Король Мечей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/swords14.jpg", desc: "Закон, strategy, экспертное суждение, аналитический подход, жесткая воля." },
 
             // Пентакли (Pentacles)
             { id: 65, name: "Туз Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles01.jpg", desc: "Материальный дар судьбы, богатство, крепкое здоровье, новые финансовые шансы." },
@@ -373,7 +385,7 @@
             { id: 68, name: "Четверка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles04.jpg", desc: "Скупость, удержание стабильности, страх потерь, консерватизм и жесткие рамки." },
             { id: 69, name: "Пятерка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles05.jpg", desc: "Временный финансовый кризис, чувство покинутости, духовное испытание бедностью." },
             { id: 70, name: "Шестерка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles06.jpg", desc: "Благотворительность, помощь, получение гранта, баланс между брать и отдавать." },
-            { id: 71, name: "Семерка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/pentacles07.jpg", desc: "Ожидание результатов труда, терпение, переоценка вложений, долгий рост урожая." },
+            { id: 71, name: "Семерка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles07.jpg", desc: "Ожидание результатов труда, терпение, переоценка вложений, долгий рост урожая." },
             { id: 72, name: "Восьмерка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles08.jpg", desc: "Усердная работа, оттачивание навыков, рутинный, но очень прибыльный труд." },
             { id: 73, name: "Девятка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles09.jpg", desc: "Финансовая независимость, роскошь, безопасный уединенный сад, благополучие." },
             { id: 74, name: "Десятка Пентаклей", img: "https://raw.githubusercontent.com/v903170325589/tarot-images/main/pentacles10.jpg", desc: "Богатство рода, семейный бизнес, прочные традиции, наследство и стабильный дом." },
@@ -385,6 +397,17 @@
 
         let userQuestionData = '';
         let userNamesData = { name1: '', name2: '' };
+
+        // Алгоритм Фишера — Йетса для честного перемешивания карт
+        function shuffleDeck(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
 
         function enterToApp() {
             document.getElementById('start-screen').style.display = 'none';
@@ -463,6 +486,9 @@
             document.getElementById('game-stage').style.display = 'flex';
             document.getElementById('status-text').innerText = `Выберите карты: 0 из ${targetCardsCount}`;
             
+            // ПЕРЕМЕШИВАЕМ КЛОН КОЛОДЫ ПЕРЕД КАЖДЫМ НОВЫМ РАСКЛАДОМ
+            currentShuffledDeck = shuffleDeck([...tarotDeck]);
+            
             const tableZone = document.getElementById('magic-table-zone');
             tableZone.innerHTML = ''; 
 
@@ -488,21 +514,17 @@
             const container = document.getElementById('cards-container');
             container.innerHTML = '';
 
-            let localDeck = [...tarotDeck];
-            for (let i = localDeck.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [localDeck[i], localDeck[j]] = [localDeck[j], localDeck[i]];
-            }
-
-            const visibleCount = Math.min(localDeck.length, 25); 
+            // Показываем веер из первых 25 случайных карт нашей перемешанной колоды
+            const visibleCount = Math.min(currentShuffledDeck.length, 25); 
             const stepAngle = 5; 
             const startAngle = -((visibleCount - 1) * stepAngle) / 2;
 
             for (let i = 0; i < visibleCount; i++) {
-                const cardData = localDeck[i];
+                const cardData = currentShuffledDeck[i];
                 const card = document.createElement('div');
                 card.className = 'interactive-card';
                 card.dataset.id = cardData.id;
+                card.dataset.index = i; // Сохраняем точный индекс в перемешанной колоде
 
                 const angle = startAngle + (i * stepAngle);
                 const x = angle * 5.0; 
@@ -534,8 +556,9 @@
             if (cardElement.classList.contains('flying') || cardElement.classList.contains('flipped') || cardElement.classList.contains('inverted')) return;
             if (flippedCount >= targetCardsCount) return;
 
-            const cardId = parseInt(cardElement.dataset.id);
-            const cardData = tarotDeck.find(c => c.id === cardId);
+            // Извлекаем карту строго по её индексу из веера перемешанной колоды
+            const cardIndex = parseInt(cardElement.dataset.index);
+            const cardData = currentShuffledDeck[cardIndex];
             if (!cardData) return;
 
             flippedCount++;
@@ -550,7 +573,7 @@
             selectedCards.push({
                 id: cardData.id,
                 name: cardData.name,
-                orientation: orientation
+                orientation: isInverted ? 'inverted' : 'upright'
             });
 
             const slots = document.querySelectorAll('.card-slot');
@@ -580,12 +603,14 @@
                         cardElement.classList.add('flipped');
                     }
 
-                    // НАВЕШИВАЕМ КЛИК ДЛЯ ПОЛНОЭКРАННОГО ОТКРЫТИЯ КАРТИНКИ
-                    cardElement.removeAttribute('onclick');
+                    // Навешиваем клик для вызова модального окна конкретной карты
                     cardElement.addEventListener('click', function(e) {
                         e.stopPropagation();
                         openCardModal(cardData, isInverted);
                     });
+
+                    // Создаем эффект магических искр
+                    createSparklesAround(slotRect.left + slotRect.width / 2, slotRect.top + slotRect.height / 2);
 
                     try { tg.HapticFeedback.notificationOccurred('success'); } catch(e) {}
                 }, 650);
@@ -615,7 +640,6 @@
             }
         }
 
-        // ОТКРЫТИЕ МОДАЛЬНОГО ОКНА ДЛЯ ПРОСМОТРА КАРТЫ ВО ВЕСЬ ЭКРАН
         function openCardModal(cardData, isInverted) {
             const modal = document.getElementById('card-modal');
             const modalImg = document.getElementById('modal-img');
@@ -637,6 +661,21 @@
         function closeCardModal() {
             const modal = document.getElementById('card-modal');
             if(modal) modal.style.display = 'none';
+        }
+
+        function createSparklesAround(cx, cy) {
+            for (let i = 0; i < 8; i++) {
+                const sp = document.createElement('div');
+                sp.className = 'sparkle';
+                sp.style.left = cx + 'px';
+                sp.style.top = cy + 'px';
+                const angle = Math.random() * Math.PI * 2;
+                const dist = Math.random() * 30 + 15;
+                sp.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+                sp.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+                document.body.appendChild(sp);
+                setTimeout(() => sp.remove(), 650);
+            }
         }
 
         function sendDataToWebhook() {
