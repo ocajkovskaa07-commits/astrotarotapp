@@ -301,7 +301,7 @@
         <div id="payment-showcase-screen">
             <div class="balance-panel">
                 <span class="balance-title">Ваш баланс бота:</span>
-                <span class="balance-value" id="ui-balance">0 💎</span>
+                <span class="balance-value" id="ui-balance">0 ₽</span>
             </div>
             <div class="payment-card">
                 <div class="payment-title">Оплата и Пополнение</div>
@@ -317,10 +317,10 @@
                     </div>
                 </div>
                 <div class="live-conversion">
-                    <div class="conv-item"><span class="conv-label">Кристаллы</span><span class="conv-value hl" id="calc-cryst">500 💎</span></div>
-                    <div class="conv-item"><span class="conv-label">Stars</span><span class="conv-value" id="calc-stars">200 ⭐️</span></div>
-                    <div class="conv-item"><span class="conv-label">Доллары</span><span class="conv-value" id="calc-usd">5.4 $</span></div>
-                    <div class="conv-item"><span class="conv-label">Crypto</span><span class="conv-value" id="calc-crypto">5.4 USDT</span></div>
+                    <div class="conv-item"><span class="conv-label">Рубли</span><span class="conv-value hl" id="calc-cryst">100 ₽</span></div>
+                    <div class="conv-item"><span class="conv-label">Stars</span><span class="conv-value" id="calc-stars">84 ⭐️</span></div>
+                    <div class="conv-item"><span class="conv-label">Доллары</span><span class="conv-value" id="calc-usd">1.45 $</span></div>
+                    <div class="conv-item"><span class="conv-label">Crypto</span><span class="conv-value" id="calc-crypto">1.45 USDT</span></div>
                 </div>
                 <div class="methods-title">Выберите систему оплаты</div>
                 <div class="methods-list">
@@ -858,10 +858,10 @@
             let val = parseFloat(document.getElementById('pay-amount').value);
             if (isNaN(val) || val < 0) val = 0;
             
-            document.getElementById('calc-cryst').innerText = Math.floor(val * 1) + ' 💎';
-            document.getElementById('calc-stars').innerText = Math.ceil(val / 2.5) + ' ⭐️';
-            document.getElementById('calc-usd').innerText = (val / 92.5).toFixed(1) + ' $';
-            document.getElementById('calc-crypto').innerText = (val / 93).toFixed(1) + ' USDT';
+            document.getElementById('calc-cryst').innerText = Math.floor(val * 1) + ' ₽';
+            document.getElementById('calc-stars').innerText = Math.ceil(val / 1.2) + ' ⭐️';
+            document.getElementById('calc-usd').innerText = (val / 69).toFixed(2) + ' $';
+            document.getElementById('calc-crypto').innerText = (val / 69).toFixed(2) + ' USDT';
         }
 
         function executeFinalPayment(method) {
