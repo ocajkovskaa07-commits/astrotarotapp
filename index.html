@@ -94,7 +94,7 @@
             font-family: sans-serif;
         }
 
-        /* ЗЕЛОНЫЙ НЕОНОВЫЙ МАРКЕР ДЛЯ БЕСПЛАТНОГО РАСКЛАДА */
+        /* ЗЕЛЕНЫЙ НЕОНОВЫЙ МАРКЕР ДЛЯ БЕСПЛАТНОГО РАСКЛАДА */
         .free-badge {
             position: absolute;
             top: 8px;
@@ -241,6 +241,48 @@
             0% { transform: translate(0, 0) scale(1); opacity: 1; }
             100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
         }
+
+        /* --- СТИЛИ ДЛЯ ВИТРИНЫ ОПЛАТЫ --- */
+        #payment-showcase-screen {
+            width: 100%; max-width: 380px; display: none; flex-direction: column; align-items: center; padding: 10px 5px; box-sizing: border-box;
+        }
+        .balance-panel {
+            width: 100%; display: flex; justify-content: space-between; align-items: center;
+            background: rgba(15, 10, 25, 0.8); border: 1px solid rgba(255, 0, 127, 0.3); border-radius: 12px; padding: 12px 16px; margin-bottom: 20px; box-shadow: 0 0 15px rgba(255, 0, 127, 0.1);
+        }
+        .balance-title { font-size: 12px; text-transform: uppercase; color: #b0aeb7; }
+        .balance-value { font-size: 16px; font-weight: bold; color: #ff007f; text-shadow: 0 0 8px rgba(255, 0, 127, 0.5); }
+        
+        .payment-card { width: 100%; background: rgba(15, 10, 25, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 0, 127, 0.3); border-radius: 16px; padding: 20px; box-shadow: 0 0 20px rgba(255, 0, 127, 0.15); box-sizing: border-box; }
+        .payment-title { font-size: 18px; text-align: center; margin-bottom: 20px; color: #fff; text-transform: uppercase; }
+        
+        .payment-tabs { display: flex; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 4px; margin-bottom: 20px; }
+        .pay-tab-btn { flex: 1; background: transparent; border: none; color: #8a8894; padding: 10px; font-size: 11px; font-family: 'Cinzel', serif; cursor: pointer; border-radius: 8px; text-transform: uppercase; transition: all 0.3s; }
+        .pay-tab-btn.active { background: #ff007f; color: #fff; box-shadow: 0 0 10px rgba(255, 0, 127, 0.5); text-shadow: 0 0 5px #fff; }
+        
+        .amount-section { margin-bottom: 15px; }
+        .amount-label { font-size: 11px; color: #b0aeb7; margin-bottom: 8px; display: block; text-transform: uppercase; }
+        .amount-wrapper { position: relative; display: flex; align-items: center; }
+        .amount-input { width: 100%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 0, 127, 0.4); border-radius: 10px; padding: 12px 45px 12px 15px; color: #fff; font-size: 18px; font-family: 'Cinzel', serif; outline: none; box-sizing: border-box; }
+        .amount-input:disabled { color: #8a8894; background: rgba(20, 10, 25, 0.5); border-color: rgba(255, 255, 255, 0.1); }
+        .amount-curr { position: absolute; right: 15px; color: #ff007f; font-weight: bold; }
+        
+        .live-conversion { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; padding: 10px; margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.05); }
+        .conv-item { display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .conv-label { font-size: 9px; color: #8a8894; text-transform: uppercase; margin-bottom: 4px; }
+        .conv-value { font-size: 11px; color: #fff; font-weight: bold; white-space: nowrap; }
+        .conv-value.hl { color: #ff007f; text-shadow: 0 0 5px rgba(255, 0, 127, 0.5); }
+        
+        .methods-title { font-size: 12px; text-transform: uppercase; color: #b0aeb7; margin-bottom: 12px; text-align: center; }
+        .methods-list { display: flex; flex-direction: column; gap: 10px; }
+        .pay-method-btn { display: flex; align-items: center; justify-content: space-between; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 12px 15px; color: #fff; font-family: 'Cinzel', serif; cursor: pointer; width: 100%; transition: all 0.2s; box-sizing: border-box; }
+        .pay-method-btn:active { transform: scale(0.98); }
+        .method-info { display: flex; align-items: center; gap: 12px; }
+        .method-icon { font-size: 20px; width: 24px; text-align: center; }
+        .method-text { display: flex; flex-direction: column; align-items: flex-start; }
+        .method-name { font-size: 13px; font-weight: bold; }
+        .method-desc { font-size: 9px; color: #8a8894; margin-top: 2px; text-align: left; }
+        .method-arrow { color: #ff007f; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -295,6 +337,7 @@
                     <div class="desc">Глубокий разбор Судьбы (10 карт)<span class="price-neon">300р/5$/250⭐ +pdf</span></div>
                 </div>
             </div>
+
             <h2 class="astro-header">Астрология</h2>
             <div class="menu-grid">
                 <div class="menu-item btn-natal" onclick="openInputFlow('astro_natal', 0)">
@@ -347,6 +390,94 @@
             <div class="magic-table" id="magic-table-zone"></div>
             <div id="cards-container" class="deck-container"></div>
         </div>
+
+        <div id="payment-showcase-screen">
+            <div class="balance-panel">
+                <span class="balance-title">Ваш баланс бота:</span>
+                <span class="balance-value" id="ui-balance">0 💎</span>
+            </div>
+            
+            <div class="payment-card">
+                <div class="payment-title">Оплата и Пополнение</div>
+                
+                <div class="payment-tabs">
+                    <button type="button" class="pay-tab-btn active" id="tab-balance" onclick="setPayTab('balance')">Пополнить Баланс</button>
+                    <button type="button" class="pay-tab-btn" id="tab-sub" onclick="setPayTab('subscription')">VIP Подписка</button>
+                </div>
+                
+                <div class="amount-section">
+                    <label class="amount-label" id="amount-label">Сумма к зачислению:</label>
+                    <div class="amount-wrapper">
+                        <input type="number" class="amount-input" id="pay-amount" value="500" min="50" max="50000" oninput="calcExchange()">
+                        <span class="amount-curr">RUB</span>
+                    </div>
+                </div>
+                
+                <div class="live-conversion">
+                    <div class="conv-item">
+                        <span class="conv-label">Кристаллы</span>
+                        <span class="conv-value hl" id="calc-cryst">500 💎</span>
+                    </div>
+                    <div class="conv-item">
+                        <span class="conv-label">Stars</span>
+                        <span class="conv-value" id="calc-stars">200 ⭐️</span>
+                    </div>
+                    <div class="conv-item">
+                        <span class="conv-label">Доллары</span>
+                        <span class="conv-value" id="calc-usd">5.4 $</span>
+                    </div>
+                    <div class="conv-item">
+                        <span class="conv-label">Crypto</span>
+                        <span class="conv-value" id="calc-crypto">5.4 USDT</span>
+                    </div>
+                </div>
+                
+                <div class="methods-title">Выберите систему оплаты</div>
+                <div class="methods-list">
+                    <button type="button" class="pay-method-btn" onclick="executeFinalPayment('stars')">
+                        <div class="method-info">
+                            <div class="method-icon">⭐️</div>
+                            <div class="method-text">
+                                <span class="method-name">Telegram Stars</span>
+                                <span class="method-desc">Быстрая нативная оплата в Telegram</span>
+                            </div>
+                        </div>
+                        <div class="method-arrow">➔</div>
+                    </button>
+                    <button type="button" class="pay-method-btn" onclick="executeFinalPayment('prodamus_rub')">
+                        <div class="method-info">
+                            <div class="method-icon">💳</div>
+                            <div class="method-text">
+                                <span class="method-name">Карта РФ / СБП</span>
+                                <span class="method-desc">Банки РФ, СБП, СберПэй</span>
+                            </div>
+                        </div>
+                        <div class="method-arrow">➔</div>
+                    </button>
+                    <button type="button" class="pay-method-btn" onclick="executeFinalPayment('prodamus_foreign')">
+                        <div class="method-info">
+                            <div class="method-icon">🌍</div>
+                            <div class="method-text">
+                                <span class="method-name">Зарубежная карта</span>
+                                <span class="method-desc">Для карт не из РФ (USD/EUR)</span>
+                            </div>
+                        </div>
+                        <div class="method-arrow">➔</div>
+                    </button>
+                    <button type="button" class="pay-method-btn" onclick="executeFinalPayment('crypto')">
+                        <div class="method-info">
+                            <div class="method-icon">🪙</div>
+                            <div class="method-text">
+                                <span class="method-name">Криптовалюта</span>
+                                <span class="method-desc">USDT, TON, BTC</span>
+                            </div>
+                        </div>
+                        <div class="method-arrow">➔</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div id="card-modal" class="modal-overlay" onclick="closeCardModal()">
@@ -366,6 +497,18 @@
         let currentShuffledDeck = [];
         let userQuestionData = '';
         let userNamesData = { name1: '', name2: '' };
+        
+        // Новые переменные для витрины оплаты
+        let pendingPayload = null; 
+        let payMode = 'balance';
+        const subPriceRUB = 990;
+
+        // Пытаемся взять баланс при старте, если передан в url (напр. bal_100)
+        if (tg.initDataUnsafe && tg.initDataUnsafe.start_param) {
+            if (tg.initDataUnsafe.start_param.startsWith('bal_')) {
+                document.getElementById('ui-balance').textContent = tg.initDataUnsafe.start_param.replace('bal_', '') + ' 💎';
+            }
+        }
 
         const priceDict = {
             tarot_day: { price: 0, text: "" },
@@ -382,7 +525,6 @@
             astro_compatibility: { price: 200, text: "200р/5$/150⭐" }
         };
 
-        // ВАШ ИДЕАЛЬНЫЙ МАССИВ (БЕЗ ИЗМЕНЕНИЙ)
         const tarotDeck = [
     { id: 1, name: "Дурак (0)", img: "https://i.ibb.co/b5GDPJTr/0603170325589-00-678029bbc55011a335aa0623a5fbd863.jpg", desc: "Начало нового пути, свобода, открытость миру.", descInv: "Безрассудство, неосторожность, глупые риски, хаос." },
     { id: 2, name: "Маг (I)", img: "https://i.ibb.co/BHxXyt0n/0603170325589-02-1affc857cacbf5a0ff6ead63d66211ea.jpg", desc: "Сила воли, мастерство, реализация целей.", descInv: "Манипуляция, нерешительность, неиспользованные таланты, обман." },
@@ -566,6 +708,7 @@
             }
         }
 
+        // АСТРОЛОГИЯ: ОТПРАВКА ИЛИ ПЕРЕХОД К ОПЛАТЕ
         function submitInputFlow() {
             if (currentAction.startsWith('astro_')) {
                 let astroData = {};
@@ -590,19 +733,20 @@
                     if(!astroData.date) { alert("Пожалуйста, заполните дату рождения"); return; }
                 }
 
-                const payload = {
+                pendingPayload = {
                     type: 'astrology',
                     action: currentAction,
                     data: astroData
                 };
                 
-                try { 
-                    tg.sendData(JSON.stringify(payload)); 
-                } catch(e) { 
-                    console.log("Астро данные отправлены:", payload); 
+                // Проверка на фри-расклад или переход к витрине
+                if (priceDict[currentAction] && priceDict[currentAction].price === 0) {
+                    try { tg.sendData(JSON.stringify(pendingPayload)); } catch(e) {}
+                    tg.close();
+                } else {
+                    document.getElementById('input-flow-container').style.display = 'none';
+                    openPaymentShowcase();
                 }
-                tg.close(); 
-                document.getElementById('input-flow-container').style.display = 'none';
                 return;
             }
 
@@ -823,8 +967,9 @@
             }
         }
 
+        // ТАРО: ОТПРАВКА ФРИ-РАСКЛАДА ИЛИ ОТКРЫТИЕ ВИТРИНЫ ОПЛАТЫ
         function sendDataToWebhook() {
-            const payload = { 
+            pendingPayload = { 
                 type: 'tarot',
                 action: currentAction, 
                 lang: "ru", 
@@ -832,14 +977,77 @@
                 names: userNamesData,
                 cards: selectedCards 
             };
-            try { 
-                tg.sendData(JSON.stringify(payload)); 
-            } catch(e) { 
-                console.log("Таро пакет отправлен:", payload); 
+            
+            if (priceDict[currentAction] && priceDict[currentAction].price === 0) {
+                try { tg.sendData(JSON.stringify(pendingPayload)); } catch(e) {}
+                tg.close();
+            } else {
+                document.getElementById('game-stage').style.display = 'none';
+                openPaymentShowcase();
             }
-            tg.close(); 
         }
 
+        // --- ЛОГИКА НОВОЙ ВИТРИНЫ ОПЛАТЫ ---
+        function openPaymentShowcase() {
+            document.getElementById('payment-showcase-screen').style.display = 'flex';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Задаем в инпут дефолтную цену расклада, если это не подписка
+            if (priceDict[currentAction] && priceDict[currentAction].price > 0 && payMode === 'balance') {
+                document.getElementById('pay-amount').value = priceDict[currentAction].price;
+            }
+            calcExchange();
+        }
+
+        function setPayTab(mode) {
+            payMode = mode;
+            const btnBal = document.getElementById('tab-balance');
+            const btnSub = document.getElementById('tab-sub');
+            const inputAmount = document.getElementById('pay-amount');
+            const labelAmount = document.getElementById('amount-label');
+            
+            if (mode === 'balance') {
+                btnBal.classList.add('active');
+                btnSub.classList.remove('active');
+                inputAmount.disabled = false;
+                // Возвращаем цену текущего расклада
+                inputAmount.value = priceDict[currentAction] ? priceDict[currentAction].price : 500;
+                labelAmount.innerText = "Сумма к зачислению:";
+            } else {
+                btnBal.classList.remove('active');
+                btnSub.classList.add('active');
+                inputAmount.disabled = true;
+                inputAmount.value = subPriceRUB;
+                labelAmount.innerText = "Подписка на 1 месяц (фикс.):";
+            }
+            calcExchange();
+        }
+
+        function calcExchange() {
+            let val = parseFloat(document.getElementById('pay-amount').value);
+            if (isNaN(val) || val < 0) val = 0;
+            
+            document.getElementById('calc-cryst').innerText = Math.floor(val * 1) + ' 💎';
+            document.getElementById('calc-stars').innerText = Math.ceil(val / 2.5) + ' ⭐️';
+            document.getElementById('calc-usd').innerText = (val / 92.5).toFixed(1) + ' $';
+            document.getElementById('calc-crypto').innerText = (val / 93).toFixed(1) + ' USDT';
+        }
+
+        function executeFinalPayment(method) {
+            let finalRub = parseFloat(document.getElementById('pay-amount').value);
+            if (isNaN(finalRub) || finalRub <= 0) { alert('Укажите сумму'); return; }
+            
+            // Добавляем данные оплаты в сохраненный пакет
+            pendingPayload.payment_mode = payMode;
+            pendingPayload.payment_method = method;
+            pendingPayload.payment_amount_rub = finalRub;
+            pendingPayload.expected_crystals = Math.floor(finalRub * 1);
+            
+            try { tg.sendData(JSON.stringify(pendingPayload)); } catch(e) { console.log(pendingPayload); }
+            tg.close();
+        }
+
+        // КОСМИЧЕСКИЙ ФОН
         const canvas = document.getElementById('space-bg');
         const ctx = canvas.getContext('2d');
         let stars = [];
@@ -861,23 +1069,4 @@
 
         function drawSpace() {
             ctx.fillStyle = '#030208';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            for (let s of stars) {
-                s.y += s.speedY;
-                if (s.y > canvas.height) s.y = 0;
-                let alpha = 0.3 + Math.sin(s.phase) * 0.4;
-                ctx.fillStyle = `rgba(255, 242, 178, ${alpha})`;
-                ctx.beginPath();
-                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-                ctx.fill();
-                s.phase += 0.01;
-            }
-            requestAnimationFrame(drawSpace);
-        }
-
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-        drawSpace();
-    </script>
-</body>
-</html>
+            ctx.fillRect(0, 0, canvas.width, canvas.
