@@ -10,6 +10,11 @@
     
     <style>
         * { box-sizing: border-box; user-select: none; -webkit-user-select: none; margin: 0; padding: 0; }
+        input, textarea {
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    pointer-events: auto !important;
+}
         
         body {
             background: #030306; color: #f4f4f6; font-family: 'Cinzel', serif;
