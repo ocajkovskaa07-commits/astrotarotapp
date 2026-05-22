@@ -26,11 +26,9 @@
         }
         .subtitle { font-size: 11px; letter-spacing: 2px; color: #8a8ab0; margin-bottom: 40px; text-transform: uppercase; }
 
-        /* ЭКРАНЫ */
         .stage { display: none; width: 100%; flex-direction: column; align-items: center; }
         #start-screen { display: flex; }
 
-        /* ВВОД ДАННЫХ */
         .input-container {
             display: none; width: 100%; max-width: 360px; 
             flex-direction: column; align-items: center; padding: 20px; position: relative;
@@ -48,12 +46,9 @@
             margin-bottom: 25px; text-align: center; text-transform: uppercase;
         }
 
-        /* КНОПКИ С ЗОЛОТЫМ ОБОДКОМ */
         .btn-mystic {
             background: linear-gradient(135deg, #1b133a 0%, #0c081d 100%);
-            color: #fff2b2; 
-            border: 1.5px solid #d4af37; /* Элегантный золотой ободок */
-            padding: 15px 35px;
+            color: #fff2b2; border: 1.5px solid #d4af37; padding: 15px 35px;
             font-family: 'Cinzel', serif; font-size: 14px; font-weight: 600; letter-spacing: 2px;
             border-radius: 30px; cursor: pointer; transition: all 0.3s ease;
             box-shadow: 0 4px 20px rgba(12, 8, 29, 0.6), 0 0 12px rgba(212, 175, 55, 0.4);
@@ -67,12 +62,9 @@
             cursor: pointer; padding: 5px 10px; text-transform: uppercase; z-index: 10;
         }
 
-        /* МЕНЮ РАСКЛАДОВ С ЗОЛОТЫМИ ОБОДКАМИ */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 400px; padding: 10px; }
         .menu-item {
-            position: relative;
-            background: rgba(15, 11, 38, 0.5); 
-            border: 1.5px solid #d4af37; /* Элегантный золотой ободок */
+            position: relative; background: rgba(15, 11, 38, 0.5); border: 1.5px solid #d4af37; 
             border-radius: 12px; padding: 20px 10px; display: flex; flex-direction: column;
             align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease;
             text-align: center; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
@@ -83,52 +75,27 @@
         .menu-item .title { font-size: 12px; font-weight: 600; color: #f4f4f6; letter-spacing: 1px; }
         .menu-item .desc { font-size: 9px; color: #8a8ab0; margin-top: 4px; font-family: sans-serif; }
 
-        /* РОЗОВЫЙ НЕОН ДЛЯ ЦЕННИКОВ */
         .price-neon {
-            display: block;
-            margin-top: 6px;
-            color: #ff007f !important;
+            display: block; margin-top: 6px; color: #ff007f !important;
             text-shadow: 0 0 5px rgba(255, 0, 127, 0.6), 0 0 10px rgba(255, 0, 127, 0.4);
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            font-family: sans-serif;
+            font-weight: 700; letter-spacing: 0.5px; font-family: sans-serif;
         }
 
-        /* ЗЕЛЕНЫЙ НЕОНОВЫЙ МАРКЕР ДЛЯ БЕСПЛАТНОГО РАСКЛАДА */
         .free-badge {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: #030306;
-            color: #00ff66;
-            font-size: 9px;
-            font-weight: 700;
-            padding: 2px 7px;
-            border-radius: 20px;
-            border: 1px solid #00ff66;
-            text-shadow: 0 0 6px #00ff66;
-            box-shadow: 0 0 10px rgba(0, 255, 102, 0.6);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            font-family: sans-serif;
+            position: absolute; top: 8px; right: 8px; background: #030306; color: #00ff66;
+            font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 20px;
+            border: 1px solid #00ff66; text-shadow: 0 0 6px #00ff66;
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.6); letter-spacing: 1px;
+            text-transform: uppercase; font-family: sans-serif;
         }
 
-        /* АСТРОЛОГИЯ СПЕЦ. СТИЛИ */
         .astro-header { margin-top: 30px; font-size: 16px; color: #fff2b2; letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 8px rgba(255,242,178,0.3); }
         .btn-natal { grid-column: span 2; background: linear-gradient(135deg, #2c1b4d 0%, #150d2b 100%); border: 2.5px solid #fff2b2; box-shadow: 0 0 20px rgba(255,242,178,0.4); }
         .btn-natal .title { font-size: 14px; font-weight: 700; letter-spacing: 2px; }
 
-        /* ИГРОВОЙ СТОЛ */
-        #status-text {
-            font-size: 12px; color: #fff2b2; letter-spacing: 1px; text-align: center;
-            margin-bottom: 25px; min-height: 18px; font-family: sans-serif;
-        }
+        #status-text { font-size: 12px; color: #fff2b2; letter-spacing: 1px; text-align: center; margin-bottom: 25px; min-height: 18px; font-family: sans-serif; }
         
-        .magic-table {
-            position: relative; width: 100%; max-width: 400px; height: 320px;
-            margin-bottom: 20px; display: flex; align-items: center; justify-content: center;
-        }
-
+        .magic-table { position: relative; width: 100%; max-width: 400px; height: 320px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; }
         .slots-wrapper { width: 100%; height: 100%; position: relative; }
         .slots-row { display: flex; justify-content: center; align-items: center; gap: 15px; width: 100%; height: 100%; }
         
@@ -153,126 +120,66 @@
         .slots-celtic .slot-p10 { top: 15%; left: 88%; transform: translate(-50%, -50%); }
 
         .card-slot {
-            width: 72px; height: 124px; border: 1px dashed rgba(255,242,178,0.2);
-            border-radius: 8px; display: flex; flex-direction: column; align-items: center;
-            justify-content: center; position: relative; background: rgba(255,255,255,0.01);
+            width: 72px; height: 124px; border: 1px dashed rgba(255,242,178,0.2); border-radius: 8px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; background: rgba(255,255,255,0.01);
         }
-        .slot-label {
-            position: absolute; bottom: -20px; width: 120px; text-align: center;
-            font-size: 9px; color: #8a8ab0; font-family: sans-serif; pointer-events: none;
-        }
+        .slot-label { position: absolute; bottom: -20px; width: 120px; text-align: center; font-size: 9px; color: #8a8ab0; font-family: sans-serif; pointer-events: none; }
+        .deck-container { position: relative; width: 100%; max-width: 400px; height: 160px; margin-top: 20px; overflow: visible; display: flex; justify-content: center; }
 
-        .deck-container {
-            position: relative; width: 100%; max-width: 400px; height: 160px;
-            margin-top: 20px; overflow: visible; display: flex; justify-content: center;
-        }
-
-        /* ВЕЕР КАРТ С ЗОЛОТЫМИ ОБОДКАМИ */
         .interactive-card {
             position: absolute; width: 72px; height: 124px; perspective: 1000px;
-            transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1), z-index 0.1s ease;
-            cursor: pointer; -webkit-tap-highlight-color: transparent;
+            transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1), z-index 0.1s ease; cursor: pointer; -webkit-tap-highlight-color: transparent;
         }
-        .card-inner {
-            position: relative; width: 100%; height: 100%; text-align: center;
-            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            transform-style: preserve-3d; border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-        }
+        .card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); transform-style: preserve-3d; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
         .interactive-card.flipped .card-inner { transform: rotateY(180deg); }
         .interactive-card.inverted .card-inner { transform: rotateY(180deg) rotate(180deg); }
 
-        .card-back, .card-front {
-            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
-            -webkit-backface-visibility: hidden; border-radius: 8px; overflow: hidden;
-        }
-        
+        .card-back, .card-front { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 8px; overflow: hidden; }
         .card-back {
-            background: #0d0a1b linear-gradient(135deg, #130f2b 0%, #070512 100%);
-            border: 2px solid #d4af37; /* Золотой ободок рубашки */
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 0 10px rgba(212, 175, 55, 0.3);
-            display: flex; align-items: center; justify-content: center;
+            background: #0d0a1b linear-gradient(135deg, #130f2b 0%, #070512 100%); border: 2px solid #d4af37;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 0 10px rgba(212, 175, 55, 0.3); display: flex; align-items: center; justify-content: center;
         }
         .card-back::after { content: "✨"; font-size: 20px; color: #fff2b2; opacity: 0.8; }
-
-        .card-front {
-            background: #000; border: 2px solid #fff2b2; /* Золотой ободок лицевой стороны */
-            box-shadow: 0 0 10px rgba(255,242,178,0.2);
-            transform: rotateY(180deg); display: flex; align-items: center;
-            justify-content: center; padding: 0;
-        }
+        .card-front { background: #000; border: 2px solid #fff2b2; box-shadow: 0 0 10px rgba(255,242,178,0.2); transform: rotateY(180deg); display: flex; align-items: center; justify-content: center; padding: 0; }
         .card-img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; display: block; }
 
         .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(3, 2, 8, 0.95); z-index: 10000;
-            display: none; flex-direction: column; align-items: center;
-            justify-content: center; padding: 20px; backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 2, 8, 0.95); z-index: 10000;
+            display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
         }
-        .modal-card-box {
-            width: 200px; height: 340px; border-radius: 12px;
-            box-shadow: 0 0 30px rgba(255,242,178,0.2); margin-bottom: 20px;
-            border: 2px solid #fff2b2; overflow: hidden; background: #000;
-        }
+        .modal-card-box { width: 200px; height: 340px; border-radius: 12px; box-shadow: 0 0 30px rgba(255,242,178,0.2); margin-bottom: 20px; border: 2px solid #fff2b2; overflow: hidden; background: #000; }
         .modal-card-box img { width: 100%; height: 100%; object-fit: cover; }
         .modal-title { font-size: 18px; color: #fff2b2; text-align: center; margin-bottom: 10px; letter-spacing: 2px; }
         .modal-desc { font-size: 13px; color: #8a8ab0; text-align: center; max-width: 300px; font-family: sans-serif; line-height: 1.5; }
 
-        .oracle-sphere {
-            width: 140px; height: 140px; background: radial-gradient(circle at 30% 30%, #2b1f54 0%, #0a0618 70%, #020105 100%);
-            border-radius: 50%; margin: 40px 0; position: relative;
-            box-shadow: 0 0 30px rgba(74, 59, 125, 0.4), inset -10px -10px 25px rgba(0,0,0,0.7);
-            display: flex; align-items: center; justify-content: center;
-        }
-        .oracle-glow {
-            position: absolute; width: 100%; height: 100%; border-radius: 50%;
-            background: radial-gradient(circle, rgba(147,112,219,0.2) 0%, transparent 70%);
-            animation: pulseGlow 4s infinite ease-in-out; pointer-events: none;
-        }
+        .oracle-sphere { width: 140px; height: 140px; background: radial-gradient(circle at 30% 30%, #2b1f54 0%, #0a0618 70%, #020105 100%); border-radius: 50%; margin: 40px 0; position: relative; box-shadow: 0 0 30px rgba(74, 59, 125, 0.4), inset -10px -10px 25px rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; }
+        .oracle-glow { position: absolute; width: 100%; height: 100%; border-radius: 50%; background: radial-gradient(circle, rgba(147,112,219,0.2) 0%, transparent 70%); animation: pulseGlow 4s infinite ease-in-out; pointer-events: none; }
         @keyframes pulseGlow { 0%, 100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.15); } }
 
-        .sparkle {
-            position: absolute; width: 4px; height: 4px; background: #fff2b2;
-            border-radius: 50%; pointer-events: none; z-index: 9999;
-            box-shadow: 0 0 6px #fff2b2; animation: flySparkle 0.65s linear forwards;
-        }
-        @keyframes flySparkle {
-            0% { transform: translate(0, 0) scale(1); opacity: 1; }
-            100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
-        }
+        .sparkle { position: absolute; width: 4px; height: 4px; background: #fff2b2; border-radius: 50%; pointer-events: none; z-index: 9999; box-shadow: 0 0 6px #fff2b2; animation: flySparkle 0.65s linear forwards; }
+        @keyframes flySparkle { 0% { transform: translate(0, 0) scale(1); opacity: 1; } 100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; } }
 
-        /* --- СТИЛИ ДЛЯ ВИТРИНЫ ОПЛАТЫ --- */
-        #payment-showcase-screen {
-            width: 100%; max-width: 380px; display: none; flex-direction: column; align-items: center; padding: 10px 5px; box-sizing: border-box;
-        }
-        .balance-panel {
-            width: 100%; display: flex; justify-content: space-between; align-items: center;
-            background: rgba(15, 10, 25, 0.8); border: 1px solid rgba(255, 0, 127, 0.3); border-radius: 12px; padding: 12px 16px; margin-bottom: 20px; box-shadow: 0 0 15px rgba(255, 0, 127, 0.1);
-        }
+        /* ВИТРИНА ОПЛАТЫ */
+        #payment-showcase-screen { width: 100%; max-width: 380px; display: none; flex-direction: column; align-items: center; padding: 10px 5px; box-sizing: border-box; }
+        .balance-panel { width: 100%; display: flex; justify-content: space-between; align-items: center; background: rgba(15, 10, 25, 0.8); border: 1px solid rgba(255, 0, 127, 0.3); border-radius: 12px; padding: 12px 16px; margin-bottom: 20px; box-shadow: 0 0 15px rgba(255, 0, 127, 0.1); }
         .balance-title { font-size: 12px; text-transform: uppercase; color: #b0aeb7; }
         .balance-value { font-size: 16px; font-weight: bold; color: #ff007f; text-shadow: 0 0 8px rgba(255, 0, 127, 0.5); }
-        
         .payment-card { width: 100%; background: rgba(15, 10, 25, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 0, 127, 0.3); border-radius: 16px; padding: 20px; box-shadow: 0 0 20px rgba(255, 0, 127, 0.15); box-sizing: border-box; }
         .payment-title { font-size: 18px; text-align: center; margin-bottom: 20px; color: #fff; text-transform: uppercase; }
-        
         .payment-tabs { display: flex; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 4px; margin-bottom: 20px; }
         .pay-tab-btn { flex: 1; background: transparent; border: none; color: #8a8894; padding: 10px; font-size: 11px; font-family: 'Cinzel', serif; cursor: pointer; border-radius: 8px; text-transform: uppercase; transition: all 0.3s; }
         .pay-tab-btn.active { background: #ff007f; color: #fff; box-shadow: 0 0 10px rgba(255, 0, 127, 0.5); text-shadow: 0 0 5px #fff; }
-        
         .amount-section { margin-bottom: 15px; }
         .amount-label { font-size: 11px; color: #b0aeb7; margin-bottom: 8px; display: block; text-transform: uppercase; }
         .amount-wrapper { position: relative; display: flex; align-items: center; }
         .amount-input { width: 100%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 0, 127, 0.4); border-radius: 10px; padding: 12px 45px 12px 15px; color: #fff; font-size: 18px; font-family: 'Cinzel', serif; outline: none; box-sizing: border-box; }
         .amount-input:disabled { color: #8a8894; background: rgba(20, 10, 25, 0.5); border-color: rgba(255, 255, 255, 0.1); }
         .amount-curr { position: absolute; right: 15px; color: #ff007f; font-weight: bold; }
-        
         .live-conversion { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; padding: 10px; margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.05); }
         .conv-item { display: flex; flex-direction: column; align-items: center; text-align: center; }
         .conv-label { font-size: 9px; color: #8a8894; text-transform: uppercase; margin-bottom: 4px; }
         .conv-value { font-size: 11px; color: #fff; font-weight: bold; white-space: nowrap; }
         .conv-value.hl { color: #ff007f; text-shadow: 0 0 5px rgba(255, 0, 127, 0.5); }
-        
         .methods-title { font-size: 12px; text-transform: uppercase; color: #b0aeb7; margin-bottom: 12px; text-align: center; }
         .methods-list { display: flex; flex-direction: column; gap: 10px; }
         .pay-method-btn { display: flex; align-items: center; justify-content: space-between; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 12px 15px; color: #fff; font-family: 'Cinzel', serif; cursor: pointer; width: 100%; transition: all 0.2s; box-sizing: border-box; }
@@ -286,9 +193,7 @@
     </style>
 </head>
 <body>
-
     <canvas id="space-bg"></canvas>
-
     <div class="content-wrap">
         <h1>Astro Tarot Oracle</h1>
         <div class="subtitle">Astral Portal</div>
@@ -371,16 +276,13 @@
         <div id="input-flow-container" class="input-container">
             <button class="btn-back" onclick="cancelInputFlow()">◀ Назад</button>
             <div id="input-flow-title" class="input-label">Напишите свой вопрос</div>
-            
             <input type="text" id="user-question-input" class="input-field" placeholder="О чем вы хотите спросить оракула?">
             <input type="text" id="user-name-input" class="input-field" placeholder="Ваше имя..." style="display: none;">
             <input type="text" id="user-birth-input" class="input-field" placeholder="Дата рождения (ДД.ММ.ГГГГ)" style="display: none;">
-            
             <input type="text" id="astro-date1" class="input-field" placeholder="Дата рождения (ДД.ММ.ГГГГ)" style="display: none;">
             <input type="text" id="astro-date2" class="input-field" placeholder="Дата партнера (ДД.ММ.ГГГГ)" style="display: none;">
             <input type="text" id="astro-time" class="input-field" placeholder="Время рождения (или 12:00)" style="display: none;">
             <input type="text" id="astro-place" class="input-field" placeholder="Место рождения (город)" style="display: none;">
-            
             <button class="btn-mystic" onclick="submitInputFlow()">Продолжить</button>
         </div>
 
@@ -396,15 +298,12 @@
                 <span class="balance-title">Ваш баланс бота:</span>
                 <span class="balance-value" id="ui-balance">0 💎</span>
             </div>
-            
             <div class="payment-card">
                 <div class="payment-title">Оплата и Пополнение</div>
-                
                 <div class="payment-tabs">
                     <button type="button" class="pay-tab-btn active" id="tab-balance" onclick="setPayTab('balance')">Пополнить Баланс</button>
                     <button type="button" class="pay-tab-btn" id="tab-sub" onclick="setPayTab('subscription')">VIP Подписка</button>
                 </div>
-                
                 <div class="amount-section">
                     <label class="amount-label" id="amount-label">Сумма к зачислению:</label>
                     <div class="amount-wrapper">
@@ -412,67 +311,25 @@
                         <span class="amount-curr">RUB</span>
                     </div>
                 </div>
-                
                 <div class="live-conversion">
-                    <div class="conv-item">
-                        <span class="conv-label">Кристаллы</span>
-                        <span class="conv-value hl" id="calc-cryst">500 💎</span>
-                    </div>
-                    <div class="conv-item">
-                        <span class="conv-label">Stars</span>
-                        <span class="conv-value" id="calc-stars">200 ⭐️</span>
-                    </div>
-                    <div class="conv-item">
-                        <span class="conv-label">Доллары</span>
-                        <span class="conv-value" id="calc-usd">5.4 $</span>
-                    </div>
-                    <div class="conv-item">
-                        <span class="conv-label">Crypto</span>
-                        <span class="conv-value" id="calc-crypto">5.4 USDT</span>
-                    </div>
+                    <div class="conv-item"><span class="conv-label">Кристаллы</span><span class="conv-value hl" id="calc-cryst">500 💎</span></div>
+                    <div class="conv-item"><span class="conv-label">Stars</span><span class="conv-value" id="calc-stars">200 ⭐️</span></div>
+                    <div class="conv-item"><span class="conv-label">Доллары</span><span class="conv-value" id="calc-usd">5.4 $</span></div>
+                    <div class="conv-item"><span class="conv-label">Crypto</span><span class="conv-value" id="calc-crypto">5.4 USDT</span></div>
                 </div>
-                
                 <div class="methods-title">Выберите систему оплаты</div>
                 <div class="methods-list">
                     <button type="button" class="pay-method-btn" onclick="executeFinalPayment('stars')">
-                        <div class="method-info">
-                            <div class="method-icon">⭐️</div>
-                            <div class="method-text">
-                                <span class="method-name">Telegram Stars</span>
-                                <span class="method-desc">Быстрая нативная оплата в Telegram</span>
-                            </div>
-                        </div>
-                        <div class="method-arrow">➔</div>
+                        <div class="method-info"><div class="method-icon">⭐️</div><div class="method-text"><span class="method-name">Telegram Stars</span><span class="method-desc">Быстрая нативная оплата в Telegram</span></div></div><div class="method-arrow">➔</div>
                     </button>
                     <button type="button" class="pay-method-btn" onclick="executeFinalPayment('prodamus_rub')">
-                        <div class="method-info">
-                            <div class="method-icon">💳</div>
-                            <div class="method-text">
-                                <span class="method-name">Карта РФ / СБП</span>
-                                <span class="method-desc">Банки РФ, СБП, СберПэй</span>
-                            </div>
-                        </div>
-                        <div class="method-arrow">➔</div>
+                        <div class="method-info"><div class="method-icon">💳</div><div class="method-text"><span class="method-name">Карта РФ / СБП</span><span class="method-desc">Банки РФ, СБП, СберПэй</span></div></div><div class="method-arrow">➔</div>
                     </button>
                     <button type="button" class="pay-method-btn" onclick="executeFinalPayment('prodamus_foreign')">
-                        <div class="method-info">
-                            <div class="method-icon">🌍</div>
-                            <div class="method-text">
-                                <span class="method-name">Зарубежная карта</span>
-                                <span class="method-desc">Для карт не из РФ (USD/EUR)</span>
-                            </div>
-                        </div>
-                        <div class="method-arrow">➔</div>
+                        <div class="method-info"><div class="method-icon">🌍</div><div class="method-text"><span class="method-name">Зарубежная карта</span><span class="method-desc">Для карт не из РФ (USD/EUR)</span></div></div><div class="method-arrow">➔</div>
                     </button>
                     <button type="button" class="pay-method-btn" onclick="executeFinalPayment('crypto')">
-                        <div class="method-info">
-                            <div class="method-icon">🪙</div>
-                            <div class="method-text">
-                                <span class="method-name">Криптовалюта</span>
-                                <span class="method-desc">USDT, TON, BTC</span>
-                            </div>
-                        </div>
-                        <div class="method-arrow">➔</div>
+                        <div class="method-info"><div class="method-icon">🪙</div><div class="method-text"><span class="method-name">Криптовалюта</span><span class="method-desc">USDT, TON, BTC</span></div></div><div class="method-arrow">➔</div>
                     </button>
                 </div>
             </div>
@@ -498,12 +355,10 @@
         let userQuestionData = '';
         let userNamesData = { name1: '', name2: '' };
         
-        // Новые переменные для витрины оплаты
         let pendingPayload = null; 
         let payMode = 'balance';
         const subPriceRUB = 990;
 
-        // Пытаемся взять баланс при старте, если передан в url (напр. bal_100)
         if (tg.initDataUnsafe && tg.initDataUnsafe.start_param) {
             if (tg.initDataUnsafe.start_param.startsWith('bal_')) {
                 document.getElementById('ui-balance').textContent = tg.initDataUnsafe.start_param.replace('bal_', '') + ' 💎';
@@ -526,85 +381,86 @@
         };
 
         const tarotDeck = [
-    { id: 1, name: "Дурак (0)", img: "https://i.ibb.co/b5GDPJTr/0603170325589-00-678029bbc55011a335aa0623a5fbd863.jpg", desc: "Начало нового пути, свобода, открытость миру.", descInv: "Безрассудство, неосторожность, глупые риски, хаос." },
-    { id: 2, name: "Маг (I)", img: "https://i.ibb.co/BHxXyt0n/0603170325589-02-1affc857cacbf5a0ff6ead63d66211ea.jpg", desc: "Сила воли, мастерство, реализация целей.", descInv: "Манипуляция, нерешительность, неиспользованные таланты, обман." },
-    { id: 3, name: "Верховная Жрица (II)", img: "https://i.ibb.co/S4GW4gvH/0603170325589-03-0ddacb930338683e6aae222a529e79f1.jpg", desc: "Интуиция, тайны, подсознание.", descInv: "Скрытность, поверхностность, игнорирование интуиции, секреты." },
-    { id: 4, name: "Императрица (III)", img: "https://i.ibb.co/9HrmxY5S/0603170325589-04-19dd16bc6fda522034e722acc866cd03.jpg", desc: "Плодородие, изобилие, творчество.", descInv: "Зависимость, творческий блок, пустота, чрезмерная опека." },
-    { id: 5, name: "Император (IV)", img: "https://i.ibb.co/fVsMDQrK/0603170325589-05-c574474b6f14b2bd02d87815f06c59cd.jpg", desc: "Власть, структура, стабильность.", descInv: "Тирания, жёсткость, отсутствие discipline, слабость." },
-    { id: 6, name: "Иерофант (V)", img: "https://i.ibb.co/S4dqdNjZ/0603170325589-06-37da9a540c0b9bc51355f2e2c19943b9.jpg", desc: "Традиции, обучение, мудрость.", descInv: "Догматизм, бунт, ложные учителя, негибкость." },
-    { id: 7, name: "Влюбленные (VI)", img: "https://i.ibb.co/PGQ8h3Bc/0603170325589-07-a7c10a5faaf2a2a4de0075d5ea71ad3b.jpg", desc: "Выбор сердца, гармония, союзы.", descInv: "Разрыв, дисгармония, неправильный выбор, конфликт." },
-    { id: 8, name: "Колесница (VII)", img: "https://i.ibb.co/dw3BLxZX/0603170325589-08-1e89a2cb614d15fd1e231269ea2cc30c.jpg", desc: "Прорыв, триумф, целеустремленность.", descInv: "Поражение, потеря контроля, агрессия, направление не туда." },
-    { id: 9, name: "Сила (VIII)", img: "https://i.ibb.co/Z1LrJcX3/0603170325589-09-1b0fc07411416100fd85ec05b4b8246a.jpg", desc: "Внутренняя стойкость, терпение.", descInv: "Слабость, страх, потеря контроля, гнев." },
-    { id: 10, name: "Отшельник (IX)", img: "https://i.ibb.co/jv5z35x6/0603170325589-10-3eaa96f92c8b013f8eb84a358d7eb100.jpg", desc: "Поиск истины, уединение.", descInv: "Изоляция, замкнутость, отказ от помощи, депрессия." },
-    { id: 11, name: "Колесо Фортуны (X)", img: "https://i.ibb.co/N6g7NXt8/0603170325589-11-899cd14941a67c67901187755f1eef94.jpg", desc: "Судьбоносные перемены, везение.", descInv: "Сопротивление переменам, неудача, застой." },
-    { id: 12, name: "Справедливость (XI)", img: "https://i.ibb.co/Q7GhpR27/0603170325589-12-c7de472fc407322bc8e95c972546fd12.jpg", desc: "Объективность, честность, баланс.", descInv: "Несправедливость, предвзятость, нечестность, вина." },
-    { id: 13, name: "Повешенный (XII)", img: "https://i.ibb.co/xKqmXN7W/0603170325589-13-b9b7cb5f226c779056861c60dd9d7883.jpg", desc: "Переосмысление, пауза.", descInv: "Застой, сопротивление, бесполезная жертва." },
-    { id: 14, name: "Смерть (XIII)", img: "https://i.ibb.co/q3Mc4nFy/0603170325589-14-2fc4425a191475c739cfb030b43763f1.jpg", desc: "Трансформация, обновление.", descInv: "Страх перемен, застой, сопротивление." },
-    { id: 15, name: "Умеренность (XIV)", img: "https://i.ibb.co/cXvV8Yj5/0603170325589-15-7bea7f83bb7093f18a41bba46f1b7427.jpg", desc: "Баланс, исцеление, спокойствие.", descInv: "Дисбаланс, крайности, импульсивность, конфликты." },
-    { id: 16, name: "Дьявол (XV)", img: "https://i.ibb.co/j9C6kVfM/0603170325589-16-8f5e336db5557771ee63c1aa2152ea6d.jpg", desc: "Искушения, привязанности.", descInv: "Освобождение, разрыв цепей, осознание." },
-    { id: 17, name: "Башня (XVI)", img: "https://i.ibb.co/m5R31CxZ/0603170325589-17-895483f2f33dc90c502f9bd405d9f630.jpg", desc: "Крушение иллюзий, перемены.", descInv: "Катастрофа, сопротивление неизбежному, потеря." },
-    { id: 18, name: "Звезда (XVII)", img: "https://i.ibb.co/6JbbLd0z/0603170325589-18-1b8a346488fdf4ff9a6933d4db7d7d37.jpg", desc: "Надежда, вдохновение, вера.", descInv: "Отчаяние, потеря веры, неверие в себя." },
-    { id: 19, name: "Луна (XVIII)", img: "https://i.ibb.co/QF6qDbRW/0603170325589-19-1ed7a0f351a0622323a409be4746c589.jpg", desc: "Тайны, интуиция, иллюзии.", descInv: "Обман, confusion, выход из тумана." },
-    { id: 20, name: "Солнце (XIX)", img: "https://i.ibb.co/ch5HYH0M/0603170325589-20-16346c2a033548179ec5e6c58fe2dfb3.jpg", desc: "Ясность, счастье, success.", descInv: "Временные трудности, выгорание, эго." },
-    { id: 21, name: "Суд (XX)", img: "https://i.ibb.co/4RRQYBb1/0603170325589-21-800272d9e2f4266c7867ede1e8a40f9b.jpg", desc: "Пробуждение, итоги, освобождение.", descInv: "Самообман, отказ от призыва, застревание в прошлом." },
-    { id: 22, name: "Мир (XXI)", img: "https://i.ibb.co/QvkfR1Yq/0603170325589-22-8b820d52bca7cf5a56ab79116aab4787.jpg", desc: "Гармония, завершение пути.", descInv: "Незавершённость, задержки, отсутствие closure." },
-    { id: 23, name: "Туз Жезлов", img: "https://i.ibb.co/rfbv8Ysk/0603170325589-23-94a7f432f845bc523eb67fbbc37a9be1.jpg", desc: "Новый импульс, энергия.", descInv: "Задержки, отсутствие мотивации, творческий кризис." },
-    { id: 24, name: "Двойка Жезлов", img: "https://i.ibb.co/QvZRBzsX/0603170325589-24-866f4e7c2570670a64db0f031963f2de.jpg", desc: "Планирование, перспективы.", descInv: "Страх будущего, нерешительность." },
-    { id: 25, name: "Тройка Жезлов", img: "https://i.ibb.co/cKxt1Kwz/0603170325589-25-d24df431069f1a7f30847a119ad66934.jpg", desc: "Расширение, успех.", descInv: "Задержки, разочарование, отсутствие прогресса." },
-    { id: 26, name: "Четверка Жезлов", img: "https://i.ibb.co/39xvjQK8/0603170325589-26-9e730438f5a36003eacb58fa91178855.jpg", desc: "Праздник, гармония.", descInv: "Неустойчивость, конфликт в доме, задержка праздника." },
-    { id: 27, name: "Пятерка Жезлов", img: "https://i.ibb.co/zh2pRWzW/0603170325589-27-d2a089deccfec6127f07f6ca0e2f84dd.jpg", desc: "Конкуренция, борьба.", descInv: "Избегание конфликта, нечестная игра." },
-    { id: 28, name: "Шестерка Жезлов", img: "https://i.ibb.co/hqw2j2X/0603170325589-28-497a49a55c8c3769dd6095781ba725ee.jpg", desc: "Победа, признание.", descInv: "Поражение, задержки, отсутствие признания." },
-    { id: 29, name: "Семерка Жезлов", img: "https://i.ibb.co/spjmm5Cq/0603170325589-29-9bcbf1dc7e5ad05b2780a1d82857e4cb.jpg", desc: "Защита интересов, стойкость.", descInv: "Перегрузка, сомнения в себе." },
-    { id: 30, name: "Восьмерка Жезлов", img: "https://i.ibb.co/1GffD16m/0603170325589-30-1d1f1456263bf60fadfe12231db9b403.jpg", desc: "Быстрые изменения, вести.", descInv: "Задержки, препятствия, паника." },
-    { id: 31, name: "Девятка Жезлов", img: "https://i.ibb.co/tT4kwnh8/0603170325589-31-253e6e7f3b5eb88ada02b90563d4bcf9.jpg", desc: "Осторожность, выдержка.", descInv: "Паранойя, истощение, сдача." },
-    { id: 32, name: "Десятка Жезлов", img: "https://i.ibb.co/FkMKw00t/0603170325589-32-7026f2023309f46f84866f6fcc31bc15.jpg", desc: "Ответственность, нагрузка.", descInv: "Сброс ненужного, делегирование." },
-    { id: 33, name: "Паж Жезлов", img: "https://i.ibb.co/DDPG35dL/0603170325589-33-31ed5cc76401b7be30b5753b45d2b95f.jpg", desc: "Идея, энтузиазм.", descInv: "Задержки, плохое планирование, отсутствие направления." },
-    { id: 34, name: "Рыцарь Жезлов", img: "https://i.ibb.co/7JsHQQ2t/0603170325589-34-3b6053b9ffa8b117f8952672768867fc.jpg", desc: "Приключение, страсть.", descInv: "Поспешность, гнев, отсутствие направления." },
-    { id: 35, name: "Королева Жезлов", img: "https://i.ibb.co/XvmMX6M/0603170325589-35-ff7dea6d2fb1a739d51702c4eaaca93b.jpg", desc: "Уверенность, харизма.", descInv: "Ревность, неуверенность, эгоизм." },
-    { id: 36, name: "Король Жезлов", img: "https://i.ibb.co/TDMWZK7m/0603170325589-36-25b80e8f176c8458ea67bceaa6381416.jpg", desc: "Лидерство, авторитет.", descInv: "Импульсивность, тирания, отсутствие видения." },
-    { id: 37, name: "Туз Кубков", img: "https://i.ibb.co/b52jHVCx/0603170325589-37-f82ba2b10d25c69f574f0d0cb0fe975e.jpg", desc: "Любовь, радость, сердце.", descInv: "Блок эмоций, пустота, разочарование." },
-    { id: 38, name: "Двойка Кубков", img: "https://i.ibb.co/R4SVRVQB/0603170325589-38-b1071086789d14cf28db5c78c7af73ce.jpg", desc: "Партнерство, гармония.", descInv: "Разрыв, дисбаланс, разногласия." },
-    { id: 39, name: "Тройка Кубков", img: "https://i.ibb.co/Sw8yPx8Q/0603170325589-39-5703c98740de1e53219f1ec654df9b6f.jpg", desc: "Дружба, праздник.", descInv: "Переизбыток, изоляция, предательство." },
-    { id: 40, name: "Четверка Кубков", img: "https://i.ibb.co/PzbDGyjk/0603170325589-40-245d0eaebca2720b429325e07f88cc62.jpg", desc: "Апатия, переоценка.", descInv: "Новые возможности, принятие." },
-    { id: 41, name: "Пятерка Кубков", img: "https://i.ibb.co/1p6ZHsz/0603170325589-41-2c9641d1278e6d26efdd26129602f6d5.jpg", desc: "Печаль, утраты.", descInv: "Принятие, прощение, движение дальше." },
-    { id: 42, name: "Шестерка Кубков", img: "https://i.ibb.co/DfwWTrHK/0603170325589-42-90db6d602a8c552e1f27f810e6493325.jpg", desc: "Ностальгия, детство.", descInv: "Застревание в прошлом, незрелость." },
-    { id: 43, name: "Семерка Кубков", img: "https://i.ibb.co/p6LNPv1k/0603170325589-43-e9d4f6d1912842da855ce7bbf6a69a1c.jpg", desc: "Выбор, мечты.", descInv: "Ясность, реализм, принятие решения." },
-    { id: 44, name: "Восьмерка Кубков", img: "https://i.ibb.co/4RPYj3zn/0603170325589-44-6a1af0658104847d9b014fd63ed108f5.jpg", desc: "Уход, поиск смысла.", descInv: "Бегство, страх, возвращение." },
-    { id: 45, name: "Девятка Кубков", img: "https://i.ibb.co/pj7D8N8H/0603170325589-45-73b46e415f97a956f5a10199b1ebbdef.jpg", desc: "Удовольствие, успех.", descInv: "Самодовольство, поверхностность." },
-    { id: 46, name: "Десятка Кубков", img: "https://i.ibb.co/6c3rFtWF/0603170325589-46-5ca9d96219727b64fe1f427b46a80cbe.jpg", desc: "Счастье, семья.", descInv: "Разлад в семье, разрыв." },
-    { id: 47, name: "Паж Кубков", img: "https://i.ibb.co/kgqHjRR1/0603170325589-47-34877d455aac72367cf0eadb9f6a3c56.jpg", desc: "Творчество, чувства.", descInv: "Эмоциональная незрелость, манипуляция." },
-    { id: 48, name: "Рыцарь Кубков", img: "https://i.ibb.co/9kHgytZB/0603170325589-48-6199bb0364076aba448e9678b3a1ca3d.jpg", desc: "Романтика, приглашение.", descInv: "Обман, настроение, нереалистичность." },
-    { id: 49, name: "Королева Кубков", img: "https://i.ibb.co/M5n3Mh7Y/0603170325589-49-54b0e1c53b93504ad02fa774b84bacde.jpg", desc: "Интуиция, эмпатия.", descInv: "Эмоциональная нестабильность, зависимость." },
-    { id: 50, name: "Король Кубков", img: "https://i.ibb.co/20tcCfBg/0603170325589-50-5b537786818416df612720b0745a48b9.jpg", desc: "Эмоциональная зрелость.", descInv: "Манипуляция эмоциями, настроение." },
-    { id: 51, name: "Туз Мечей", img: "https://i.ibb.co/LhCwX4J6/0603170325589-51-6faa9b3750f79b8b9ba79808c9f129c7.jpg", desc: "Ясность, истина.", descInv: "Хаос, путаница, жестокость." },
-    { id: 52, name: "Двойка Мечей", img: "https://i.ibb.co/NnGfWb0R/0603170325589-52-af4ea8bab3e734f8a23998ef0924fbeb.jpg", desc: "Решение, компромисс.", descInv: "Нерешительность, блок, предательство." },
-    { id: 53, name: "Тройка Мечей", img: "https://i.ibb.co/DgVmkC4R/0603170325589-53-536f2a13a6a3386c5a8e80f47f425da9.jpg", desc: "Боль, печаль.", descInv: "Прощение, исцеление, движение дальше." },
-    { id: 54, name: "Четверка Мечей", img: "https://i.ibb.co/35qrmxcq/0603170325589-54-efa56e98b81e6f8a7d2f818c0fa87b7a.jpg", desc: "Отдых, покой.", descInv: "Изоляция, застой." },
-    { id: 55, name: "Пятерка Мечей", img: "https://i.ibb.co/prhvwNKx/0603170325589-55-b912951f62204a57a59212a9523c0bd9.jpg", desc: "Конфликт, поражение.", descInv: "Примирение, прощение, движение дальше." },
-    { id: 56, name: "Шестерка Мечей", img: "https://i.ibb.co/bMPYdgjD/0603170325589-56-98db19f0fe8ed325fd5f33864f7ae946.jpg", desc: "Уход, движение вперед.", descInv: "Сопротивление переменам, застревание." },
-    { id: 57, name: "Семерка Мечей", img: "https://i.ibb.co/6RjmKkRX/0603170325589-57-e4e579f414d5d392a2161f70ecd77096.jpg", desc: "Хитрость, стратегия.", descInv: "Честность, возвращение, признание." },
-    { id: 58, name: "Восьмерка Мечей", img: "https://i.ibb.co/351t44zN/0603170325589-58-2ffa141abd999c386724aa67607d32ba.jpg", desc: "Ограничения, сомнения.", descInv: "Освобождение, принятие, движение." },
-    { id: 59, name: "Девятка Мечей", img: "https://i.ibb.co/8LRVyD1X/0603170325589-59-bdda863a9afcf0dce618a85df877e499.jpg", desc: "Тревога, бессонница.", descInv: "Надежда, освобождение от страха." },
-    { id: 60, name: "Десятка Мечей", img: "https://i.ibb.co/dJtKYZct/0603170325589-60-1bec875cee48f1c917978096309b6208.jpg", desc: "Критическая ситуация.", descInv: "Восстановление, принятие, новый старт." },
-    { id: 61, name: "Паж Мечей", img: "https://i.ibb.co/F4MXs1Fh/0603170325589-61-8e8fb4f0d35590c06424ad86100eaf14.jpg", desc: "Наблюдательность, новости.", descInv: "Сплетни, поспешность, цинизм." },
-    { id: 62, name: "Рыцарь Мечей", img: "https://i.ibb.co/pvHFJG9r/0603170325589-62-ae60212f4337fb84cad553620100e6a5.jpg", desc: "Активность, напор.", descInv: "Импульсивность, агрессия, жестокость." },
-    { id: 63, name: "Королева Мечей", img: "https://i.ibb.co/201pZGrB/0603170325589-63-6f6fc92430a03bf16e8e38f0696fb10b.jpg", desc: "Независимость, ум.", descInv: "Жестокость, холодность, горечь." },
-    { id: 64, name: "Король Мечей", img: "https://i.ibb.co/ymtyTrny/0603170325589-64-047d5b3338f27d3ad5dbfb27b4347f17.jpg", desc: "Справедливость, логика.", descInv: "Жестокость, тирания, злоупотребление властью." },
-    { id: 65, name: "Туз Пентаклей", img: "https://i.ibb.co/HTfP4cks/0603170325589-65-88c2404780c00becee3d87e532de4514.jpg", desc: "Успех, возможности.", descInv: "Потеря, упущенные шансы." },
-    { id: 66, name: "Двойка Пентаклей", img: "https://i.ibb.co/J9CWZ7W/0603170325589-66-20175148e8d46abd938d016572de27b2.jpg", desc: "Баланс, гибкость.", descInv: "Перегрузка, неорганизованность." },
-    { id: 67, name: "Тройка Пентаклей", img: "https://i.ibb.co/HDj0C9YH/0603170325589-67-b99fb44507245d7b4d0a0bd11c71982d.jpg", desc: "Мастерство, работа.", descInv: "Некачественная работа, отсутствие сотрудничества." },
-    { id: 68, name: "Четверка Пентаклей", img: "https://i.ibb.co/C35NBxjk/0603170325589-68-e8a5a5dacfdc5dc4736be581d1e8a740.jpg", desc: "Стабильность, накопление.", descInv: "Жадность, застой, страх потери." },
-    { id: 69, name: "Пятерка Пентаклей", img: "https://i.ibb.co/8gg2MBp7/0603170325589-69-3058847baca9fe5d934faa66fcf11ad6.jpg", desc: "Нехватка, трудности.", descInv: "Выздоровление, помощь." },
-    { id: 70, name: "Шестерка Пентаклей", img: "https://i.ibb.co/4ZxJ8LH7/0603170325589-70-b92bf0d485241121623f30f035c4438c.jpg", desc: "Щедрость, обмен.", descInv: "Неравенство, корысть." },
-    { id: 71, name: "Семерка Пентаклей", img: "https://i.ibb.co/J9NFRgF/0603170325589-71-1514302647d4792da008c30ae8546697.jpg", desc: "Ожидание, терпение.", descInv: "Нетерпение, неудовлетворённость." },
-    { id: 72, name: "Восьмерка Пентаклей", img: "https://i.ibb.co/0y0rWnNq/0603170325589-72-d4d7230f841919802d1a1e85990e9210.jpg", desc: "Труд, навыки.", descInv: "Выгорание, перфекционизм." },
-    { id: 73, name: "Девятка Пентаклей", img: "https://i.ibb.co/0p5BPLxz/0603170325589-73-a9ea25216d7a372f63b4177ff76f5bd6.jpg", desc: "Независимость, комфорт.", descInv: "Одиночество, чрезмерная осторожность." },
-    { id: 74, name: "Десятка Пентаклей", img: "https://i.ibb.co/d0bRBPnb/0603170325589-74-c76f6b123224075336f2b372196eef4f.jpg", desc: "Богатство, семья.", descInv: "Семейные конфликты, потеря." },
-    { id: 75, name: "Паж Пентаклей", img: "https://i.ibb.co/Q7pSsyNJ/0603170325589-75-0f41f086308b4227c36d4e34a300336c.jpg", desc: "Новый шанс, учеба.", descInv: "Недостаток фокуса, расточительство." },
-    { id: 76, name: "Рыцарь Пентаклей", img: "https://i.ibb.co/5gKJjbtp/0603170325589-76-9f2041a8543dce108b46a9f2a2ced143.jpg", desc: "Надежность, труд.", descInv: "Застой, скука, упрямство." },
-    { id: 77, name: "Королева Пентаклей", img: "https://i.ibb.co/9khYwVGQ/0603170325589-77-e264de9d0c24d5e1d6ea510e00a4305b.jpg", desc: "Забота, процветание.", descInv: "Зависимость, неуверенность." },
-    { id: 78, name: "Король Пентаклей", img: "https://i.ibb.co/DD5GfWfM/0603170325589-78-f75e6d6ed0aa6c6290e1e87eb205ab34.jpg", desc: "Основательность, успех.", descInv: "Жадность, коррупция, материализм." }
-];
+            { id: 1, name: "Дурак (0)", img: "https://i.ibb.co/b5GDPJTr/0603170325589-00-678029bbc55011a335aa0623a5fbd863.jpg", desc: "Начало нового пути, свобода, открытость миру.", descInv: "Безрассудство, неосторожность, глупые риски, хаос." },
+            { id: 2, name: "Маг (I)", img: "https://i.ibb.co/BHxXyt0n/0603170325589-02-1affc857cacbf5a0ff6ead63d66211ea.jpg", desc: "Сила воли, мастерство, реализация целей.", descInv: "Манипуляция, нерешительность, неиспользованные таланты, обман." },
+            { id: 3, name: "Верховная Жрица (II)", img: "https://i.ibb.co/S4GW4gvH/0603170325589-03-0ddacb930338683e6aae222a529e79f1.jpg", desc: "Интуиция, тайны, подсознание.", descInv: "Скрытность, поверхностность, игнорирование интуиции, секреты." },
+            { id: 4, name: "Императрица (III)", img: "https://i.ibb.co/9HrmxY5S/0603170325589-04-19dd16bc6fda522034e722acc866cd03.jpg", desc: "Плодородие, изобилие, творчество.", descInv: "Зависимость, творческий блок, пустота, чрезмерная опека." },
+            { id: 5, name: "Император (IV)", img: "https://i.ibb.co/fVsMDQrK/0603170325589-05-c574474b6f14b2bd02d87815f06c59cd.jpg", desc: "Власть, структура, стабильность.", descInv: "Тирания, жёсткость, отсутствие discipline, слабость." },
+            { id: 6, name: "Иерофант (V)", img: "https://i.ibb.co/S4dqdNjZ/0603170325589-06-37da9a540c0b9bc51355f2e2c19943b9.jpg", desc: "Традиции, обучение, мудрость.", descInv: "Догматизм, бунт, ложные учителя, негибкость." },
+            { id: 7, name: "Влюбленные (VI)", img: "https://i.ibb.co/PGQ8h3Bc/0603170325589-07-a7c10a5faaf2a2a4de0075d5ea71ad3b.jpg", desc: "Выбор сердца, гармония, союзы.", descInv: "Разрыв, дисгармония, неправильный выбор, конфликт." },
+            { id: 8, name: "Колесница (VII)", img: "https://i.ibb.co/dw3BLxZX/0603170325589-08-1e89a2cb614d15fd1e231269ea2cc30c.jpg", desc: "Прорыв, триумф, целеустремленность.", descInv: "Поражение, потеря контроля, агрессия, направление не туда." },
+            { id: 9, name: "Сила (VIII)", img: "https://i.ibb.co/Z1LrJcX3/0603170325589-09-1b0fc07411416100fd85ec05b4b8246a.jpg", desc: "Внутренняя стойкость, терпение.", descInv: "Слабость, страх, потеря контроля, гнев." },
+            { id: 10, name: "Отшельник (IX)", img: "https://i.ibb.co/jv5z35x6/0603170325589-10-3eaa96f92c8b013f8eb84a358d7eb100.jpg", desc: "Поиск истины, уединение.", descInv: "Изоляция, замкнутость, отказ от помощи, депрессия." },
+            { id: 11, name: "Колесо Фортуны (X)", img: "https://i.ibb.co/N6g7NXt8/0603170325589-11-899cd14941a67c67901187755f1eef94.jpg", desc: "Судьбоносные перемены, везение.", descInv: "Сопротивление переменам, неудача, застой." },
+            { id: 12, name: "Справедливость (XI)", img: "https://i.ibb.co/Q7GhpR27/0603170325589-12-c7de472fc407322bc8e95c972546fd12.jpg", desc: "Объективность, честность, баланс.", descInv: "Несправедливость, предвзятость, нечестность, вина." },
+            { id: 13, name: "Повешенный (XII)", img: "https://i.ibb.co/xKqmXN7W/0603170325589-13-b9b7cb5f226c779056861c60dd9d7883.jpg", desc: "Переосмысление, пауза.", descInv: "Застой, сопротивление, бесполезная жертва." },
+            { id: 14, name: "Смерть (XIII)", img: "https://i.ibb.co/q3Mc4nFy/0603170325589-14-2fc4425a191475c739cfb030b43763f1.jpg", desc: "Трансформация, обновление.", descInv: "Страх перемен, застой, сопротивление." },
+            { id: 15, name: "Умеренность (XIV)", img: "https://i.ibb.co/cXvV8Yj5/0603170325589-15-7bea7f83bb7093f18a41bba46f1b7427.jpg", desc: "Баланс, исцеление, спокойствие.", descInv: "Дисбаланс, крайности, импульсивность, конфликты." },
+            { id: 16, name: "Дьявол (XV)", img: "https://i.ibb.co/j9C6kVfM/0603170325589-16-8f5e336db5557771ee63c1aa2152ea6d.jpg", desc: "Искушения, привязанности.", descInv: "Освобождение, разрыв цепей, осознание." },
+            { id: 17, name: "Башня (XVI)", img: "https://i.ibb.co/m5R31CxZ/0603170325589-17-895483f2f33dc90c502f9bd405d9f630.jpg", desc: "Крушение иллюзий, перемены.", descInv: "Катастрофа, сопротивление неизбежному, потеря." },
+            { id: 18, name: "Звезда (XVII)", img: "https://i.ibb.co/6JbbLd0z/0603170325589-18-1b8a346488fdf4ff9a6933d4db7d7d37.jpg", desc: "Надежда, вдохновение, вера.", descInv: "Отчаяние, потеря веры, неверие в себя." },
+            { id: 19, name: "Луна (XVIII)", img: "https://i.ibb.co/QF6qDbRW/0603170325589-19-1ed7a0f351a0622323a409be4746c589.jpg", desc: "Тайны, интуиция, иллюзии.", descInv: "Обман, confusion, выход из тумана." },
+            { id: 20, name: "Солнце (XIX)", img: "https://i.ibb.co/ch5HYH0M/0603170325589-20-16346c2a033548179ec5e6c58fe2dfb3.jpg", desc: "Ясность, счастье, success.", descInv: "Временные трудности, выгорание, эго." },
+            { id: 21, name: "Суд (XX)", img: "https://i.ibb.co/4RRQYBb1/0603170325589-21-800272d9e2f4266c7867ede1e8a40f9b.jpg", desc: "Пробуждение, итоги, освобождение.", descInv: "Самообман, отказ от призыва, застревание в прошлом." },
+            { id: 22, name: "Мир (XXI)", img: "https://i.ibb.co/QvkfR1Yq/0603170325589-22-8b820d52bca7cf5a56ab79116aab4787.jpg", desc: "Гармония, завершение пути.", descInv: "Незавершённость, задержки, отсутствие closure." },
+            { id: 23, name: "Туз Жезлов", img: "https://i.ibb.co/rfbv8Ysk/0603170325589-23-94a7f432f845bc523eb67fbbc37a9be1.jpg", desc: "Новый импульс, энергия.", descInv: "Задержки, отсутствие мотивации, творческий кризис." },
+            { id: 24, name: "Двойка Жезлов", img: "https://i.ibb.co/QvZRBzsX/0603170325589-24-866f4e7c2570670a64db0f031963f2de.jpg", desc: "Планирование, перспективы.", descInv: "Страх будущего, нерешительность." },
+            { id: 25, name: "Тройка Жезлов", img: "https://i.ibb.co/cKxt1Kwz/0603170325589-25-d24df431069f1a7f30847a119ad66934.jpg", desc: "Расширение, успех.", descInv: "Задержки, разочарование, отсутствие прогресса." },
+            { id: 26, name: "Четверка Жезлов", img: "https://i.ibb.co/39xvjQK8/0603170325589-26-9e730438f5a36003eacb58fa91178855.jpg", desc: "Праздник, гармония.", descInv: "Неустойчивость, конфликт в доме, задержка праздника." },
+            { id: 27, name: "Пятерка Жезлов", img: "https://i.ibb.co/zh2pRWzW/0603170325589-27-d2a089deccfec6127f07f6ca0e2f84dd.jpg", desc: "Конкуренция, борьба.", descInv: "Избегание конфликта, нечестная игра." },
+            { id: 28, name: "Шестерка Жезлов", img: "https://i.ibb.co/hqw2j2X/0603170325589-28-497a49a55c8c3769dd6095781ba725ee.jpg", desc: "Победа, признание.", descInv: "Поражение, задержки, отсутствие признания." },
+            { id: 29, name: "Семерка Жезлов", img: "https://i.ibb.co/spjmm5Cq/0603170325589-29-9bcbf1dc7e5ad05b2780a1d82857e4cb.jpg", desc: "Защита интересов, стойкость.", descInv: "Перегрузка, сомнения в себе." },
+            { id: 30, name: "Восьмерка Жезлов", img: "https://i.ibb.co/1GffD16m/0603170325589-30-1d1f1456263bf60fadfe12231db9b403.jpg", desc: "Быстрые изменения, вести.", descInv: "Задержки, препятствия, паника." },
+            { id: 31, name: "Девятка Жезлов", img: "https://i.ibb.co/tT4kwnh8/0603170325589-31-253e6e7f3b5eb88ada02b90563d4bcf9.jpg", desc: "Осторожность, выдержка.", descInv: "Паранойя, истощение, сдача." },
+            { id: 32, name: "Десятка Жезлов", img: "https://i.ibb.co/FkMKw00t/0603170325589-32-7026f2023309f46f84866f6fcc31bc15.jpg", desc: "Ответственность, нагрузка.", descInv: "Сброс ненужного, делегирование." },
+            { id: 33, name: "Паж Жезлов", img: "https://i.ibb.co/DDPG35dL/0603170325589-33-31ed5cc76401b7be30b5753b45d2b95f.jpg", desc: "Идея, энтузиазм.", descInv: "Задержки, плохое планирование, отсутствие направления." },
+            { id: 34, name: "Рыцарь Жезлов", img: "https://i.ibb.co/7JsHQQ2t/0603170325589-34-3b6053b9ffa8b117f8952672768867fc.jpg", desc: "Приключение, страсть.", descInv: "Поспешность, гнев, отсутствие направления." },
+            { id: 35, name: "Королева Жезлов", img: "https://i.ibb.co/XvmMX6M/0603170325589-35-ff7dea6d2fb1a739d51702c4eaaca93b.jpg", desc: "Уверенность, харизма.", descInv: "Ревность, неуверенность, эгоизм." },
+            { id: 36, name: "Король Жезлов", img: "https://i.ibb.co/TDMWZK7m/0603170325589-36-25b80e8f176c8458ea67bceaa6381416.jpg", desc: "Лидерство, авторитет.", descInv: "Импульсивность, тирания, отсутствие видения." },
+            { id: 37, name: "Туз Кубков", img: "https://i.ibb.co/b52jHVCx/0603170325589-37-f82ba2b10d25c69f574f0d0cb0fe975e.jpg", desc: "Любовь, радость, сердце.", descInv: "Блок эмоций, пустота, разочарование." },
+            { id: 38, name: "Двойка Кубков", img: "https://i.ibb.co/R4SVRVQB/0603170325589-38-b1071086789d14cf28db5c78c7af73ce.jpg", desc: "Партнерство, гармония.", descInv: "Разрыв, дисбаланс, разногласия." },
+            { id: 39, name: "Тройка Кубков", img: "https://i.ibb.co/Sw8yPx8Q/0603170325589-39-5703c98740de1e53219f1ec654df9b6f.jpg", desc: "Дружба, праздник.", descInv: "Переизбыток, изоляция, предательство." },
+            { id: 40, name: "Четверка Кубков", img: "https://i.ibb.co/PzbDGyjk/0603170325589-40-245d0eaebca2720b429325e07f88cc62.jpg", desc: "Апатия, переоценка.", descInv: "Новые возможности, принятие." },
+            { id: 41, name: "Пятерка Кубков", img: "https://i.ibb.co/1p6ZHsz/0603170325589-41-2c9641d1278e6d26efdd26129602f6d5.jpg", desc: "Печаль, утраты.", descInv: "Принятие, прощение, движение дальше." },
+            { id: 42, name: "Шестерка Кубков", img: "https://i.ibb.co/DfwWTrHK/0603170325589-42-90db6d602a8c552e1f27f810e6493325.jpg", desc: "Ностальгия, детство.", descInv: "Застревание в прошлом, незрелость." },
+            { id: 43, name: "Семерка Кубков", img: "https://i.ibb.co/p6LNPv1k/0603170325589-43-e9d4f6d1912842da855ce7bbf6a69a1c.jpg", desc: "Выбор, мечты.", descInv: "Ясность, реализм, принятие решения." },
+            { id: 44, name: "Восьмерка Кубков", img: "https://i.ibb.co/4RPYj3zn/0603170325589-44-6a1af0658104847d9b014fd63ed108f5.jpg", desc: "Уход, поиск смысла.", descInv: "Бегство, страх, возвращение." },
+            { id: 45, name: "Девятка Кубков", img: "https://i.ibb.co/pj7D8N8H/0603170325589-45-73b46e415f97a956f5a10199b1ebbdef.jpg", desc: "Удовольствие, успех.", descInv: "Самодовольство, поверхностность." },
+            { id: 46, name: "Десятка Кубков", img: "https://i.ibb.co/6c3rFtWF/0603170325589-46-5ca9d96219727b64fe1f427b46a80cbe.jpg", desc: "Счастье, семья.", descInv: "Разлад в семье, разрыв." },
+            { id: 47, name: "Паж Кубков", img: "https://i.ibb.co/kgqHjRR1/0603170325589-47-34877d455aac72367cf0eadb9f6a3c56.jpg", desc: "Творчество, чувства.", descInv: "Эмоциональная незрелость, манипуляция." },
+            { id: 48, name: "Рыцарь Кубков", img: "https://i.ibb.co/9kHgytZB/0603170325589-48-6199bb0364076aba448e9678b3a1ca3d.jpg", desc: "Романтика, приглашение.", descInv: "Обман, настроение, нереалистичность." },
+            { id: 49, name: "Королева Кубков", img: "https://i.ibb.co/M5n3Mh7Y/0603170325589-49-54b0e1c53b93504ad02fa774b84bacde.jpg", desc: "Интуиция, эмпатия.", descInv: "Эмоциональная нестабильность, зависимость." },
+            { id: 50, name: "Король Кубков", img: "https://i.ibb.co/20tcCfBg/0603170325589-50-5b537786818416df612720b0745a48b9.jpg", desc: "Эмоциональная зрелость.", descInv: "Манипуляция эмоциями, настроение." },
+            { id: 51, name: "Туз Мечей", img: "https://i.ibb.co/LhCwX4J6/0603170325589-51-6faa9b3750f79b8b9ba79808c9f129c7.jpg", desc: "Ясность, истина.", descInv: "Хаос, путаница, жестокость." },
+            { id: 52, name: "Двойка Мечей", img: "https://i.ibb.co/NnGfWb0R/0603170325589-52-af4ea8bab3e734f8a23998ef0924fbeb.jpg", desc: "Решение, компромисс.", descInv: "Нерешительность, блок, предательство." },
+            { id: 53, name: "Тройка Мечей", img: "https://i.ibb.co/DgVmkC4R/0603170325589-53-536f2a13a6a3386c5a8e80f47f425da9.jpg", desc: "Боль, печаль.", descInv: "Прощение, исцеление, движение дальше." },
+            { id: 54, name: "Четверка Мечей", img: "https://i.ibb.co/35qrmxcq/0603170325589-54-efa56e98b81e6f8a7d2f818c0fa87b7a.jpg", desc: "Отдых, покой.", descInv: "Изоляция, застой." },
+            { id: 55, name: "Пятерка Мечей", img: "https://i.ibb.co/prhvwNKx/0603170325589-55-b912951f62204a57a59212a9523c0bd9.jpg", desc: "Конфликт, поражение.", descInv: "Примирение, прощение, движение дальше." },
+            { id: 56, name: "Шестерка Мечей", img: "https://i.ibb.co/bMPYdgjD/0603170325589-56-98db19f0fe8ed325fd5f33864f7ae946.jpg", desc: "Уход, движение вперед.", descInv: "Сопротивление переменам, застревание." },
+            { id: 57, name: "Семерка Мечей", img: "https://i.ibb.co/6RjmKkRX/0603170325589-57-e4e579f414d5d392a2161f70ecd77096.jpg", desc: "Хитрость, стратегия.", descInv: "Честность, возвращение, признание." },
+            { id: 58, name: "Восьмерка Мечей", img: "https://i.ibb.co/351t44zN/0603170325589-58-2ffa141abd999c386724aa67607d32ba.jpg", desc: "Ограничения, сомнения.", descInv: "Освобождение, принятие, движение." },
+            { id: 59, name: "Девятка Мечей", img: "https://i.ibb.co/8LRVyD1X/0603170325589-59-bdda863a9afcf0dce618a85df877e499.jpg", desc: "Тревога, бессонница.", descInv: "Надежда, освобождение от страха." },
+            { id: 60, name: "Десятка Мечей", img: "https://i.ibb.co/dJtKYZct/0603170325589-60-1bec875cee48f1c917978096309b6208.jpg", desc: "Критическая ситуация.", descInv: "Восстановление, принятие, новый старт." },
+            { id: 61, name: "Паж Мечей", img: "https://i.ibb.co/F4MXs1Fh/0603170325589-61-8e8fb4f0d35590c06424ad86100eaf14.jpg", desc: "Наблюдательность, новости.", descInv: "Сплетни, поспешность, цинизм." },
+            { id: 62, name: "Рыцарь Мечей", img: "https://i.ibb.co/pvHFJG9r/0603170325589-62-ae60212f4337fb84cad553620100e6a5.jpg", desc: "Активность, напор.", descInv: "Импульсивность, агрессия, жестокость." },
+            { id: 63, name: "Королева Мечей", img: "https://i.ibb.co/201pZGrB/0603170325589-63-6f6fc92430a03bf16e8e38f0696fb10b.jpg", desc: "Независимость, ум.", descInv: "Жестокость, холодность, горечь." },
+            { id: 64, name: "Король Мечей", img: "https://i.ibb.co/ymtyTrny/0603170325589-64-047d5b3338f27d3ad5dbfb27b4347f17.jpg", desc: "Справедливость, логика.", descInv: "Жестокость, тирания, злоупотребление властью." },
+            { id: 65, name: "Туз Пентаклей", img: "https://i.ibb.co/HTfP4cks/0603170325589-65-88c2404780c00becee3d87e532de4514.jpg", desc: "Успех, возможности.", descInv: "Потеря, упущенные шансы." },
+            { id: 66, name: "Двойка Пентаклей", img: "https://i.ibb.co/J9CWZ7W/0603170325589-66-20175148e8d46abd938d016572de27b2.jpg", desc: "Баланс, гибкость.", descInv: "Перегрузка, неорганизованность." },
+            { id: 67, name: "Тройка Пентаклей", img: "https://i.ibb.co/HDj0C9YH/0603170325589-67-b99fb44507245d7b4d0a0bd11c71982d.jpg", desc: "Мастерство, работа.", descInv: "Некачественная работа, отсутствие сотрудничества." },
+            { id: 68, name: "Четверка Пентаклей", img: "https://i.ibb.co/C35NBxjk/0603170325589-68-e8a5a5dacfdc5dc4736be581d1e8a740.jpg", desc: "Стабильность, накопление.", descInv: "Жадность, застой, страх потери." },
+            { id: 69, name: "Пятерка Пентаклей", img: "https://i.ibb.co/8gg2MBp7/0603170325589-69-3058847baca9fe5d934faa66fcf11ad6.jpg", desc: "Нехватка, трудности.", descInv: "Выздоровление, помощь." },
+            { id: 70, name: "Шестерка Пентаклей", img: "https://i.ibb.co/4ZxJ8LH7/0603170325589-70-b92bf0d485241121623f30f035c4438c.jpg", desc: "Щедрость, обмен.", descInv: "Неравенство, корысть." },
+            { id: 71, name: "Семерка Пентаклей", img: "https://i.ibb.co/J9NFRgF/0603170325589-71-1514302647d4792da008c30ae8546697.jpg", desc: "Ожидание, терпение.", descInv: "Нетерпение, неудовлетворённость." },
+            { id: 72, name: "Восьмерка Пентаклей", img: "https://i.ibb.co/0y0rWnNq/0603170325589-72-d4d7230f841919802d1a1e85990e9210.jpg", desc: "Труд, навыки.", descInv: "Выгорание, перфекционизм." },
+            { id: 73, name: "Девятка Пентаклей", img: "https://i.ibb.co/0p5BPLxz/0603170325589-73-a9ea25216d7a372f63b4177ff76f5bd6.jpg", desc: "Независимость, комфорт.", descInv: "Одиночество, чрезмерная осторожность." },
+            { id: 74, name: "Десятка Пентаклей", img: "https://i.ibb.co/d0bRBPnb/0603170325589-74-c76f6b123224075336f2b372196eef4f.jpg", desc: "Богатство, семья.", descInv: "Семейные конфликты, потеря." },
+            { id: 75, name: "Паж Пентаклей", img: "https://i.ibb.co/Q7pSsyNJ/0603170325589-75-0f41f086308b4227c36d4e34a300336c.jpg", desc: "Новый шанс, учеба.", descInv: "Недостаток фокуса, расточительство." },
+            { id: 76, name: "Рыцарь Пентаклей", img: "https://i.ibb.co/5gKJjbtp/0603170325589-76-9f2041a8543dce108b46a9f2a2ced143.jpg", desc: "Надежность, труд.", descInv: "Застой, скука, упрямство." },
+            { id: 77, name: "Королева Пентаклей", img: "https://i.ibb.co/9khYwVGQ/0603170325589-77-e264de9d0c24d5e1d6ea510e00a4305b.jpg", desc: "Забота, процветание.", descInv: "Зависимость, неуверенность." },
+            { id: 78, name: "Король Пентаклей", img: "https://i.ibb.co/DD5GfWfM/0603170325589-78-f75e6d6ed0aa6c6290e1e87eb205ab34.jpg", desc: "Основательность, успех.", descInv: "Жадность, коррупция, материализм." }
+        ];
+
         const celticLabels = [
             "1. Суть ситуации", "2. Преграда / Влияние", "3. Прошлое / Базис", 
             "4. Недавнее прошлое", "5. Цель / Потенциал", "6. Ближайшее будущее", 
@@ -654,7 +510,6 @@
             const wb = document.getElementById('send-webhook-btn');
             if(wb) wb.style.display = 'none';
 
-            // ИЗМЕНЕНИЕ КНОПКИ В ФОРМЕ ВВОДА
             const inputBtn = document.querySelector('#input-flow-container .btn-mystic');
             if(inputBtn) {
                 if(actionName === 'tarot_day') {
@@ -667,7 +522,6 @@
             if (actionName.startsWith('astro_')) {
                 document.getElementById('menu-stage').style.display = 'none';
                 document.getElementById('input-flow-container').style.display = 'flex';
-                
                 document.getElementById('astro-date1').style.display = 'block';
 
                 if (actionName === 'astro_natal') {
@@ -708,7 +562,6 @@
             }
         }
 
-        // АСТРОЛОГИЯ: ОТПРАВКА ИЛИ ПЕРЕХОД К ОПЛАТЕ
         function submitInputFlow() {
             if (currentAction.startsWith('astro_')) {
                 let astroData = {};
@@ -739,7 +592,6 @@
                     data: astroData
                 };
                 
-                // Проверка на фри-расклад или переход к витрине
                 if (priceDict[currentAction] && priceDict[currentAction].price === 0) {
                     try { tg.sendData(JSON.stringify(pendingPayload)); } catch(e) {}
                     tg.close();
@@ -821,16 +673,11 @@
                 card.innerHTML = `
                     <div class="card-inner">
                         <div class="card-back"></div>
-                        <div class="card-front">
-                            <img class="card-img" src="" alt="card">
-                        </div>
+                        <div class="card-front"><img class="card-img" src="" alt="card"></div>
                     </div>
                 `;
 
-                card.addEventListener('click', function() {
-                    selectAndFlyCard(card);
-                });
-
+                card.addEventListener('click', function() { selectAndFlyCard(card); });
                 container.appendChild(card);
             }
         }
@@ -847,17 +694,10 @@
             cardElement.style.pointerEvents = 'none'; 
 
             const cardImg = cardElement.querySelector('.card-img');
-            if (cardImg) {
-                cardImg.src = cardData.img;
-            }
+            if (cardImg) cardImg.src = cardData.img;
 
             let isInverted = Math.random() > 0.5;
-
-            selectedCards.push({
-                id: cardData.id,
-                name: cardData.name,
-                orientation: isInverted ? 'inverted' : 'upright'
-            });
+            selectedCards.push({ id: cardData.id, name: cardData.name, orientation: isInverted ? 'inverted' : 'upright' });
 
             const slots = document.querySelectorAll('.card-slot');
             const targetSlot = slots[flippedCount - 1];
@@ -865,7 +705,6 @@
             if (targetSlot) {
                 const slotRect = targetSlot.getBoundingClientRect();
                 const cardRect = cardElement.getBoundingClientRect();
-
                 const deltaX = slotRect.left + (slotRect.width / 2) - (cardRect.left + cardRect.width / 2);
                 const deltaY = slotRect.top + (slotRect.height / 2) - (cardRect.top + cardRect.height / 2);
 
@@ -879,12 +718,8 @@
 
                 setTimeout(() => {
                     cardElement.classList.remove('flying');
-                    
-                    if (isInverted) {
-                        cardElement.classList.add('inverted');
-                    } else {
-                        cardElement.classList.add('flipped');
-                    }
+                    if (isInverted) cardElement.classList.add('inverted');
+                    else cardElement.classList.add('flipped');
 
                     cardElement.style.pointerEvents = 'auto';
                     const newCardElement = cardElement.cloneNode(true);
@@ -896,7 +731,6 @@
                     });
 
                     createSparklesAround(slotRect.left + slotRect.width / 2, slotRect.top + slotRect.height / 2);
-
                     try { tg.HapticFeedback.notificationOccurred('success'); } catch(e) {}
                 }, 650);
             }
@@ -918,7 +752,6 @@
 
             if (flippedCount === targetCardsCount) {
                 document.getElementById('status-text').innerText = "Рассмотрите карты и нажмите для оплаты";
-                // ИЗМЕНЕНИЕ КНОПКИ НА ИГРОВОМ СТОЛЕ
                 if(currentAction === 'tarot_day') {
                     webhookBtn.innerText = "Получить бесплатно";
                 } else {
@@ -937,7 +770,6 @@
             const modalDesc = document.getElementById('modal-desc');
 
             if (!modal || !modalImg) return;
-
             modalImg.src = cardData.img;
             modalImg.style.transform = isInverted ? 'rotate(180deg)' : 'rotate(0deg)';
             modalTitle.innerText = isInverted ? `${cardData.name} (Перевернутая)` : cardData.name;
@@ -967,15 +799,10 @@
             }
         }
 
-        // ТАРО: ОТПРАВКА ФРИ-РАСКЛАДА ИЛИ ОТКРЫТИЕ ВИТРИНЫ ОПЛАТЫ
         function sendDataToWebhook() {
             pendingPayload = { 
-                type: 'tarot',
-                action: currentAction, 
-                lang: "ru", 
-                question: userQuestionData,
-                names: userNamesData,
-                cards: selectedCards 
+                type: 'tarot', action: currentAction, lang: "ru", 
+                question: userQuestionData, names: userNamesData, cards: selectedCards 
             };
             
             if (priceDict[currentAction] && priceDict[currentAction].price === 0) {
@@ -983,16 +810,16 @@
                 tg.close();
             } else {
                 document.getElementById('game-stage').style.display = 'none';
+                const wb = document.getElementById('send-webhook-btn');
+                if(wb) wb.style.display = 'none';
                 openPaymentShowcase();
             }
         }
 
-        // --- ЛОГИКА НОВОЙ ВИТРИНЫ ОПЛАТЫ ---
         function openPaymentShowcase() {
             document.getElementById('payment-showcase-screen').style.display = 'flex';
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
-            // Задаем в инпут дефолтную цену расклада, если это не подписка
             if (priceDict[currentAction] && priceDict[currentAction].price > 0 && payMode === 'balance') {
                 document.getElementById('pay-amount').value = priceDict[currentAction].price;
             }
@@ -1010,7 +837,6 @@
                 btnBal.classList.add('active');
                 btnSub.classList.remove('active');
                 inputAmount.disabled = false;
-                // Возвращаем цену текущего расклада
                 inputAmount.value = priceDict[currentAction] ? priceDict[currentAction].price : 500;
                 labelAmount.innerText = "Сумма к зачислению:";
             } else {
@@ -1037,17 +863,15 @@
             let finalRub = parseFloat(document.getElementById('pay-amount').value);
             if (isNaN(finalRub) || finalRub <= 0) { alert('Укажите сумму'); return; }
             
-            // Добавляем данные оплаты в сохраненный пакет
             pendingPayload.payment_mode = payMode;
             pendingPayload.payment_method = method;
             pendingPayload.payment_amount_rub = finalRub;
             pendingPayload.expected_crystals = Math.floor(finalRub * 1);
             
-            try { tg.sendData(JSON.stringify(pendingPayload)); } catch(e) { console.log(pendingPayload); }
+            try { tg.sendData(JSON.stringify(pendingPayload)); } catch(e) {}
             tg.close();
         }
 
-        // КОСМИЧЕСКИЙ ФОН
         const canvas = document.getElementById('space-bg');
         const ctx = canvas.getContext('2d');
         let stars = [];
@@ -1069,4 +893,23 @@
 
         function drawSpace() {
             ctx.fillStyle = '#030208';
-            ctx.fillRect(0, 0, canvas.width, canvas.
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            for (let s of stars) {
+                s.y += s.speedY;
+                if (s.y > canvas.height) s.y = 0;
+                let alpha = 0.3 + Math.sin(s.phase) * 0.4;
+                ctx.fillStyle = `rgba(255, 242, 178, ${alpha})`;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                ctx.fill();
+                s.phase += 0.01;
+            }
+            requestAnimationFrame(drawSpace);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        drawSpace();
+    </script>
+</body>
+</html>
