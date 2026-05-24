@@ -873,8 +873,23 @@
             pendingPayload.payment_amount_rub = finalRub;
             pendingPayload.expected_crystals = Math.floor(finalRub * 1);
             
-            try { tg.sendData(JSON.stringify(pendingPayload)); } catch(e) {}
-            tg.close();
+            // Отправляем данные напрямую в n8n на ваш новый вебхук
+fetch('https://gusicotogeb.beget.app/webhook/02ccc1df-b089-498d-bed2-8e5c242dfe07', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(pendingPayload)
+})
+.then(() => {
+    // Как только данные успешно улетели в n8n, закрываем мини-апп
+    tg.close();
+})
+.catch((error) => {
+    console.error('Ошибка отправки данных в n8n:', error);
+    // Даже если случилась ошибка, закрываем приложение, чтобы интерфейс не зависал
+    tg.close();
+});
         }
 
         const canvas = document.getElementById('space-bg');
