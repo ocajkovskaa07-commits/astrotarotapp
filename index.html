@@ -596,6 +596,7 @@
                     action: currentAction,
                     data: astroData,
                     user_id: tg.initDataUnsafe?.user?.id,
+                    user_name: (window.Telegram.WebApp.initDataUnsafe?.user?.first_name || "") + " " + (window.Telegram.WebApp.initDataUnsafe?.user?.last_name || ""),
                     lang: "ru"
                 };
                 
@@ -835,7 +836,9 @@ selectedCards.push({
             pendingPayload = { 
                 type: 'tarot', action: currentAction, lang: "ru", 
                 question: userQuestionData, names: userNamesData, cards: selectedCards,
-                user_id: tg.initDataUnsafe?.user?.id
+                user_id: tg.initDataUnsafe?.user?.id,
+                user_name: (window.Telegram.WebApp.initDataUnsafe?.user?.first_name || "") + " " + (window.Telegram.WebApp.initDataUnsafe?.user?.last_name || ""),
+                
             };
             
             if (priceDict[currentAction] && priceDict[currentAction].price === 0) {
