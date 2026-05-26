@@ -719,7 +719,17 @@ fetch('https://gusicotogeb.beget.app/webhook-test/02ccc1df-b089-498d-bed2-8e5c24
             if (cardImg) cardImg.src = cardData.img;
 
             let isInverted = Math.random() > 0.5;
-            selectedCards.push({ id: cardData.id, name: cardData.name, orientation: isInverted ? 'inverted' : 'upright' });
+
+// Теперь мы передаем в n8n абсолютно все данные о карте:
+selectedCards.push({ 
+    id: cardData.id, 
+    name: cardData.name, 
+    orientation: isInverted ? 'inverted' : 'upright',
+    img: cardData.img,         // Ссылка на картинку карты
+    desc: cardData.desc,       // Значение в прямом положении
+    descInv: cardData.descInv, // Значение в перевернутом положении
+    active_meaning: isInverted ? cardData.descInv : cardData.desc // Сразу готовое значение, которое выпало пользователю (чтобы не прописывать логику IF в n8n)
+});
 
             const slots = document.querySelectorAll('.card-slot');
             const targetSlot = slots[flippedCount - 1];
