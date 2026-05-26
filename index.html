@@ -10,89 +10,37 @@
     
     <style>
         * { box-sizing: border-box; user-select: none; -webkit-user-select: none; margin: 0; padding: 0; }
-        input, textarea {
-    user-select: text !important;
-    -webkit-user-select: text !important;
-    pointer-events: auto !important;
-}
+        input, textarea { user-select: text !important; -webkit-user-select: text !important; pointer-events: auto !important; }
         
-        body {
-            background: #030306; color: #f4f4f6; font-family: 'Cinzel', serif;
-            display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
-            min-height: 100vh; overflow-x: hidden; position: relative; padding: 15px;
-        }
+        body { background: #030306; color: #f4f4f6; font-family: 'Cinzel', serif; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; overflow-x: hidden; position: relative; padding: 15px; }
         #space-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-
         .content-wrap { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; width: 100%; }
         
-        h1 {
-            font-size: 24px; font-weight: 700; letter-spacing: 4px; margin-top: 30px; margin-bottom: 5px;
-            text-align: center; color: #fff2b2; text-shadow: 0 0 10px rgba(255,242,178,0.3);
-        }
+        h1 { font-size: 24px; font-weight: 700; letter-spacing: 4px; margin-top: 30px; margin-bottom: 5px; text-align: center; color: #fff2b2; text-shadow: 0 0 10px rgba(255,242,178,0.3); }
         .subtitle { font-size: 11px; letter-spacing: 2px; color: #8a8ab0; margin-bottom: 40px; text-transform: uppercase; }
 
         .stage { display: none; width: 100%; flex-direction: column; align-items: center; }
         #start-screen { display: flex; }
 
-        .input-container {
-            display: none; width: 100%; max-width: 360px; 
-            flex-direction: column; align-items: center; padding: 20px; position: relative;
-        }
-        .input-field {
-            width: 100%; background: rgba(15, 11, 38, 0.6); 
-            border: 1px solid #4a3b7d; border-radius: 12px;
-            padding: 15px; color: #f4f4f6; font-family: sans-serif; font-size: 14px;
-            margin-bottom: 15px; outline: none; transition: border-color 0.3s;
-            text-align: center;
-        }
+        .input-container { display: none; width: 100%; max-width: 360px; flex-direction: column; align-items: center; padding: 20px; position: relative; }
+        .input-field { width: 100%; background: rgba(15, 11, 38, 0.6); border: 1px solid #4a3b7d; border-radius: 12px; padding: 15px; color: #f4f4f6; font-family: sans-serif; font-size: 14px; margin-bottom: 15px; outline: none; transition: border-color 0.3s; text-align: center; }
         .input-field:focus { border-color: #fff2b2; box-shadow: 0 0 10px rgba(255,242,178,0.1); }
-        .input-label {
-            font-size: 13px; color: #fff2b2; letter-spacing: 1px;
-            margin-bottom: 25px; text-align: center; text-transform: uppercase;
-        }
+        .input-label { font-size: 13px; color: #fff2b2; letter-spacing: 1px; margin-bottom: 25px; text-align: center; text-transform: uppercase; }
 
-        .btn-mystic {
-            background: linear-gradient(135deg, #1b133a 0%, #0c081d 100%);
-            color: #fff2b2; border: 1.5px solid #d4af37; padding: 15px 35px;
-            font-family: 'Cinzel', serif; font-size: 14px; font-weight: 600; letter-spacing: 2px;
-            border-radius: 30px; cursor: pointer; transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(12, 8, 29, 0.6), 0 0 12px rgba(212, 175, 55, 0.4);
-            margin-top: 20px; text-transform: uppercase;
-        }
+        .btn-mystic { background: linear-gradient(135deg, #1b133a 0%, #0c081d 100%); color: #fff2b2; border: 1.5px solid #d4af37; padding: 15px 35px; font-family: 'Cinzel', serif; font-size: 14px; font-weight: 600; letter-spacing: 2px; border-radius: 30px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(12, 8, 29, 0.6), 0 0 12px rgba(212, 175, 55, 0.4); margin-top: 20px; text-transform: uppercase; }
         .btn-mystic:active { transform: scale(0.97); border-color: #fff2b2; box-shadow: 0 0 20px rgba(255,242,178,0.4); }
 
-        .btn-back {
-            position: absolute; top: 10px; left: 10px; background: transparent; border: none;
-            color: #8a8ab0; font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 1px;
-            cursor: pointer; padding: 5px 10px; text-transform: uppercase; z-index: 10;
-        }
+        .btn-back { position: absolute; top: 10px; left: 10px; background: transparent; border: none; color: #8a8ab0; font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 1px; cursor: pointer; padding: 5px 10px; text-transform: uppercase; z-index: 10; }
 
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 400px; padding: 10px; }
-        .menu-item {
-            position: relative; background: rgba(15, 11, 38, 0.5); border: 1.5px solid #d4af37; 
-            border-radius: 12px; padding: 20px 10px; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease;
-            text-align: center; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4), 0 0 10px rgba(212, 175, 55, 0.25);
-        }
+        .menu-item { position: relative; background: rgba(15, 11, 38, 0.5); border: 1.5px solid #d4af37; border-radius: 12px; padding: 20px 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; text-align: center; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); box-shadow: 0 4px 15px rgba(0,0,0,0.4), 0 0 10px rgba(212, 175, 55, 0.25); }
         .menu-item:active { background: rgba(35, 25, 78, 0.7); border-color: #fff2b2; box-shadow: 0 0 15px rgba(255,242,178,0.4); }
         .menu-item .icon { font-size: 24px; margin-bottom: 8px; filter: drop-shadow(0 0 5px rgba(255,215,0,0.3)); }
         .menu-item .title { font-size: 12px; font-weight: 600; color: #f4f4f6; letter-spacing: 1px; }
         .menu-item .desc { font-size: 9px; color: #8a8ab0; margin-top: 4px; font-family: sans-serif; }
 
-        .price-neon {
-            display: block; margin-top: 6px; color: #ff007f !important;
-            text-shadow: 0 0 5px rgba(255, 0, 127, 0.6), 0 0 10px rgba(255, 0, 127, 0.4);
-            font-weight: 700; letter-spacing: 0.5px; font-family: sans-serif;
-        }
-
-        .free-badge {
-            position: absolute; top: 8px; right: 8px; background: #030306; color: #00ff66;
-            font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 20px;
-            border: 1px solid #00ff66; text-shadow: 0 0 6px #00ff66;
-            box-shadow: 0 0 10px rgba(0, 255, 102, 0.6); letter-spacing: 1px;
-            text-transform: uppercase; font-family: sans-serif;
-        }
+        .price-neon { display: block; margin-top: 6px; color: #ff007f !important; text-shadow: 0 0 5px rgba(255, 0, 127, 0.6), 0 0 10px rgba(255, 0, 127, 0.4); font-weight: 700; letter-spacing: 0.5px; font-family: sans-serif; }
+        .free-badge { position: absolute; top: 8px; right: 8px; background: #030306; color: #00ff66; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 20px; border: 1px solid #00ff66; text-shadow: 0 0 6px #00ff66; box-shadow: 0 0 10px rgba(0, 255, 102, 0.6); letter-spacing: 1px; text-transform: uppercase; font-family: sans-serif; }
 
         .astro-header { margin-top: 30px; font-size: 16px; color: #fff2b2; letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 8px rgba(255,242,178,0.3); }
         .btn-natal { grid-column: span 2; background: linear-gradient(135deg, #2c1b4d 0%, #150d2b 100%); border: 2.5px solid #fff2b2; box-shadow: 0 0 20px rgba(255,242,178,0.4); }
@@ -124,34 +72,22 @@
         .slots-celtic .slot-p9 { top: 38%; left: 88%; transform: translate(-50%, -50%); }
         .slots-celtic .slot-p10 { top: 15%; left: 88%; transform: translate(-50%, -50%); }
 
-        .card-slot {
-            width: 72px; height: 124px; border: 1px dashed rgba(255,242,178,0.2); border-radius: 8px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; background: rgba(255,255,255,0.01);
-        }
+        .card-slot { width: 72px; height: 124px; border: 1px dashed rgba(255,242,178,0.2); border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; background: rgba(255,255,255,0.01); }
         .slot-label { position: absolute; bottom: -20px; width: 120px; text-align: center; font-size: 9px; color: #8a8ab0; font-family: sans-serif; pointer-events: none; }
         .deck-container { position: relative; width: 100%; max-width: 400px; height: 160px; margin-top: 20px; overflow: visible; display: flex; justify-content: center; }
 
-        .interactive-card {
-            position: absolute; width: 72px; height: 124px; perspective: 1000px;
-            transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1), z-index 0.1s ease; cursor: pointer; -webkit-tap-highlight-color: transparent;
-        }
+        .interactive-card { position: absolute; width: 72px; height: 124px; perspective: 1000px; transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1), z-index 0.1s ease; cursor: pointer; -webkit-tap-highlight-color: transparent; }
         .card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); transform-style: preserve-3d; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
         .interactive-card.flipped .card-inner { transform: rotateY(180deg); }
         .interactive-card.inverted .card-inner { transform: rotateY(180deg) rotate(180deg); }
 
         .card-back, .card-front { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 8px; overflow: hidden; }
-        .card-back {
-            background: #0d0a1b linear-gradient(135deg, #130f2b 0%, #070512 100%); border: 2px solid #d4af37;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 0 10px rgba(212, 175, 55, 0.3); display: flex; align-items: center; justify-content: center;
-        }
+        .card-back { background: #0d0a1b linear-gradient(135deg, #130f2b 0%, #070512 100%); border: 2px solid #d4af37; box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 0 10px rgba(212, 175, 55, 0.3); display: flex; align-items: center; justify-content: center; }
         .card-back::after { content: "✨"; font-size: 20px; color: #fff2b2; opacity: 0.8; }
         .card-front { background: #000; border: 2px solid #fff2b2; box-shadow: 0 0 10px rgba(255,242,178,0.2); transform: rotateY(180deg); display: flex; align-items: center; justify-content: center; padding: 0; }
         .card-img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; display: block; }
 
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 2, 8, 0.95); z-index: 10000;
-            display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 2, 8, 0.95); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
         .modal-card-box { width: 200px; height: 340px; border-radius: 12px; box-shadow: 0 0 30px rgba(255,242,178,0.2); margin-bottom: 20px; border: 2px solid #fff2b2; overflow: hidden; background: #000; }
         .modal-card-box img { width: 100%; height: 100%; object-fit: cover; }
         .modal-title { font-size: 18px; color: #fff2b2; text-align: center; margin-bottom: 10px; letter-spacing: 2px; }
@@ -201,86 +137,86 @@
     <canvas id="space-bg"></canvas>
     <div class="content-wrap">
         <h1>Astro Tarot Oracle</h1>
-        <div class="subtitle">Astral Portal</div>
+        <div class="subtitle" data-i18n="app_subtitle">Astral Portal</div>
 
         <div id="start-screen" class="stage">
             <div class="oracle-sphere"><div class="oracle-glow"></div>🌙</div>
-            <button class="btn-mystic" onclick="enterToApp()">Запустить Астро Таро Оракул</button>
+            <button class="btn-mystic" onclick="enterToApp()" data-i18n="btn_start">Запустить Астро Таро Оракул</button>
         </div>
 
         <div id="menu-stage" class="stage">
             <div class="menu-grid">
                 <div class="menu-item" onclick="openInputFlow('tarot_day', 1)">
-                    <span class="free-badge">Free</span>
+                    <span class="free-badge" data-i18n="badge_free">Free</span>
                     <div class="icon">☀️</div>
-                    <div class="title">Карта Дня</div>
-                    <div class="desc">Главный Фокус Дня</div>
+                    <div class="title" data-i18n="m_day_title">Карта Дня</div>
+                    <div class="desc" data-i18n="m_day_desc">Главный Фокус Дня</div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('tarot_yes_no', 1)">
                     <div class="icon">⚖️</div>
-                    <div class="title">Да / Нет</div>
-                    <div class="desc">Четкий ответ Оракула<span class="price-neon">50р/1$/50⭐ +pdf</span></div>
+                    <div class="title" data-i18n="m_yesno_title">Да / Нет</div>
+                    <div class="desc"><span data-i18n="m_yesno_desc">Четкий ответ Оракула</span><span class="price-neon">50р/1$/50⭐ +pdf</span></div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('business_oracle_combo', 3)">
                     <div class="icon">💼</div>
-                    <div class="title">Бизнес Оракул</div>
-                    <div class="desc">Стратегия и Финансы (3 карты)<span class="price-neon">300р/5$/250⭐ +pdf</span></div>
+                    <div class="title" data-i18n="m_biz_title">Бизнес Оракул</div>
+                    <div class="desc"><span data-i18n="m_biz_desc">Стратегия и Финансы (3 карты)</span><span class="price-neon">300р/5$/250⭐ +pdf</span></div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('tarot_timeline', 3)">
                     <div class="icon">⏳</div>
-                    <div class="title">Три Времени</div>
-                    <div class="desc">Прошлое, Настоящее, Будущее<span class="price-neon">50р/1$/50⭐ +pdf</span></div>
+                    <div class="title" data-i18n="m_time_title">Три Времени</div>
+                    <div class="desc"><span data-i18n="m_time_desc">Прошлое, Настоящее, Будущее</span><span class="price-neon">50р/1$/50⭐ +pdf</span></div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('tarot_question_3_cards', 3)">
                     <div class="icon">❓</div>
-                    <div class="title">Разбор Ситуации</div>
-                    <div class="desc">Суть, Преграда, Решение<span class="price-neon">50р/1$/50⭐ +pdf</span></div>
+                    <div class="title" data-i18n="m_sit_title">Разбор Ситуации</div>
+                    <div class="desc"><span data-i18n="m_sit_desc">Суть, Преграда, Решение</span><span class="price-neon">50р/1$/50⭐ +pdf</span></div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('tarot_love_2_hearts', 4)">
                     <div class="icon">💖</div>
-                    <div class="title">Два Сердца</div>
-                    <div class="desc">Анализ отношений и связи<span class="price-neon">100р/2$/100⭐ +pdf</span></div>
+                    <div class="title" data-i18n="m_love_title">Два Сердца</div>
+                    <div class="desc"><span data-i18n="m_love_desc">Анализ отношений и связи</span><span class="price-neon">100р/2$/100⭐ +pdf</span></div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('celtic_cross', 10)" style="grid-column: span 2;">
                     <div class="icon">🔱</div>
-                    <div class="title">Кельтский Крест</div>
-                    <div class="desc">Глубокий разбор Судьбы (10 карт)<span class="price-neon">300р/5$/250⭐ +pdf</span></div>
+                    <div class="title" data-i18n="m_celtic_title">Кельтский Крест</div>
+                    <div class="desc"><span data-i18n="m_celtic_desc">Глубокий разбор Судьбы (10 карт)</span><span class="price-neon">300р/5$/250⭐ +pdf</span></div>
                 </div>
             </div>
 
-            <h2 class="astro-header">Астрология</h2>
+            <h2 class="astro-header" data-i18n="astro_header">Астрология</h2>
             <div class="menu-grid">
                 <div class="menu-item btn-natal" onclick="openInputFlow('astro_natal', 0)">
                     <div class="icon">✨</div>
-                    <div class="title">НАТАЛЬНАЯ КАРТА</div>
-                    <div class="desc">Глубокий анализ вашей судьбы<span class="price-neon">600р/10$/500⭐ +pdf</span></div>
+                    <div class="title" data-i18n="a_natal_title">НАТАЛЬНАЯ КАРТА</div>
+                    <div class="desc"><span data-i18n="a_natal_desc">Глубокий анализ вашей судьбы</span><span class="price-neon">600р/10$/500⭐ +pdf</span></div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('astro_day', 0)">
                     <div class="icon">☀️</div>
-                    <div class="title">На День</div>
+                    <div class="title" data-i18n="a_day_title">На День</div>
                     <div class="desc"><span class="price-neon">50р/1$/50⭐ +pdf</span></div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('astro_month', 0)">
                     <div class="icon">🌙</div>
-                    <div class="title">На Месяц</div>
+                    <div class="title" data-i18n="a_month_title">На Месяц</div>
                     <div class="desc"><span class="price-neon">300р/5$/250⭐ +pdf</span></div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('astro_year', 0)">
                     <div class="icon">🌟</div>
-                    <div class="title">На Год</div>
+                    <div class="title" data-i18n="a_year_title">На Год</div>
                     <div class="desc"><span class="price-neon">600р/10$/500⭐ +pdf</span></div>
                 </div>
                 <div class="menu-item" onclick="openInputFlow('astro_compatibility', 0)">
                     <div class="icon">💞</div>
-                    <div class="title">Совместимость</div>
+                    <div class="title" data-i18n="a_compat_title">Совместимость</div>
                     <div class="desc"><span class="price-neon">200р/5$/150⭐ +pdf</span></div>
                 </div>
             </div>
         </div>
 
         <div id="input-flow-container" class="input-container">
-            <button class="btn-back" onclick="cancelInputFlow()">◀ Назад</button>
-            <div id="input-flow-title" class="input-label">Напишите свой вопрос</div>
+            <button class="btn-back" onclick="cancelInputFlow()" data-i18n="btn_back">◀ Назад</button>
+            <div id="input-flow-title" class="input-label" data-i18n="prompt_question">Напишите свой вопрос</div>
             <input type="text" id="user-question-input" class="input-field" placeholder="О чем вы хотите спросить оракула?">
             <input type="text" id="user-name-input" class="input-field" placeholder="Ваше имя..." style="display: none;">
             <input type="text" id="user-birth-input" class="input-field" placeholder="Дата рождения (ДД.ММ.ГГГГ)" style="display: none;">
@@ -288,53 +224,53 @@
             <input type="text" id="astro-date2" class="input-field" placeholder="Дата партнера (ДД.ММ.ГГГГ)" style="display: none;">
             <input type="text" id="astro-time" class="input-field" placeholder="Время рождения (или 12:00)" style="display: none;">
             <input type="text" id="astro-place" class="input-field" placeholder="Место рождения (город)" style="display: none;">
-            <button class="btn-mystic" onclick="submitInputFlow()">Продолжить</button>
+            <button class="btn-mystic" id="flow-continue-btn" onclick="submitInputFlow()" data-i18n="btn_continue">Продолжить</button>
         </div>
 
         <div id="game-stage" class="stage">
-            <button class="btn-back" onclick="backToMenu()">◀ Назад</button>
-            <div id="status-text">Выберите карты</div>
+            <button class="btn-back" onclick="backToMenu()" data-i18n="btn_back">◀ Назад</button>
+            <div id="status-text" data-i18n="status_select">Выберите карты</div>
             <div class="magic-table" id="magic-table-zone"></div>
             <div id="cards-container" class="deck-container"></div>
         </div>
 
         <div id="payment-showcase-screen">
             <div class="balance-panel">
-                <span class="balance-title">Ваш баланс бота:</span>
+                <span class="balance-title" data-i18n="pay_balance">Ваш баланс бота:</span>
                 <span class="balance-value" id="ui-balance">0 ₽</span>
             </div>
             <div class="payment-card">
-                <div class="payment-title">Оплата и Пополнение</div>
+                <div class="payment-title" data-i18n="pay_title">Оплата и Пополнение</div>
                 <div class="payment-tabs">
-                    <button type="button" class="pay-tab-btn active" id="tab-balance" onclick="setPayTab('balance')">Пополнить Баланс</button>
-                    <button type="button" class="pay-tab-btn" id="tab-sub" onclick="setPayTab('subscription')">VIP Подписка</button>
+                    <button type="button" class="pay-tab-btn active" id="tab-balance" onclick="setPayTab('balance')" data-i18n="pay_tab_bal">Пополнить Баланс</button>
+                    <button type="button" class="pay-tab-btn" id="tab-sub" onclick="setPayTab('subscription')" data-i18n="pay_tab_sub">VIP Подписка</button>
                 </div>
                 <div class="amount-section">
-                    <label class="amount-label" id="amount-label">Сумма к зачислению:</label>
+                    <label class="amount-label" id="amount-label" data-i18n="pay_amount">Сумма к зачислению:</label>
                     <div class="amount-wrapper">
                         <input type="number" class="amount-input" id="pay-amount" value="500" min="50" max="50000" oninput="calcExchange()">
                         <span class="amount-curr">RUB</span>
                     </div>
                 </div>
                 <div class="live-conversion">
-                    <div class="conv-item"><span class="conv-label">Рубли</span><span class="conv-value hl" id="calc-cryst">100 ₽</span></div>
+                    <div class="conv-item"><span class="conv-label" data-i18n="pay_rub">Рубли</span><span class="conv-value hl" id="calc-cryst">100 ₽</span></div>
                     <div class="conv-item"><span class="conv-label">Stars</span><span class="conv-value" id="calc-stars">84 ⭐️</span></div>
-                    <div class="conv-item"><span class="conv-label">Доллары</span><span class="conv-value" id="calc-usd">1.45 $</span></div>
+                    <div class="conv-item"><span class="conv-label" data-i18n="pay_usd">Доллары</span><span class="conv-value" id="calc-usd">1.45 $</span></div>
                     <div class="conv-item"><span class="conv-label">Crypto</span><span class="conv-value" id="calc-crypto">1.45 USDT</span></div>
                 </div>
-                <div class="methods-title">Выберите систему оплаты</div>
+                <div class="methods-title" data-i18n="pay_method">Выберите систему оплаты</div>
                 <div class="methods-list">
                     <button type="button" class="pay-method-btn" onclick="executeFinalPayment('stars')">
-                        <div class="method-info"><div class="method-icon">⭐️</div><div class="method-text"><span class="method-name">Telegram Stars</span><span class="method-desc">Быстрая нативная оплата в Telegram</span></div></div><div class="method-arrow">➔</div>
+                        <div class="method-info"><div class="method-icon">⭐️</div><div class="method-text"><span class="method-name">Telegram Stars</span><span class="method-desc" data-i18n="pay_desc_stars">Быстрая нативная оплата в Telegram</span></div></div><div class="method-arrow">➔</div>
                     </button>
                     <button type="button" class="pay-method-btn" onclick="executeFinalPayment('prodamus_rub')">
-                        <div class="method-info"><div class="method-icon">💳</div><div class="method-text"><span class="method-name">Карта РФ / СБП</span><span class="method-desc">Банки РФ, СБП, СберПэй</span></div></div><div class="method-arrow">➔</div>
+                        <div class="method-info"><div class="method-icon">💳</div><div class="method-text"><span class="method-name" data-i18n="pay_name_card">Карта РФ / СБП</span><span class="method-desc" data-i18n="pay_desc_card">Банки РФ, СБП, СберПэй</span></div></div><div class="method-arrow">➔</div>
                     </button>
                     <button type="button" class="pay-method-btn" onclick="executeFinalPayment('prodamus_foreign')">
-                        <div class="method-info"><div class="method-icon">🌍</div><div class="method-text"><span class="method-name">Зарубежная карта</span><span class="method-desc">Для карт не из РФ (USD/EUR)</span></div></div><div class="method-arrow">➔</div>
+                        <div class="method-info"><div class="method-icon">🌍</div><div class="method-text"><span class="method-name" data-i18n="pay_name_foreign">Зарубежная карта</span><span class="method-desc" data-i18n="pay_desc_foreign">Для карт не из РФ (USD/EUR)</span></div></div><div class="method-arrow">➔</div>
                     </button>
                     <button type="button" class="pay-method-btn" onclick="executeFinalPayment('crypto')">
-                        <div class="method-info"><div class="method-icon">🪙</div><div class="method-text"><span class="method-name">Криптовалюта</span><span class="method-desc">USDT, TON, BTC</span></div></div><div class="method-arrow">➔</div>
+                        <div class="method-info"><div class="method-icon">🪙</div><div class="method-text"><span class="method-name" data-i18n="pay_name_crypto">Криптовалюта</span><span class="method-desc">USDT, TON, BTC</span></div></div><div class="method-arrow">➔</div>
                     </button>
                 </div>
             </div>
@@ -346,11 +282,49 @@
         <div class="modal-card-box"><img id="modal-img" src="" alt="Full Card"></div>
         <div id="modal-title" class="modal-title">Название карты</div>
         <div id="modal-desc" class="modal-desc">Описание карты...</div>
-        <button class="btn-mystic" style="margin-top: 25px;" onclick="closeCardModal()">Закрыть</button>
+        <button class="btn-mystic" style="margin-top: 25px;" onclick="closeCardModal()" data-i18n="btn_close">Закрыть</button>
     </div>
     <script>
         const tg = window.Telegram.WebApp;
         try { tg.expand(); } catch(e) {}
+
+        const translations = {
+            ru: { app_subtitle: "Astral Portal", btn_start: "Запустить Астро Таро Оракул", badge_free: "Free", m_day_title: "Карта Дня", m_day_desc: "Главный Фокус Дня", m_yesno_title: "Да / Нет", m_yesno_desc: "Четкий ответ Оракула", m_biz_title: "Бизнес Оракул", m_biz_desc: "Стратегия и Финансы (3 карты)", m_time_title: "Три Времени", m_time_desc: "Прошлое, Настоящее, Будущее", m_sit_title: "Разбор Ситуации", m_sit_desc: "Суть, Преграда, Решение", m_love_title: "Два Сердца", m_love_desc: "Анализ отношений и связи", m_celtic_title: "Кельтский Крест", m_celtic_desc: "Глубокий разбор Судьбы (10 карт)", astro_header: "Астрология", a_natal_title: "НАТАЛЬНАЯ КАРТА", a_natal_desc: "Глубокий анализ вашей судьбы", a_day_title: "На День", a_month_title: "На Месяц", a_year_title: "На Год", a_compat_title: "Совместимость", btn_back: "◀ Назад", prompt_question: "Напишите свой вопрос", btn_continue: "Продолжить", status_select: "Выберите карты", pay_balance: "Ваш баланс бота:", pay_title: "Оплата и Пополнение", pay_tab_bal: "Пополнить Баланс", pay_tab_sub: "VIP Подписка", pay_amount: "Сумма к зачислению:", pay_rub: "Рубли", pay_usd: "Доллары", pay_method: "Выберите систему оплаты", pay_desc_stars: "Быстрая нативная оплата в Telegram", pay_name_card: "Карта РФ / СБП", pay_desc_card: "Банки РФ, СБП, СберПэй", pay_name_foreign: "Зарубежная карта", pay_desc_foreign: "Для карт не из РФ (USD/EUR)", pay_name_crypto: "Криптовалюта", btn_close: "Закрыть",
+                  pl_question: "О чем вы хотите спросить оракула?", pl_name: "Ваше имя...", pl_birth: "Дата рождения (ДД.ММ.ГГГГ)", pl_partner: "Дата партнера (ДД.ММ.ГГГГ)", pl_time: "Время рождения (или 12:00)", pl_place: "Место рождения (город)", btn_free: "Получить бесплатно", btn_pay: "Оплатить" },
+            en: { app_subtitle: "Astral Portal", btn_start: "Launch Astro Tarot Oracle", badge_free: "Free", m_day_title: "Card of the Day", m_day_desc: "Main Focus of the Day", m_yesno_title: "Yes / No", m_yesno_desc: "Clear Oracle answer", m_biz_title: "Business Oracle", m_biz_desc: "Strategy & Finance (3 cards)", m_time_title: "Three Timelines", m_time_desc: "Past, Present, Future", m_sit_title: "Situation Analysis", m_sit_desc: "Core, Obstacle, Solution", m_love_title: "Two Hearts", m_love_desc: "Relationship analysis", m_celtic_title: "Celtic Cross", m_celtic_desc: "Deep Destiny Reading (10 cards)", astro_header: "Astrology", a_natal_title: "NATAL CHART", a_natal_desc: "Deep analysis of your destiny", a_day_title: "For the Day", a_month_title: "For the Month", a_year_title: "For the Year", a_compat_title: "Compatibility", btn_back: "◀ Back", prompt_question: "Write your question", btn_continue: "Continue", status_select: "Select cards", pay_balance: "Your bot balance:", pay_title: "Payment & Top-up", pay_tab_bal: "Top-up Balance", pay_tab_sub: "VIP Subscription", pay_amount: "Amount to add:", pay_rub: "Rubles", pay_usd: "Dollars", pay_method: "Select payment system", pay_desc_stars: "Fast native Telegram payment", pay_name_card: "RF Card / FPS", pay_desc_card: "RF Banks, FPS, SberPay", pay_name_foreign: "Foreign card", pay_desc_foreign: "For non-RF cards (USD/EUR)", pay_name_crypto: "Cryptocurrency", btn_close: "Close",
+                  pl_question: "What do you want to ask?", pl_name: "Your name...", pl_birth: "Date of birth (DD.MM.YYYY)", pl_partner: "Partner's date (DD.MM.YYYY)", pl_time: "Time of birth (or 12:00)", pl_place: "Place of birth (city)", btn_free: "Get for free", btn_pay: "Pay" },
+            tr: { app_subtitle: "Astral Portal", btn_start: "Astro Tarot Kahini Başlat", badge_free: "Ücretsiz", m_day_title: "Günün Kartı", m_day_desc: "Günün Ana Odak Noktası", m_yesno_title: "Evet / Hayır", m_yesno_desc: "Net Kahin cevabı", m_biz_title: "İş Kahini", m_biz_desc: "Strateji ve Finans (3 kart)", m_time_title: "Üç Zaman", m_time_desc: "Geçmiş, Şimdi, Gelecek", m_sit_title: "Durum Analizi", m_sit_desc: "Öz, Engel, Çözüm", m_love_title: "İki Kalp", m_love_desc: "İlişki analizi", m_celtic_title: "Kelt Haçı", m_celtic_desc: "Derin Kader Okuması (10 kart)", astro_header: "Astroloji", a_natal_title: "DOĞUM HARİTASI", a_natal_desc: "Kaderinizin derin analizi", a_day_title: "Günlük", a_month_title: "Aylık", a_year_title: "Yıllık", a_compat_title: "Uyumluluk", btn_back: "◀ Geri", prompt_question: "Sorunuzu yazın", btn_continue: "Devam Et", status_select: "Kart seçin", pay_balance: "Bot bakiyeniz:", pay_title: "Ödeme ve Yükleme", pay_tab_bal: "Bakiye Yükle", pay_tab_sub: "VIP Abonelik", pay_amount: "Yüklenecek tutar:", pay_rub: "Ruble", pay_usd: "Dolar", pay_method: "Ödeme sistemi seçin", pay_desc_stars: "Hızlı yerel Telegram ödemesi", pay_name_card: "RF Kart / FPS", pay_desc_card: "RF Bankaları, FPS, SberPay", pay_name_foreign: "Yabancı kart", pay_desc_foreign: "RF dışı kartlar için (USD/EUR)", pay_name_crypto: "Kripto para", btn_close: "Kapat",
+                  pl_question: "Ne sormak istersiniz?", pl_name: "Adınız...", pl_birth: "Doğum tarihi (GG.AA.YYYY)", pl_partner: "Partnerin tarihi (GG.AA.YYYY)", pl_time: "Doğum saati (veya 12:00)", pl_place: "Doğum yeri (şehir)", btn_free: "Ücretsiz al", btn_pay: "Öde" },
+            es: { app_subtitle: "Portal Astral", btn_start: "Iniciar Oráculo Astro Tarot", badge_free: "Gratis", m_day_title: "Carta del Día", m_day_desc: "Enfoque Principal del Día", m_yesno_title: "Sí / No", m_yesno_desc: "Respuesta clara del Oráculo", m_biz_title: "Oráculo de Negocios", m_biz_desc: "Estrategia y Finanzas (3 cartas)", m_time_title: "Tres Tiempos", m_time_desc: "Pasado, Presente, Futuro", m_sit_title: "Análisis de Situación", m_sit_desc: "Núcleo, Obstáculo, Solución", m_love_title: "Dos Corazones", m_love_desc: "Análisis de relación", m_celtic_title: "Cruz Celta", m_celtic_desc: "Lectura profunda del Destino (10 cartas)", astro_header: "Astrología", a_natal_title: "CARTA NATAL", a_natal_desc: "Análisis profundo de tu destino", a_day_title: "Por Día", a_month_title: "Por Mes", a_year_title: "Por Año", a_compat_title: "Compatibilidad", btn_back: "◀ Atrás", prompt_question: "Escribe tu pregunta", btn_continue: "Continuar", status_select: "Selecciona cartas", pay_balance: "Tu saldo del bot:", pay_title: "Pago y Recarga", pay_tab_bal: "Recargar Saldo", pay_tab_sub: "Suscripción VIP", pay_amount: "Monto a recargar:", pay_rub: "Rublos", pay_usd: "Dólares", pay_method: "Selecciona sistema de pago", pay_desc_stars: "Pago nativo rápido de Telegram", pay_name_card: "Tarjeta RF / FPS", pay_desc_card: "Bancos RF, FPS, SberPay", pay_name_foreign: "Tarjeta extranjera", pay_desc_foreign: "Para tarjetas no RF (USD/EUR)", pay_name_crypto: "Criptomoneda", btn_close: "Cerrar",
+                  pl_question: "¿Qué quieres preguntar?", pl_name: "Tu nombre...", pl_birth: "Fecha de nacimiento (DD.MM.AAAA)", pl_partner: "Fecha de pareja (DD.MM.AAAA)", pl_time: "Hora de nacimiento (o 12:00)", pl_place: "Lugar de nacimiento (ciudad)", btn_free: "Obtener gratis", btn_pay: "Pagar" },
+            pt: { app_subtitle: "Portal Astral", btn_start: "Iniciar Oráculo Astro Tarot", badge_free: "Grátis", m_day_title: "Carta do Dia", m_day_desc: "Foco Principal do Dia", m_yesno_title: "Sim / Não", m_yesno_desc: "Resposta clara do Oráculo", m_biz_title: "Oráculo de Negócios", m_biz_desc: "Estratégia e Finanças (3 cartas)", m_time_title: "Três Tempos", m_time_desc: "Passado, Presente, Futuro", m_sit_title: "Análise de Situação", m_sit_desc: "Núcleo, Obstáculo, Solução", m_love_title: "Dois Corações", m_love_desc: "Análise de relacionamento", m_celtic_title: "Cruz Celta", m_celtic_desc: "Leitura profunda do Destino (10 cartas)", astro_header: "Astrologia", a_natal_title: "MAPA ASTRAL", a_natal_desc: "Análise profunda do seu destino", a_day_title: "Por Dia", a_month_title: "Por Mês", a_year_title: "Por Ano", a_compat_title: "Compatibilidade", btn_back: "◀ Voltar", prompt_question: "Escreva sua pergunta", btn_continue: "Continuar", status_select: "Selecione as cartas", pay_balance: "Seu saldo do bot:", pay_title: "Pagamento e Recarga", pay_tab_bal: "Recarregar Saldo", pay_tab_sub: "Assinatura VIP", pay_amount: "Valor a adicionar:", pay_rub: "Rublos", pay_usd: "Dólares", pay_method: "Selecione o sistema de pagamento", pay_desc_stars: "Pagamento nativo rápido do Telegram", pay_name_card: "Cartão RF / FPS", pay_desc_card: "Bancos RF, FPS, SberPay", pay_name_foreign: "Cartão estrangeiro", pay_desc_foreign: "Para cartões não RF (USD/EUR)", pay_name_crypto: "Criptomoeda", btn_close: "Fechar",
+                  pl_question: "O que você quer perguntar?", pl_name: "Seu nome...", pl_birth: "Data de nascimento (DD.MM.AAAA)", pl_partner: "Data do parceiro (DD.MM.AAAA)", pl_time: "Hora de nascimento (ou 12:00)", pl_place: "Local de nascimento (cidade)", btn_free: "Obter grátis", btn_pay: "Pagar" },
+            id: { app_subtitle: "Portal Astral", btn_start: "Mulai Oracle Astro Tarot", badge_free: "Gratis", m_day_title: "Kartu Hari Ini", m_day_desc: "Fokus Utama Hari Ini", m_yesno_title: "Ya / Tidak", m_yesno_desc: "Jawaban Oracle yang jelas", m_biz_title: "Oracle Bisnis", m_biz_desc: "Strategi & Keuangan (3 kartu)", m_time_title: "Tiga Waktu", m_time_desc: "Masa Lalu, Sekarang, Masa Depan", m_sit_title: "Analisis Situasi", m_sit_desc: "Inti, Hambatan, Solusi", m_love_title: "Dua Hati", m_love_desc: "Analisis hubungan", m_celtic_title: "Salib Celtic", m_celtic_desc: "Pembacaan Takdir Mendalam (10 kartu)", astro_header: "Astrologi", a_natal_title: "BAGAN KELAHIRAN", a_natal_desc: "Analisis mendalam takdir Anda", a_day_title: "Untuk Hari Ini", a_month_title: "Untuk Bulan Ini", a_year_title: "Untuk Tahun Ini", a_compat_title: "Kecocokan", btn_back: "◀ Kembali", prompt_question: "Tulis pertanyaan Anda", btn_continue: "Lanjutkan", status_select: "Pilih kartu", pay_balance: "Saldo bot Anda:", pay_title: "Pembayaran & Isi Ulang", pay_tab_bal: "Isi Ulang Saldo", pay_tab_sub: "Langganan VIP", pay_amount: "Jumlah yang akan ditambahkan:", pay_rub: "Rubel", pay_usd: "Dolar", pay_method: "Pilih sistem pembayaran", pay_desc_stars: "Pembayaran Telegram asli yang cepat", pay_name_card: "Kartu RF / FPS", pay_desc_card: "Bank RF, FPS, SberPay", pay_name_foreign: "Kartu asing", pay_desc_foreign: "Untuk kartu non-RF (USD/EUR)", pay_name_crypto: "Mata uang kripto", btn_close: "Tutup",
+                  pl_question: "Apa yang ingin Anda tanyakan?", pl_name: "Nama Anda...", pl_birth: "Tanggal lahir (HH.BB.TTTT)", pl_partner: "Tanggal pasangan (HH.BB.TTTT)", pl_time: "Waktu lahir (atau 12:00)", pl_place: "Tempat lahir (kota)", btn_free: "Dapatkan gratis", btn_pay: "Bayar" },
+            hi: { app_subtitle: "सूक्ष्म पोर्टल", btn_start: "एस्ट्रो टैरो ओरेकल लॉन्च करें", badge_free: "मुफ़्त", m_day_title: "आज का कार्ड", m_day_desc: "दिन का मुख्य फोकस", m_yesno_title: "हाँ / नहीं", m_yesno_desc: "स्पष्ट ओरेकल उत्तर", m_biz_title: "बिजनेस ओरेकल", m_biz_desc: "रणनीति और वित्त (3 कार्ड)", m_time_title: "तीन समय", m_time_desc: "अतीत, वर्तमान, भविष्य", m_sit_title: "स्थिति विश्लेषण", m_sit_desc: "मूल, बाधा, समाधान", m_love_title: "दो दिल", m_love_desc: "रिश्ता विश्लेषण", m_celtic_title: "सेल्टिक क्रॉस", m_celtic_desc: "गहन भाग्य पठन (10 कार्ड)", astro_header: "ज्योतिष", a_natal_title: "जन्म कुंडली", a_natal_desc: "आपके भाग्य का गहन विश्लेषण", a_day_title: "दिन के लिए", a_month_title: "महीने के लिए", a_year_title: "वर्ष के लिए", a_compat_title: "अनुकूलता", btn_back: "◀ वापस", prompt_question: "अपना प्रश्न लिखें", btn_continue: "जारी रखें", status_select: "कार्ड चुनें", pay_balance: "आपका बॉट बैलेंस:", pay_title: "भुगतान और टॉप-अप", pay_tab_bal: "टॉप-अप बैलेंस", pay_tab_sub: "वीआईपी सदस्यता", pay_amount: "जोड़ने की राशि:", pay_rub: "रूबल", pay_usd: "डॉलर", pay_method: "भुगतान प्रणाली चुनें", pay_desc_stars: "तेज़ मूल टेलीग्राम भुगतान", pay_name_card: "आरएफ कार्ड / एफपीएस", pay_desc_card: "आरएफ बैंक, एफपीएस, सबरपे", pay_name_foreign: "विदेशी कार्ड", pay_desc_foreign: "गैर-आरएफ कार्ड के लिए (यूएसडी/यूरो)", pay_name_crypto: "क्रिप्टोक्यूरेंसी", btn_close: "बंद करें",
+                  pl_question: "आप क्या पूछना चाहते हैं?", pl_name: "आपका नाम...", pl_birth: "जन्म तिथि (DD.MM.YYYY)", pl_partner: "साथी की तारीख (DD.MM.YYYY)", pl_time: "जन्म का समय (या 12:00)", pl_place: "जन्म स्थान (शहर)", btn_free: "मुफ़्त पाएं", btn_pay: "भुगतान करें" },
+            ar: { app_subtitle: "بوابة النجوم", btn_start: "بدء أوراكل التاروت", badge_free: "مجاني", m_day_title: "بطاقة اليوم", m_day_desc: "التركيز الرئيسي لليوم", m_yesno_title: "نعم / لا", m_yesno_desc: "إجابة واضحة", m_biz_title: "أوراكل الأعمال", m_biz_desc: "الاستراتيجية والمالية (3 بطاقات)", m_time_title: "ثلاثة أزمنة", m_time_desc: "الماضي، الحاضر، المستقبل", m_sit_title: "تحليل الموقف", m_sit_desc: "الجوهر، العقبة، الحل", m_love_title: "قلبان", m_love_desc: "تحليل العلاقة", m_celtic_title: "الصليب السلتي", m_celtic_desc: "قراءة عميقة للقدر (10 بطاقات)", astro_header: "علم التنجيم", a_natal_title: "مخطط الولادة", a_natal_desc: "تحليل عميق لمصيرك", a_day_title: "لليوم", a_month_title: "للشهر", a_year_title: "للعام", a_compat_title: "التوافق", btn_back: "◀ رجوع", prompt_question: "اكتب سؤالك", btn_continue: "متابعة", status_select: "اختر البطاقات", pay_balance: "رصيد البوت الخاص بك:", pay_title: "الدفع والشحن", pay_tab_bal: "شحن الرصيد", pay_tab_sub: "اشتراك VIP", pay_amount: "المبلغ المراد إضافته:", pay_rub: "روبل", pay_usd: "دولار", pay_method: "اختر نظام الدفع", pay_desc_stars: "دفع سريع عبر تليجرام", pay_name_card: "بطاقة RF / FPS", pay_desc_card: "بنوك RF، FPS، SberPay", pay_name_foreign: "بطاقة أجنبية", pay_desc_foreign: "للبطاقات غير RF (دولار/يورو)", pay_name_crypto: "عملة مشفرة", btn_close: "إغلاق",
+                  pl_question: "ماذا تريد أن تسأل؟", pl_name: "اسمك...", pl_birth: "تاريخ الميلاد (يوم.شهر.سنة)", pl_partner: "تاريخ الشريك (يوم.شهر.سنة)", pl_time: "وقت الميلاد (أو 12:00)", pl_place: "مكان الميلاد (المدينة)", btn_free: "احصل عليه مجاناً", btn_pay: "دفع" }
+        };
+
+        let currentLang = (tg.initDataUnsafe?.user?.language_code || 'ru').toLowerCase();
+        if (!translations[currentLang]) currentLang = 'ru';
+
+        function applyTranslations() {
+            const t = translations[currentLang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) el.innerHTML = t[key];
+            });
+            document.getElementById('user-question-input').placeholder = t.pl_question;
+            document.getElementById('user-name-input').placeholder = t.pl_name;
+            document.getElementById('user-birth-input').placeholder = t.pl_birth;
+            document.getElementById('astro-date1').placeholder = t.pl_birth;
+            document.getElementById('astro-date2').placeholder = t.pl_partner;
+            document.getElementById('astro-time').placeholder = t.pl_time;
+            document.getElementById('astro-place').placeholder = t.pl_place;
+        }
+        document.addEventListener('DOMContentLoaded', applyTranslations);
 
         let currentAction = '';
         let targetCardsCount = 0;
@@ -358,7 +332,7 @@
         let selectedCards = [];
         let currentShuffledDeck = [];
         let userQuestionData = '';
-        let userNamesData = { name1: '', name2: '' };
+        let userNamesData = { name1: '', name2: '', dob: '' };
         
         let pendingPayload = null; 
         let payMode = 'balance';
@@ -451,7 +425,7 @@
             { id: 63, name: "Королева Мечей", img: "https://i.ibb.co/201pZGrB/0603170325589-63-6f6fc92430a03bf16e8e38f0696fb10b.jpg", desc: "Независимость, ум.", descInv: "Жестокость, холодность, горечь." },
             { id: 64, name: "Король Мечей", img: "https://i.ibb.co/ymtyTrny/0603170325589-64-047d5b3338f27d3ad5dbfb27b4347f17.jpg", desc: "Справедливость, логика.", descInv: "Жестокость, тирания, злоупотребление властью." },
             { id: 65, name: "Туз Пентаклей", img: "https://i.ibb.co/HTfP4cks/0603170325589-65-88c2404780c00becee3d87e532de4514.jpg", desc: "Успех, возможности.", descInv: "Потеря, упущенные шансы." },
-            { id: 66, name: "Двойка Пентаклей", img: "https://i.ibb.co/J9CWZ7W/0603170325589-66-20175148e8d46abd938d016572de27b2.jpg", desc: "Баланс, гибкость.", descInv: "Перегрузка, неорганизованность." },
+            { id: 66, name: "Двойка Пентаклей", img: "https://i.ibb.co/J9CWZ7W/0603170325589-66-20175148e8d46abd938d016572de27b2.jpg", desc: "Балансирование, адаптация.", descInv: "Перегрузка, неорганизованность." },
             { id: 67, name: "Тройка Пентаклей", img: "https://i.ibb.co/HDj0C9YH/0603170325589-67-b99fb44507245d7b4d0a0bd11c71982d.jpg", desc: "Мастерство, работа.", descInv: "Некачественная работа, отсутствие сотрудничества." },
             { id: 68, name: "Четверка Пентаклей", img: "https://i.ibb.co/C35NBxjk/0603170325589-68-e8a5a5dacfdc5dc4736be581d1e8a740.jpg", desc: "Стабильность, накопление.", descInv: "Жадность, застой, страх потери." },
             { id: 69, name: "Пятерка Пентаклей", img: "https://i.ibb.co/8gg2MBp7/0603170325589-69-3058847baca9fe5d934faa66fcf11ad6.jpg", desc: "Нехватка, трудности.", descInv: "Выздоровление, помощь." },
@@ -471,7 +445,6 @@
             "4. Недавнее прошлое", "5. Цель / Потенциал", "6. Ближайшее будущее", 
             "7. Ваше отношение", "8. Окружение", "9. Надежды и страхи", "10. Итог"
         ];
-
         function shuffleDeck(array) {
             let currentIndex = array.length, randomIndex;
             while (currentIndex !== 0) {
@@ -515,12 +488,13 @@
             const wb = document.getElementById('send-webhook-btn');
             if(wb) wb.style.display = 'none';
 
-            const inputBtn = document.querySelector('#input-flow-container .btn-mystic');
+            const t = translations[currentLang];
+            const inputBtn = document.querySelector('#flow-continue-btn');
             if(inputBtn) {
                 if(actionName === 'tarot_day') {
-                    inputBtn.innerText = "Получить бесплатно";
+                    inputBtn.innerText = t.btn_free;
                 } else {
-                    inputBtn.innerText = "Оплатить " + priceDict[actionName].text;
+                    inputBtn.innerText = t.btn_pay + " " + priceDict[actionName].text;
                 }
             }
 
@@ -530,17 +504,14 @@
                 document.getElementById('astro-date1').style.display = 'block';
 
                 if (actionName === 'astro_natal') {
-                    document.getElementById('input-flow-title').innerText = "Натальная карта";
-                    document.getElementById('astro-date1').placeholder = "Дата рождения (ДД.ММ.ГГГГ)";
+                    document.getElementById('input-flow-title').innerText = t.a_natal_title;
                     document.getElementById('astro-time').style.display = 'block';
                     document.getElementById('astro-place').style.display = 'block';
                 } else if (actionName === 'astro_compatibility') {
-                    document.getElementById('input-flow-title').innerText = "Совместимость";
-                    document.getElementById('astro-date1').placeholder = "Ваша дата рождения";
+                    document.getElementById('input-flow-title').innerText = t.a_compat_title;
                     document.getElementById('astro-date2').style.display = 'block';
                 } else {
                     document.getElementById('input-flow-title').innerText = "Астро-гороскоп";
-                    document.getElementById('astro-date1').placeholder = "Дата рождения (ДД.ММ.ГГГГ)";
                 }
                 return;
             }
@@ -548,20 +519,30 @@
             if (actionName === 'tarot_yes_no' || actionName === 'tarot_question_3_cards') {
                 document.getElementById('menu-stage').style.display = 'none';
                 document.getElementById('input-flow-container').style.display = 'flex';
-                document.getElementById('input-flow-title').innerText = actionName === 'tarot_yes_no' ? "Вопрос для Да/Нет" : "Суть ситуации";
+                document.getElementById('input-flow-title').innerText = actionName === 'tarot_yes_no' ? t.m_yesno_title : t.m_sit_title;
                 document.getElementById('user-question-input').style.display = 'block';
-                document.getElementById('user-question-input').placeholder = "О чем вы хотите спросить оракула?";
+            } else if (actionName === 'business_oracle_combo') {
+                // ДОБАВЛЕНЫ ПОЛЯ ИМЯ И ДАТА РОЖДЕНИЯ ДЛЯ БИЗНЕС ОРАКУЛА
+                document.getElementById('menu-stage').style.display = 'none';
+                document.getElementById('input-flow-container').style.display = 'flex';
+                document.getElementById('input-flow-title').innerText = t.m_biz_title;
+                document.getElementById('user-name-input').style.display = 'block';
+                document.getElementById('user-birth-input').style.display = 'block';
+                document.getElementById('user-question-input').style.display = 'block';
+                
+                // Автоподстановка имени из Telegram
+                if(tg.initDataUnsafe?.user?.first_name) {
+                    document.getElementById('user-name-input').value = tg.initDataUnsafe.user.first_name + " " + (tg.initDataUnsafe.user.last_name || "");
+                }
             } else if (actionName === 'tarot_love_2_hearts') {
                 document.getElementById('menu-stage').style.display = 'none';
                 document.getElementById('input-flow-container').style.display = 'flex';
-                document.getElementById('input-flow-title').innerText = "Имена партнеров";
+                document.getElementById('input-flow-title').innerText = t.m_love_title;
                 document.getElementById('user-question-input').style.display = 'block';
-                document.getElementById('user-question-input').placeholder = "Имя второго партнера...";
                 document.getElementById('user-name-input').style.display = 'block';
-                document.getElementById('user-name-input').placeholder = "Ваше имя...";
             } else {
                 userQuestionData = '';
-                userNamesData = { name1: '', name2: '' };
+                userNamesData = { name1: '', name2: '', dob: '' };
                 document.getElementById('menu-stage').style.display = 'none';
                 proceedToCards();
             }
@@ -577,18 +558,18 @@
                         time: document.getElementById('astro-time').value.trim() || "12:00",
                         place: document.getElementById('astro-place').value.trim()
                     };
-                    if(!astroData.date || !astroData.place) { alert("Пожалуйста, заполните дату и место"); return; }
+                    if(!astroData.date || !astroData.place) { alert("Заполните дату и место"); return; }
                 } else if (currentAction === 'astro_compatibility') {
                     astroData = {
                         date1: document.getElementById('astro-date1').value.trim(),
                         date2: document.getElementById('astro-date2').value.trim()
                     };
-                    if(!astroData.date1 || !astroData.date2) { alert("Пожалуйста, заполните обе даты"); return; }
+                    if(!astroData.date1 || !astroData.date2) { alert("Заполните обе даты"); return; }
                 } else {
                     astroData = {
                         date: document.getElementById('astro-date1').value.trim()
                     };
-                    if(!astroData.date) { alert("Пожалуйста, заполните дату рождения"); return; }
+                    if(!astroData.date) { alert("Заполните дату рождения"); return; }
                 }
 
                 pendingPayload = {
@@ -597,27 +578,12 @@
                     data: astroData,
                     user_id: tg.initDataUnsafe?.user?.id,
                     user_name: (window.Telegram.WebApp.initDataUnsafe?.user?.first_name || "") + " " + (window.Telegram.WebApp.initDataUnsafe?.user?.last_name || ""),
-                    lang: "ru"
+                    lang: currentLang
                 };
                 
                 if (priceDict[currentAction] && priceDict[currentAction].price === 0) {
-                    // Отправляем данные напрямую в n8n на ваш новый вебхук
-fetch('https://gusicotogeb.beget.app/webhook-test/02ccc1df-b089-498d-bed2-8e5c242dfe07', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(pendingPayload)
-})
-.then(() => {
-    // Как только данные успешно улетели в n8n, закрываем мини-апп
-    tg.close();
-})
-.catch((error) => {
-    console.error('Ошибка отправки данных в n8n:', error);
-    // Даже если случилась ошибка, закрываем приложение, чтобы интерфейс не зависал
-    tg.close();
-});
+                    fetch('https://gusicotogeb.beget.app/webhook-test/02ccc1df-b089-498d-bed2-8e5c242dfe07', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(pendingPayload) })
+                    .then(() => tg.close()).catch(() => tg.close());
                 } else {
                     document.getElementById('input-flow-container').style.display = 'none';
                     openPaymentShowcase();
@@ -629,8 +595,15 @@ fetch('https://gusicotogeb.beget.app/webhook-test/02ccc1df-b089-498d-bed2-8e5c24
                 const n1 = document.getElementById('user-name-input').value.trim();
                 const n2 = document.getElementById('user-question-input').value.trim();
                 if(!n1 || !n2) { alert("Заполните оба имени"); return; }
-                userNamesData = { name1: n1, name2: n2 };
+                userNamesData = { name1: n1, name2: n2, dob: '' };
                 userQuestionData = '';
+            } else if (currentAction === 'business_oracle_combo') {
+                const n1 = document.getElementById('user-name-input').value.trim();
+                const dob = document.getElementById('user-birth-input').value.trim();
+                const q = document.getElementById('user-question-input').value.trim();
+                if(!n1 || !dob || !q) { alert("Пожалуйста, заполните Имя, Дату Рождения и Вопрос"); return; }
+                userNamesData = { name1: n1, name2: '', dob: dob };
+                userQuestionData = q;
             } else {
                 const q = document.getElementById('user-question-input').value.trim();
                 if(!q) { alert("Пожалуйста, введите вопрос"); return; }
@@ -642,7 +615,7 @@ fetch('https://gusicotogeb.beget.app/webhook-test/02ccc1df-b089-498d-bed2-8e5c24
 
         function proceedToCards() {
             document.getElementById('game-stage').style.display = 'flex';
-            document.getElementById('status-text').innerText = `Выберите карты: 0 из ${targetCardsCount}`;
+            document.getElementById('status-text').innerText = `${translations[currentLang].status_select}: 0 / ${targetCardsCount}`;
             
             currentShuffledDeck = [...tarotDeck];
             shuffleDeck(currentShuffledDeck);
@@ -683,23 +656,13 @@ fetch('https://gusicotogeb.beget.app/webhook-test/02ccc1df-b089-498d-bed2-8e5c24
             for (let i = 0; i < visibleCount; i++) {
                 const card = document.createElement('div');
                 card.className = 'interactive-card';
-
                 const angle = startAngle + (i * stepAngle);
-                const x = angle * 5.0; 
-                const y = Math.abs(angle) * 1.2; 
-
-                card.style.left = `calc(50% - 36px + ${x}px)`;
-                card.style.top = `${y}px`;
+                card.style.left = `calc(50% - 36px + ${angle * 5}px)`;
+                card.style.top = `${Math.abs(angle) * 1.2}px`;
                 card.style.transform = `rotate(${angle}deg)`;
                 card.style.zIndex = 10 + i;
 
-                card.innerHTML = `
-                    <div class="card-inner">
-                        <div class="card-back"></div>
-                        <div class="card-front"><img class="card-img" src="" alt="card"></div>
-                    </div>
-                `;
-
+                card.innerHTML = `<div class="card-inner"><div class="card-back"></div><div class="card-front"><img class="card-img" src="" alt="card"></div></div>`;
                 card.addEventListener('click', function() { selectAndFlyCard(card); });
                 container.appendChild(card);
             }
@@ -721,16 +684,11 @@ fetch('https://gusicotogeb.beget.app/webhook-test/02ccc1df-b089-498d-bed2-8e5c24
 
             let isInverted = Math.random() > 0.5;
 
-// Теперь мы передаем в n8n абсолютно все данные о карте:
-selectedCards.push({ 
-    id: cardData.id, 
-    name: cardData.name, 
-    orientation: isInverted ? 'inverted' : 'upright',
-    img: cardData.img,         // Ссылка на картинку карты
-    desc: cardData.desc,       // Значение в прямом положении
-    descInv: cardData.descInv, // Значение в перевернутом положении
-    active_meaning: isInverted ? cardData.descInv : cardData.desc // Сразу готовое значение, которое выпало пользователю (чтобы не прописывать логику IF в n8n)
-});
+            selectedCards.push({ 
+                id: cardData.id, name: cardData.name, orientation: isInverted ? 'inverted' : 'upright',
+                img: cardData.img, desc: cardData.desc, descInv: cardData.descInv,
+                active_meaning: isInverted ? cardData.descInv : cardData.desc
+            });
 
             const slots = document.querySelectorAll('.card-slot');
             const targetSlot = slots[flippedCount - 1];
@@ -742,26 +700,16 @@ selectedCards.push({
                 const deltaY = slotRect.top + (slotRect.height / 2) - (cardRect.top + cardRect.height / 2);
 
                 cardElement.style.zIndex = 500 + flippedCount;
-                
-                if (currentAction === 'celtic_cross' && flippedCount === 2) {
-                    cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1) rotate(90deg)`;
-                } else {
-                    cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1) rotate(0deg)`;
-                }
+                cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1) rotate(${currentAction === 'celtic_cross' && flippedCount === 2 ? 90 : 0}deg)`;
 
                 setTimeout(() => {
                     cardElement.classList.remove('flying');
-                    if (isInverted) cardElement.classList.add('inverted');
-                    else cardElement.classList.add('flipped');
-
+                    if (isInverted) cardElement.classList.add('inverted'); else cardElement.classList.add('flipped');
                     cardElement.style.pointerEvents = 'auto';
+                    
                     const newCardElement = cardElement.cloneNode(true);
                     cardElement.parentNode.replaceChild(newCardElement, cardElement);
-                    
-                    newCardElement.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        openCardModal(cardData, isInverted);
-                    });
+                    newCardElement.addEventListener('click', function(e) { e.stopPropagation(); openCardModal(cardData, isInverted); });
 
                     createSparklesAround(slotRect.left + slotRect.width / 2, slotRect.top + slotRect.height / 2);
                     try { tg.HapticFeedback.notificationOccurred('success'); } catch(e) {}
@@ -784,15 +732,16 @@ selectedCards.push({
             }
 
             if (flippedCount === targetCardsCount) {
-                document.getElementById('status-text').innerText = "Рассмотрите карты и нажмите для оплаты";
+                document.getElementById('status-text').innerText = " ";
+                const t = translations[currentLang];
                 if(currentAction === 'tarot_day') {
-                    webhookBtn.innerText = "Получить бесплатно";
+                    webhookBtn.innerText = t.btn_free;
                 } else {
-                    webhookBtn.innerText = "Оплатить " + priceDict[currentAction].text;
+                    webhookBtn.innerText = t.btn_pay + " " + priceDict[currentAction].text;
                 }
                 webhookBtn.style.display = 'block'; 
             } else {
-                document.getElementById('status-text').innerText = `Выбрано: ${flippedCount} из ${targetCardsCount}`;
+                document.getElementById('status-text').innerText = `${translations[currentLang].status_select}: ${flippedCount} / ${targetCardsCount}`;
             }
         }
 
@@ -812,17 +761,13 @@ selectedCards.push({
             try { tg.HapticFeedback.impactOccurred('medium'); } catch(e) {}
         }
 
-        function closeCardModal() {
-            const modal = document.getElementById('card-modal');
-            if(modal) modal.style.display = 'none';
-        }
+        function closeCardModal() { document.getElementById('card-modal').style.display = 'none'; }
 
         function createSparklesAround(cx, cy) {
             for (let i = 0; i < 8; i++) {
                 const sp = document.createElement('div');
                 sp.className = 'sparkle';
-                sp.style.left = cx + 'px';
-                sp.style.top = cy + 'px';
+                sp.style.left = cx + 'px'; sp.style.top = cy + 'px';
                 const angle = Math.random() * Math.PI * 2;
                 const dist = Math.random() * 30 + 15;
                 sp.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
@@ -834,31 +779,15 @@ selectedCards.push({
 
         function sendDataToWebhook() {
             pendingPayload = { 
-                type: 'tarot', action: currentAction, lang: "ru", 
+                type: 'tarot', action: currentAction, lang: currentLang, 
                 question: userQuestionData, names: userNamesData, cards: selectedCards,
                 user_id: tg.initDataUnsafe?.user?.id,
                 user_name: (window.Telegram.WebApp.initDataUnsafe?.user?.first_name || "") + " " + (window.Telegram.WebApp.initDataUnsafe?.user?.last_name || ""),
-                
             };
             
             if (priceDict[currentAction] && priceDict[currentAction].price === 0) {
-                // Отправляем данные напрямую в n8n на ваш новый вебхук
-fetch('https://gusicotogeb.beget.app/webhook-test/02ccc1df-b089-498d-bed2-8e5c242dfe07', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(pendingPayload)
-})
-.then(() => {
-    // Как только данные успешно улетели в n8n, закрываем мини-апп
-    tg.close();
-})
-.catch((error) => {
-    console.error('Ошибка отправки данных в n8n:', error);
-    // Даже если случилась ошибка, закрываем приложение, чтобы интерфейс не зависал
-    tg.close();
-});
+                fetch('https://gusicotogeb.beget.app/webhook-test/02ccc1df-b089-498d-bed2-8e5c242dfe07', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(pendingPayload) })
+                .then(() => tg.close()).catch(() => tg.close());
             } else {
                 document.getElementById('game-stage').style.display = 'none';
                 const wb = document.getElementById('send-webhook-btn');
@@ -870,7 +799,6 @@ fetch('https://gusicotogeb.beget.app/webhook-test/02ccc1df-b089-498d-bed2-8e5c24
         function openPaymentShowcase() {
             document.getElementById('payment-showcase-screen').style.display = 'flex';
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            
             if (priceDict[currentAction] && priceDict[currentAction].price > 0 && payMode === 'balance') {
                 document.getElementById('pay-amount').value = priceDict[currentAction].price;
             }
@@ -879,31 +807,19 @@ fetch('https://gusicotogeb.beget.app/webhook-test/02ccc1df-b089-498d-bed2-8e5c24
 
         function setPayTab(mode) {
             payMode = mode;
-            const btnBal = document.getElementById('tab-balance');
-            const btnSub = document.getElementById('tab-sub');
-            const inputAmount = document.getElementById('pay-amount');
-            const labelAmount = document.getElementById('amount-label');
-            
+            const btnBal = document.getElementById('tab-balance'), btnSub = document.getElementById('tab-sub'), inputAmount = document.getElementById('pay-amount');
             if (mode === 'balance') {
-                btnBal.classList.add('active');
-                btnSub.classList.remove('active');
-                inputAmount.disabled = false;
-                inputAmount.value = priceDict[currentAction] ? priceDict[currentAction].price : 500;
-                labelAmount.innerText = "Сумма к зачислению:";
+                btnBal.classList.add('active'); btnSub.classList.remove('active');
+                inputAmount.disabled = false; inputAmount.value = priceDict[currentAction] ? priceDict[currentAction].price : 500;
             } else {
-                btnBal.classList.remove('active');
-                btnSub.classList.add('active');
-                inputAmount.disabled = true;
-                inputAmount.value = subPriceRUB;
-                labelAmount.innerText = "Подписка на 1 месяц (фикс.):";
+                btnBal.classList.remove('active'); btnSub.classList.add('active');
+                inputAmount.disabled = true; inputAmount.value = subPriceRUB;
             }
             calcExchange();
         }
 
         function calcExchange() {
-            let val = parseFloat(document.getElementById('pay-amount').value);
-            if (isNaN(val) || val < 0) val = 0;
-            
+            let val = parseFloat(document.getElementById('pay-amount').value) || 0;
             document.getElementById('calc-cryst').innerText = Math.floor(val * 1) + ' ₽';
             document.getElementById('calc-stars').innerText = Math.ceil(val / 1.2) + ' ⭐️';
             document.getElementById('calc-usd').innerText = (val / 69).toFixed(2) + ' $';
@@ -914,68 +830,31 @@ fetch('https://gusicotogeb.beget.app/webhook-test/02ccc1df-b089-498d-bed2-8e5c24
             let finalRub = parseFloat(document.getElementById('pay-amount').value);
             if (isNaN(finalRub) || finalRub <= 0) { alert('Укажите сумму'); return; }
             
-            pendingPayload.payment_mode = payMode;
-            pendingPayload.payment_method = method;
-            pendingPayload.payment_amount_rub = finalRub;
-            pendingPayload.expected_crystals = Math.floor(finalRub * 1);
+            pendingPayload.payment_mode = payMode; pendingPayload.payment_method = method;
+            pendingPayload.payment_amount_rub = finalRub; pendingPayload.expected_crystals = Math.floor(finalRub * 1);
             
-            // Отправляем данные напрямую в n8n на ваш новый вебхук
-fetch('https://gusicotogeb.beget.app/webhook-test/02ccc1df-b089-498d-bed2-8e5c242dfe07', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(pendingPayload)
-})
-.then(() => {
-    // Как только данные успешно улетели в n8n, закрываем мини-апп
-    tg.close();
-})
-.catch((error) => {
-    console.error('Ошибка отправки данных в n8n:', error);
-    // Даже если случилась ошибка, закрываем приложение, чтобы интерфейс не зависал
-    tg.close();
-});
+            fetch('https://gusicotogeb.beget.app/webhook-test/02ccc1df-b089-498d-bed2-8e5c242dfe07', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(pendingPayload) })
+            .then(() => tg.close()).catch(() => tg.close());
         }
 
         const canvas = document.getElementById('space-bg');
         const ctx = canvas.getContext('2d');
         let stars = [];
-
         function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            stars = [];
-            for (let i = 0; i < 45; i++) {
-                stars.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    size: Math.random() * 1.4,
-                    speedY: Math.random() * 0.15 + 0.05,
-                    phase: Math.random() * Math.PI
-                });
-            }
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight; stars = [];
+            for (let i = 0; i < 45; i++) stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 1.4, speedY: Math.random() * 0.15 + 0.05, phase: Math.random() * Math.PI });
         }
-
         function drawSpace() {
-            ctx.fillStyle = '#030208';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#030208'; ctx.fillRect(0, 0, canvas.width, canvas.height);
             for (let s of stars) {
-                s.y += s.speedY;
-                if (s.y > canvas.height) s.y = 0;
-                let alpha = 0.3 + Math.sin(s.phase) * 0.4;
-                ctx.fillStyle = `rgba(255, 242, 178, ${alpha})`;
-                ctx.beginPath();
-                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-                ctx.fill();
+                s.y += s.speedY; if (s.y > canvas.height) s.y = 0;
+                ctx.fillStyle = `rgba(255, 242, 178, ${0.3 + Math.sin(s.phase) * 0.4})`;
+                ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); ctx.fill();
                 s.phase += 0.01;
             }
             requestAnimationFrame(drawSpace);
         }
-
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-        drawSpace();
+        window.addEventListener('resize', resizeCanvas); resizeCanvas(); drawSpace();
     </script>
 </body>
 </html>
