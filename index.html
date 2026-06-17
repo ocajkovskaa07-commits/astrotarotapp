@@ -350,7 +350,7 @@
         let currentBalance = parseInt(urlParams.get('balance')) || 0;
 
         if (currentBalance > 0) {
-            document.getElementById('ui-balance').textContent = currentBalance + ' ₽';
+            document.getElementById('ui-balance').textContent = currentBalance + ' 💎';
         } else if (tg.initDataUnsafe && tg.initDataUnsafe.start_param && tg.initDataUnsafe.start_param.startsWith('bal_')) {
             document.getElementById('ui-balance').textContent = tg.initDataUnsafe.start_param.replace('bal_', '') + ' 💎';
         }
