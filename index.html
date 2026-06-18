@@ -601,7 +601,7 @@
                 };
                 
                 if (price === 0 || isVIP || currentBalance >= price) {
-                    fetch('https://gusicotogeb.beget.app/webhook-test/02ccc1df-b089-498d-bed2-8e5c242dfe07', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(pendingPayload) })
+                    fetch('https://gusicotogeb.beget.app/webhook/02ccc1df-b089-498d-bed2-8e5c242dfe07', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(pendingPayload) })
                     .then(() => tg.close()).catch(() => tg.close());
                 } else {
                     document.getElementById('input-flow-container').style.display = 'none';
@@ -812,7 +812,7 @@
             };
             
             if (price === 0 || isVIP || currentBalance >= price) {
-                fetch('https://gusicotogeb.beget.app/webhook-test/02ccc1df-b089-498d-bed2-8e5c242dfe07', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(pendingPayload) })
+                fetch('https://gusicotogeb.beget.app/webhook/02ccc1df-b089-498d-bed2-8e5c242dfe07', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(pendingPayload) })
                 .then(() => tg.close()).catch(() => tg.close());
             } else {
                 document.getElementById('game-stage').style.display = 'none';
@@ -859,7 +859,7 @@
             pendingPayload.payment_mode = payMode; pendingPayload.payment_method = method;
             pendingPayload.payment_amount_rub = finalRub; pendingPayload.expected_crystals = Math.floor(finalRub * 1);
             
-            fetch('https://gusicotogeb.beget.app/webhook-test/02ccc1df-b089-498d-bed2-8e5c242dfe07', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(pendingPayload) })
+            fetch('https://gusicotogeb.beget.app/webhook/02ccc1df-b089-498d-bed2-8e5c242dfe07', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(pendingPayload) })
             .then(() => tg.close()).catch(() => tg.close());
         }
 
